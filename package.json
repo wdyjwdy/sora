@@ -1,12 +1,19 @@
 {
   "name": "sora",
   "module": "index.ts",
-  "type": "module",
-  "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "micromark": "^4.0.2",
+    "micromark-extension-frontmatter": "^2.0.0",
+    "micromark-extension-gfm-table": "^2.1.1",
+    "@minify-html/node": "^0.16.4"
   },
   "peerDependencies": {
     "typescript": "^5"
-  }
+  },
+  "private": true,
+  "scripts": {
+    "build": "bun build.ts"
+  },
+  "type": "module"
 }

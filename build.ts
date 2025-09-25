@@ -12,24 +12,19 @@ const TEMPLATE = "template.html";
 const STATIC = "static";
 const SITE = "site";
 
-async function renderFrontMatter(markdown: string) {
-  const match = markdown.match(/^---\s*[\r\n]+([\s\S]*?)[\r\n]+---/);
-
-  if (!match) {
-    return { frontmatter: {}, content: markdown.trim() };
-  }
-
-  const frontmatter = parse(match[1]);
-  const content = markdown.slice(match[0].length).trim();
-
-  return { frontmatter, content };
+async function parseFrontmatter(markdown: string) {
+  const match = markdown.match(/^---(.*?)---/s);
+  return {
+    frontmatter: match ? parse(match[1]) : {},
+    content: match ? markdown.slice(match[0].length) : markdown,
+  };
 }
 
 async function renderFile(path: string) {
-  // read a markdown file and frontmatter
+  // read a markdown file and parse frontmatter
   const contentFile = Bun.file(path);
   const contentText = await contentFile.text();
-  const { frontmatter, content } = await renderFrontMatter(contentText);
+  const { frontmatter, content } = await parseFrontmatter(contentText);
 
   // render as html
   const contentHtml = micromark(content, {

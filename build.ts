@@ -8,6 +8,7 @@ import minifyHtml from "@minify-html/node";
 
 const CONTENT = "content";
 const TEMPLATE = "template.html";
+const STATIC = "static";
 const SITE = "site";
 
 async function renderFile(path: string) {
@@ -38,13 +39,34 @@ async function renderFile(path: string) {
 
 async function render() {
   // get the path of markdown files
-  const contentPaths = await readdir(CONTENT, { recursive: true });
+  const contentPaths = await readdir(CONTENT, {
+    recursive: true,
+    withFileTypes: true,
+  });
+  // const contentPaths = await readdir(CONTENT, { recursive: true });
   const markdownPaths = contentPaths
-    .filter((path) => path.endsWith(".md"))
-    .map((path) => join(CONTENT, path));
+    .filter((path) => path.isFile())
+    .map((path) => join(path.parentPath, path.name));
 
   // render markdown files
   await Promise.all(markdownPaths.map((path) => renderFile(path)));
+
+  // get the path of static files
+  const staticPaths = await readdir(STATIC, {
+    recursive: true,
+    withFileTypes: true,
+  });
+  const srcPaths = staticPaths
+    .filter((path) => path.isFile())
+    .map((path) => join(path.parentPath, path.name));
+
+  // copy static files
+  await Promise.all(
+    srcPaths.map((path) => {
+      const srcFile = Bun.file(path);
+      return Bun.write(join(SITE, path), srcFile);
+    }),
+  );
 }
 
 async function renderAndLog() {

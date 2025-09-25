@@ -5,6 +5,7 @@ import { frontmatter, frontmatterHtml } from "micromark-extension-frontmatter";
 import { gfmTable, gfmTableHtml } from "micromark-extension-gfm-table";
 import { Buffer } from "node:buffer";
 import minifyHtml from "@minify-html/node";
+import Handlebars from "handlebars";
 
 const CONTENT = "content";
 const TEMPLATE = "template.html";
@@ -25,7 +26,8 @@ async function renderFile(path: string) {
   // apply a template
   const templateFile = Bun.file(TEMPLATE);
   const templateText = await templateFile.text();
-  const templateHtml = templateText.replace("{{ content }}", contentHtml);
+  const templateFunc = Handlebars.compile(templateText);
+  const templateHtml = templateFunc({ content: contentHtml });
 
   // minify
   const minifiedHtml = minifyHtml.minify(Buffer.from(templateHtml), {});

@@ -1,4 +1,6 @@
-# Hello
+---
+title: Hello
+---
 
 - [apple-aaa](apple/aaa)
 - [banana-bbb](banana/bbb)

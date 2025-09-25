@@ -1,33 +1,47 @@
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { micromark } from "micromark";
-import { frontmatter, frontmatterHtml } from "micromark-extension-frontmatter";
 import { gfmTable, gfmTableHtml } from "micromark-extension-gfm-table";
 import { Buffer } from "node:buffer";
 import minifyHtml from "@minify-html/node";
 import Handlebars from "handlebars";
+import { parse } from "yaml";
 
 const CONTENT = "content";
 const TEMPLATE = "template.html";
 const STATIC = "static";
 const SITE = "site";
 
+async function renderFrontMatter(markdown: string) {
+  const match = markdown.match(/^---\s*[\r\n]+([\s\S]*?)[\r\n]+---/);
+
+  if (!match) {
+    return { frontmatter: {}, content: markdown.trim() };
+  }
+
+  const frontmatter = parse(match[1]);
+  const content = markdown.slice(match[0].length).trim();
+
+  return { frontmatter, content };
+}
+
 async function renderFile(path: string) {
-  // read a markdown file
+  // read a markdown file and frontmatter
   const contentFile = Bun.file(path);
   const contentText = await contentFile.text();
+  const { frontmatter, content } = await renderFrontMatter(contentText);
 
   // render as html
-  const contentHtml = micromark(contentText, {
-    extensions: [frontmatter(), gfmTable()],
-    htmlExtensions: [frontmatterHtml(), gfmTableHtml()],
+  const contentHtml = micromark(content, {
+    extensions: [gfmTable()],
+    htmlExtensions: [gfmTableHtml()],
   });
 
   // apply a template
   const templateFile = Bun.file(TEMPLATE);
   const templateText = await templateFile.text();
   const templateFunc = Handlebars.compile(templateText);
-  const templateHtml = templateFunc({ content: contentHtml });
+  const templateHtml = templateFunc({ content: contentHtml, ...frontmatter });
 
   // minify
   const minifiedHtml = minifyHtml.minify(Buffer.from(templateHtml), {});
@@ -45,7 +59,6 @@ async function render() {
     recursive: true,
     withFileTypes: true,
   });
-  // const contentPaths = await readdir(CONTENT, { recursive: true });
   const markdownPaths = contentPaths
     .filter((path) => path.isFile())
     .map((path) => join(path.parentPath, path.name));

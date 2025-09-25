@@ -2,12 +2,12 @@
   "name": "sora",
   "module": "index.ts",
   "devDependencies": {
-    "@types/bun": "latest",
-    "micromark": "^4.0.2",
-    "micromark-extension-frontmatter": "^2.0.0",
-    "micromark-extension-gfm-table": "^2.1.1",
     "@minify-html/node": "^0.16.4",
-    "handlebars": "^4.7.8"
+    "@types/bun": "latest",
+    "handlebars": "^4.7.8",
+    "micromark": "^4.0.2",
+    "micromark-extension-gfm-table": "^2.1.1",
+    "yaml": "^2.8.1"
   },
   "peerDependencies": {
     "typescript": "^5"

@@ -1,8 +1,8 @@
 ---
-title: Hello
+title: Index
 ---
 
-- [apple-aaa](apple/aaa)
-- [banana-bbb](banana/bbb)
+# Hello nihao
 
-![img](static/imgs/heart.svg)
+- [bible](bible/bbb/)
+- [japanese](japanese/de)

@@ -1,0 +1,11 @@
+code[class="language-css"] {
+    .selector {
+        color: steelblue;
+    }
+    .property {
+        color: indianred;
+    }
+    .comment {
+        color: gray;
+    }
+}

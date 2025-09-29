@@ -1,3 +1,253 @@
+:root {
+    @media (prefers-color-scheme: light) {
+        --body-bg: oklch(0.99 0 0);
+        --body-color: oklch(0.37 0 0);
+        --pre-bg: oklch(1 0 0);
+        --pre-border: oklch(0.87 0 0);
+        --code-bg: oklch(0.96 0 0);
+        --code-border: oklch(0.9 0 0);
+        --button-bg: oklch(0.98 0 0);
+        --button-border: oklab(0.9 0 0);
+        --tags-bg: oklch(0.96 0 0);
+    }
+
+    @media (prefers-color-scheme: dark) {
+        --body-bg: oklch(0.26 0 0);
+        --body-color: oklch(0.8 0 0);
+        --pre-bg: oklch(0.22 0 0);
+        --pre-border: oklch(0.3 0 0);
+        --code-bg: oklch(0.3 0 0);
+        --code-border: oklch(0.4 0 0);
+        --button-bg: oklch(0.24 0 0);
+        --button-border: oklch(0.4 0 0);
+        --tags-bg: oklch(0.3 0 0);
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 20px;
+    color: var(--body-color);
+    background-color: var(--body-bg);
+}
+
+body {
+    padding: 20px;
+}
+
+h1 {
+    margin: 20px 0;
+    text-align: center;
+}
+
+h2 {
+    margin: 20px 0;
+
+    &:target {
+        color: steelblue;
+    }
+}
+
+h3 {
+    margin: 20px 0;
+    color: oklch(0.6 0.09 316.55);
+}
+
+p {
+    line-height: 2em;
+}
+
+a {
+    color: steelblue;
+    text-decoration-thickness: from-font;
+    text-underline-offset: 6px;
+    text-decoration-line: unset;
+
+    &:hover {
+        text-decoration-line: underline;
+    }
+}
+
+ul {
+    margin: 10px 0;
+    padding-left: 20px;
+    list-style-type: circle;
+}
+
+ol {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+li {
+    margin: 10px 0;
+}
+
+table {
+    margin: 20px 0;
+    th {
+        padding: 10px;
+    }
+    td {
+        padding: 10px;
+        border: 1px solid var(--pre-border);
+        border-radius: 2px;
+    }
+}
+
+hr {
+    border: 1px solid oklch(0.8 0 0 / 0.5);
+}
+
+strong {
+    color: seagreen;
+}
+
+em {
+    font-style: normal;
+    color: indianred;
+}
+
+img {
+    max-width: min(100%, 800px);
+}
+
+blockquote {
+    margin: 20px 0;
+    padding: 0 8px;
+    border-radius: 8px;
+    border: 1px solid oklch(0.52 0.18 142.49 / 0.3);
+    background-color: oklch(0.52 0.18 142.49 / 0.1);
+
+    strong {
+        color: seagreen;
+    }
+
+    code:not(pre code),
+    pre {
+        background-color: oklch(0.8 0 0 / 0.1);
+        border-color: oklch(0.8 0 0 / 0.2);
+    }
+}
+
+code:not(pre code) {
+    padding: 0 6px;
+    border-radius: 8px;
+    border: 1px solid var(--code-border);
+    background-color: var(--code-bg);
+    font-family: auto;
+}
+
+pre {
+    margin: 20px 0;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--pre-border);
+    background-color: var(--pre-bg);
+}
+
+pre[class="language-example"] {
+    code {
+        font-family: auto;
+        white-space: pre-line;
+    }
+}
+
+pre:has(> code[class*="language-mermaid"]) {
+    max-width: 800px;
+    background-color: unset;
+    border: unset;
+}
+
+pre[class*="language-"] {
+    overflow: scroll;
+}
+
+/* syntas highlight */
+.token.comment {
+    color: oklch(0.5 0 0 / 0.5);
+}
+
+.token.sharp {
+    display: none;
+}
+
+.token.deleted-sign.deleted,
+.token.attr-name,
+.token.keyword,
+.token.property {
+    color: indianred;
+}
+
+.token.attr-value,
+.token.selector,
+.token.function {
+    color: steelblue;
+}
+
+.token.inserted-sign.inserted {
+    color: seagreen;
+}
+
+/* index page */
+.search {
+    display: flex;
+
+    div {
+        background-color: var(--button-bg);
+        border: 1px solid var(--button-border);
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+        display: flex;
+        padding: 8px;
+    }
+
+    input {
+        all: unset;
+        border: 1px solid var(--button-border);
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        border-left: none;
+        padding: 8px;
+        width: 100%;
+    }
+}
+
+.tags {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+
+    button {
+        all: unset;
+        padding: 4px 10px;
+        background-color: var(--tags-bg);
+        border-radius: 10px;
+        touch-action: none;
+        cursor: pointer;
+
+        &:hover {
+            background-color: oklch(0.75 0 0 / 0.3);
+        }
+    }
+}
+
+.result {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    p {
+        border-bottom: 1px solid var(--button-border);
+    }
+}
+
 code[class="language-css"] {
     .selector {
         color: steelblue;

@@ -7,6 +7,9 @@ const langs: Record<string, Record<string, RegExp>> = {
 };
 
 function highlight(html: string, lang: string) {
+  if (lang === "mermaid") {
+    return `<div class="mermaid">${html}</div>`;
+  }
   if (!Object.hasOwn(langs, lang)) {
     return html;
   }

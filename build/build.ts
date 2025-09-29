@@ -9,9 +9,33 @@ import { parse } from "yaml";
 import { highlight } from "./highlight";
 
 const CONTENT = "content";
-const TEMPLATE = "build/template.html";
+const TEMPLATE = "build/template.hbs";
 const STATIC = "static";
 const SITE = "site";
+
+Handlebars.registerHelper("toc", getToc);
+
+function getToc(html: string) {
+  const regex = /<h([2-3])[^>]*>(.*?)<\/h\1>/g;
+  let result = [];
+  let tmp = [];
+  for (const [, level, text] of html.matchAll(regex)) {
+    const li = `<li><a href="#${text}">${text}</a></li>`;
+    if (level === "3") {
+      tmp.push(li);
+    } else {
+      if (tmp.length) {
+        result.push(`<ul>${tmp.join("")}</ul>`);
+        tmp = [];
+      }
+      result.push(li);
+    }
+  }
+  if (tmp.length) {
+    result.push(`<ul>${tmp.join("")}</ul>`);
+  }
+  return `<ul class="toc">${result.join("")}</ul>`;
+}
 
 async function parseFrontmatter(markdown: string) {
   const match = markdown.match(/^---(.*?)---/s);
@@ -26,6 +50,10 @@ function getHighlight(markdown: string) {
   return markdown.replace(regex, (_, lang, code) => {
     return `<pre><code class="language-${lang}">${highlight(code, lang)}</code></pre>`;
   });
+}
+
+function addIdAttribute(html: string) {
+  return html.replace(/<h([2-3])>(.*?)<\/h\1>/g, `<h$1 id="$2">$2</h$1>`);
 }
 
 function addBasepath(html: string) {
@@ -56,8 +84,11 @@ async function renderFile(path: string) {
   // add basepath
   const basepathHtml = addBasepath(templateHtml);
 
+  // add id
+  const idHtml = addIdAttribute(basepathHtml);
+
   // minify
-  const minifiedHtml = minifyHtml.minify(Buffer.from(basepathHtml), {});
+  const minifiedHtml = minifyHtml.minify(Buffer.from(idHtml), {});
 
   // save the file
   const suffix = path.endsWith("index.md") ? ".html" : "/index.html";

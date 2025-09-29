@@ -29,7 +29,7 @@ function getHighlight(markdown: string) {
 }
 
 function addBasepath(html: string) {
-  return html.replace('href="/', 'href="/sora/');
+  return html.replace(/(href|src)="\//g, '$1="/sora/');
 }
 
 async function renderFile(path: string) {

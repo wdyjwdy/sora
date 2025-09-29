@@ -1,6 +1,7 @@
 ---
 title: CDN
 category: Network
+mermaid: true
 ---
 
 CDN reduces the distance between the user and the assets.

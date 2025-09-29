@@ -5,6 +5,12 @@
         <link rel="icon" href="/static/page/heart.svg" type="image/svg+xml" />
         <link rel="stylesheet" href="/static/page/style.css" />
         <title>{{title}}</title>
+        {{#if mermaid}}
+        <script src="/static/page/mermaid.min.js"></script>
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+        {{/if}}
     </head>
     <body>
         <h1>{{title}}</h1>

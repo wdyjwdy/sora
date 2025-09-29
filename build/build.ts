@@ -28,6 +28,10 @@ function getHighlight(markdown: string) {
   });
 }
 
+function addBasepath(html: string) {
+  return html.replace('href="/', 'href="/sora/');
+}
+
 async function renderFile(path: string) {
   // read a markdown file and parse frontmatter
   const contentFile = Bun.file(path);
@@ -49,8 +53,11 @@ async function renderFile(path: string) {
   const templateFunc = Handlebars.compile(templateText);
   const templateHtml = templateFunc({ content: highlightHtml, ...frontmatter });
 
+  // add basepath
+  const basepathHtml = addBasepath(templateHtml);
+
   // minify
-  const minifiedHtml = minifyHtml.minify(Buffer.from(templateHtml), {});
+  const minifiedHtml = minifyHtml.minify(Buffer.from(basepathHtml), {});
 
   // save the file
   const suffix = path.endsWith("index.md") ? ".html" : "/index.html";

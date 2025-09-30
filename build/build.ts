@@ -7,135 +7,115 @@ import minifyHtml from "@minify-html/node";
 import Handlebars from "handlebars";
 import { parse } from "yaml";
 import { highlight } from "./highlight";
+import config from "./config";
 
-const CONTENT = "content";
-const TEMPLATE = "build/template.hbs";
-const STATIC = "static";
-const SITE = "site";
+const templateFile = Bun.file(config.templatePath);
+const templateText = await templateFile.text();
+const templateFunc = Handlebars.compile(templateText);
 
-Handlebars.registerHelper("toc", getToc);
+function addToc(markdown: string, frontmatter: any) {
+  if (!frontmatter?.toc) return markdown;
 
-function getToc(html: string) {
-  const regex = /<h([2-3])[^>]*>(.*?)<\/h\1>/g;
-  let result = [];
-  let tmp = [];
-  for (const [, level, text] of html.matchAll(regex)) {
-    const li = `<li><a href="#${text}">${text}</a></li>`;
-    if (level === "3") {
-      tmp.push(li);
-    } else {
-      if (tmp.length) {
-        result.push(`<ul>${tmp.join("")}</ul>`);
-        tmp = [];
-      }
-      result.push(li);
-    }
+  const match = markdown.match(/(#{2,3}) (.*)/g);
+  if (!match) return markdown;
+
+  const toc = [];
+  for (let val of match) {
+    const [level, heading] = val.split(" ");
+    if (level === "##") toc.push(`- [${heading}](#${heading})\n`);
+    else toc.push(`  - [${heading}](#${heading})\n`);
   }
-  if (tmp.length) {
-    result.push(`<ul>${tmp.join("")}</ul>`);
-  }
-  return `<ul class="toc">${result.join("")}</ul>`;
+  console.log(toc.join(""));
+  return toc.join("") + markdown;
 }
 
-async function parseFrontmatter(markdown: string) {
-  const match = markdown.match(/^---(.*?)---/s);
+async function parseContent(path: string) {
+  const file = Bun.file(path);
+  const text = await file.text();
+  const match = text.match(/^---(.*?)---/s);
   return {
     frontmatter: match ? parse(match[1]) : {},
-    content: match ? markdown.slice(match[0].length) : markdown,
+    markdown: match ? text.slice(match[0].length) : text,
   };
 }
 
-function getHighlight(markdown: string) {
+function getHtml(markdown: string) {
+  return micromark(markdown, {
+    extensions: [gfmTable()],
+    htmlExtensions: [gfmTableHtml()],
+  });
+}
+
+function addHighlight(html: string) {
   const regex = /<pre><code class="language-(.+?)">(.*?)<\/code><\/pre>/gs;
-  return markdown.replace(regex, (_, lang, code) => {
+  return html.replace(regex, (_, lang, code) => {
     return `<pre><code class="language-${lang}">${highlight(code, lang)}</code></pre>`;
   });
 }
 
-function addIdAttribute(html: string) {
-  return html.replace(/<h([2-3])>(.*?)<\/h\1>/g, `<h$1 id="$2">$2</h$1>`);
+function addTemplate(html: string, frontmatter: Object) {
+  return templateFunc({ content: html, ...frontmatter });
 }
 
-function addBasepath(html: string) {
+function addPrefix(html: string) {
   return html.replace(/(href|src)="\//g, '$1="/sora/');
 }
 
-async function renderFile(path: string) {
-  // read a markdown file and parse frontmatter
-  const contentFile = Bun.file(path);
-  const contentText = await contentFile.text();
-  const { frontmatter, content } = await parseFrontmatter(contentText);
+function addId(html: string) {
+  return html.replace(/<h([2-3])>(.*?)<\/h\1>/g, `<h$1 id="$2">$2</h$1>`);
+}
 
-  // render as html
-  const contentHtml = micromark(content, {
-    extensions: [gfmTable()],
-    htmlExtensions: [gfmTableHtml()],
-  });
+function minify(html: string) {
+  return minifyHtml.minify(Buffer.from(html), {});
+}
 
-  // render syntax highlight
-  const highlightHtml = getHighlight(contentHtml);
-
-  // apply a template
-  const templateFile = Bun.file(TEMPLATE);
-  const templateText = await templateFile.text();
-  const templateFunc = Handlebars.compile(templateText);
-  const templateHtml = templateFunc({ content: highlightHtml, ...frontmatter });
-
-  // add basepath
-  const basepathHtml = addBasepath(templateHtml);
-
-  // add id
-  const idHtml = addIdAttribute(basepathHtml);
-
-  // minify
-  const minifiedHtml = minifyHtml.minify(Buffer.from(idHtml), {});
+async function buildContentFile(path: string) {
+  let { frontmatter, markdown } = await parseContent(path);
+  markdown = addToc(markdown, frontmatter);
+  let html = getHtml(markdown);
+  html = addHighlight(html);
+  html = addTemplate(html, frontmatter);
+  html = addPrefix(html);
+  html = addId(html);
 
   // save the file
   const suffix = path.endsWith("index.md") ? ".html" : "/index.html";
-  const outputPath = path.replace(CONTENT, SITE).replace(".md", suffix);
-
-  await Bun.write(outputPath, minifiedHtml);
+  const outputPath = path
+    .replace(config.contentPath, config.outputPath)
+    .replace(".md", suffix);
+  await Bun.write(outputPath, minify(html));
 }
 
-async function render() {
-  // get the path of markdown files
-  const contentPaths = await readdir(CONTENT, {
+async function buildStaticFile(path: string) {
+  const file = Bun.file(path);
+  const outputPath = join(config.outputPath, path);
+  Bun.write(outputPath, file);
+}
+
+async function getFilenames(path: string) {
+  const paths = await readdir(path, {
     recursive: true,
     withFileTypes: true,
   });
-  const markdownPaths = contentPaths
+  return paths
     .filter((path) => path.isFile())
     .map((path) => join(path.parentPath, path.name));
-
-  // render markdown files
-  await Promise.all(markdownPaths.map((path) => renderFile(path)));
-
-  // get the path of static files
-  const staticPaths = await readdir(STATIC, {
-    recursive: true,
-    withFileTypes: true,
-  });
-  const srcPaths = staticPaths
-    .filter((path) => path.isFile())
-    .map((path) => join(path.parentPath, path.name));
-
-  // copy static files
-  await Promise.all(
-    srcPaths.map((path) => {
-      const srcFile = Bun.file(path);
-      return Bun.write(join(SITE, path), srcFile);
-    }),
-  );
 }
 
-async function renderAndLog() {
+async function build() {
+  const contentPaths = await getFilenames(config.contentPath);
+  await Promise.all(contentPaths.map((path) => buildContentFile(path)));
+
+  const staticPaths = await getFilenames(config.staticPath);
+  await Promise.all(staticPaths.map((path) => buildStaticFile(path)));
+}
+
+async function log() {
   const start = Bun.nanoseconds();
-  await render();
+  await build();
   const end = Bun.nanoseconds();
   const time = ((end - start) / 1_000_000).toFixed();
   console.log(`\x1b[34m[sora]\x1b[0m build \x1b[37m${time}ms\x1b[0m`);
 }
 
-renderAndLog();
-
-export { render, renderFile };
+log();

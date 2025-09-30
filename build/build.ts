@@ -23,7 +23,7 @@ function addToc(markdown: string, frontmatter: any) {
   for (let val of match) {
     const [level, heading] = val.split(/(?<=#) /);
     if (level === "###") toc.push("  ");
-    const id = heading.replace(" ", "-");
+    const id = heading.replaceAll(" ", "-");
     toc.push(`- [${heading}](#${id})\n`);
   }
   return toc.join("") + markdown;
@@ -63,7 +63,7 @@ function addPrefix(html: string) {
 
 function addId(html: string) {
   return html.replace(/<h([2-3])>(.*?)<\/h\1>/g, (_, level, text) => {
-    const id = text.replace(" ", "-");
+    const id = text.replaceAll(" ", "-");
     return `<h${level} id=${id}>${text}</h${level}>`;
   });
 }

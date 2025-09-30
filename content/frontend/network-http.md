@@ -1,6 +1,8 @@
 ---
 title: HTTP
 category: Network
+toc: ture
+mermaid: true
 ---
 
 ## Messages

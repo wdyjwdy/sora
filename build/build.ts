@@ -23,7 +23,8 @@ function addToc(markdown: string, frontmatter: any) {
   for (let val of match) {
     const [level, heading] = val.split(/(?<=#) /);
     if (level === "###") toc.push("  ");
-    toc.push(`- [${heading}](#${heading})\n`);
+    const id = heading.replace(" ", "-");
+    toc.push(`- [${heading}](#${id})\n`);
   }
   return toc.join("") + markdown;
 }
@@ -61,7 +62,10 @@ function addPrefix(html: string) {
 }
 
 function addId(html: string) {
-  return html.replace(/<h([2-3])>(.*?)<\/h\1>/g, `<h$1 id="$2">$2</h$1>`);
+  return html.replace(/<h([2-3])>(.*?)<\/h\1>/g, (_, level, text) => {
+    const id = text.replace(" ", "-");
+    return `<h${level} id=${id}>${text}</h${level}>`;
+  });
 }
 
 function minify(html: string) {

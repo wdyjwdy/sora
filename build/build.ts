@@ -21,11 +21,10 @@ function addToc(markdown: string, frontmatter: any) {
 
   const toc = [];
   for (let val of match) {
-    const [level, heading] = val.split(" ");
-    if (level === "##") toc.push(`- [${heading}](#${heading})\n`);
-    else toc.push(`  - [${heading}](#${heading})\n`);
+    const [level, heading] = val.split(/(?<=#) /);
+    if (level === "###") toc.push("  ");
+    toc.push(`- [${heading}](#${heading})\n`);
   }
-  console.log(toc.join(""));
   return toc.join("") + markdown;
 }
 

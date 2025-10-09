@@ -258,4 +258,7 @@ code[class="language-css"] {
     .comment {
         color: gray;
     }
+    .sharp {
+        display: none;
+    }
 }

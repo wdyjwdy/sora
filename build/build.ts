@@ -15,7 +15,8 @@ const templateFunc = Handlebars.compile(templateText);
 const pages: Array<{ url: string; title: string; category: string }> = [];
 const contentPaths = await getFilenames(config.contentPath);
 for (let path of contentPaths) {
-  const url = path.replace(config.contentPath, "/").replace(".md", "");
+  if (!path.endsWith(".md")) continue;
+  const url = path.slice(8, -3);
   const { frontmatter } = await parseContent(path);
   pages.push({ url, ...frontmatter });
 }

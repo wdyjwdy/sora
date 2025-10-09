@@ -4,6 +4,10 @@ const langs: Record<string, Record<string, RegExp>> = {
     property: /([a-z-]+)(?=:)/g,
     comment: /(\/\*.+\*\/)/g,
   },
+  example: {
+    comment: /(#.+)/g,
+    sharp: /(#)/g,
+  },
 };
 
 function highlight(html: string, lang: string) {

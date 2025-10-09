@@ -12,6 +12,24 @@ import config from "./config";
 const templateFile = Bun.file(config.templatePath);
 const templateText = await templateFile.text();
 const templateFunc = Handlebars.compile(templateText);
+const pages: Array<{ url: string; title: string; category: string }> = [];
+const contentPaths = await getFilenames(config.contentPath);
+for (let path of contentPaths) {
+  const url = path
+    .replace(config.contentPath, config.outputPath)
+    .replace(".md", ".html");
+  const { frontmatter } = await parseContent(path);
+  pages.push({ url, ...frontmatter });
+}
+Handlebars.registerHelper("pages", function () {
+  return JSON.stringify(pages);
+});
+Handlebars.registerHelper("categories", function (options) {
+  const categories = [
+    ...new Set(pages.map((p) => p.category).filter((x) => x)),
+  ];
+  return categories.map((i) => options.fn(i)).join("");
+});
 
 function addToc(markdown: string, frontmatter: any) {
   if (!frontmatter?.toc) return markdown;
@@ -73,6 +91,13 @@ function minify(html: string) {
 }
 
 async function buildContentFile(path: string) {
+  if (path.endsWith("index.html")) {
+    const file = Bun.file(path);
+    const text = await file.text();
+    const html = Handlebars.compile(text)({});
+    await Bun.write(config.outputPath + "/index.html", minify(html));
+    return;
+  }
   let { frontmatter, markdown } = await parseContent(path);
   markdown = addToc(markdown, frontmatter);
   let html = getHtml(markdown);
@@ -82,10 +107,9 @@ async function buildContentFile(path: string) {
   html = addId(html);
 
   // save the file
-  const suffix = path.endsWith("index.md") ? ".html" : "/index.html";
   const outputPath = path
     .replace(config.contentPath, config.outputPath)
-    .replace(".md", suffix);
+    .replace(".md", ".html");
   await Bun.write(outputPath, minify(html));
 }
 

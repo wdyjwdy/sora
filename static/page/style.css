@@ -148,6 +148,24 @@ pre {
     border-radius: 8px;
     border: 1px solid var(--pre-border);
     background-color: var(--pre-bg);
+
+    code {
+        .selector {
+            color: steelblue;
+        }
+
+        .property {
+            color: indianred;
+        }
+
+        .comment {
+            color: gray;
+        }
+
+        .sharp {
+            display: none;
+        }
+    }
 }
 
 pre[class="language-example"] {
@@ -245,20 +263,5 @@ pre[class*="language-"] {
 
     p {
         border-bottom: 1px solid var(--button-border);
-    }
-}
-
-code[class="language-css"] {
-    .selector {
-        color: steelblue;
-    }
-    .property {
-        color: indianred;
-    }
-    .comment {
-        color: gray;
-    }
-    .sharp {
-        display: none;
     }
 }

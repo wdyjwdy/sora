@@ -159,7 +159,7 @@ pre {
         }
 
         .comment {
-            color: gray;
+            color: oklch(0.5 0 0 / 0.5);
         }
 
         .sharp {
@@ -168,7 +168,7 @@ pre {
     }
 }
 
-pre[class="language-example"] {
+pre code[class="language-example"] {
     code {
         font-family: auto;
         white-space: pre-line;

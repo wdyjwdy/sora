@@ -15,9 +15,7 @@ const templateFunc = Handlebars.compile(templateText);
 const pages: Array<{ url: string; title: string; category: string }> = [];
 const contentPaths = await getFilenames(config.contentPath);
 for (let path of contentPaths) {
-  const url = path
-    .replace(config.contentPath, config.outputPath)
-    .replace(".md", ".html");
+  const url = path.replace(config.contentPath, "/").replace(".md", "");
   const { frontmatter } = await parseContent(path);
   pages.push({ url, ...frontmatter });
 }
@@ -95,7 +93,7 @@ async function buildContentFile(path: string) {
     const file = Bun.file(path);
     const text = await file.text();
     const html = Handlebars.compile(text)({});
-    await Bun.write(config.outputPath + "/index.html", minify(html));
+    await Bun.write(config.outputPath + "/index.html", minify(addPrefix(html)));
     return;
   }
   let { frontmatter, markdown } = await parseContent(path);

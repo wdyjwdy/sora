@@ -1,6 +1,8 @@
 ---
 title: UDP
 category: Network
+mermaid: true
+toc: true
 ---
 
 Services provided by UDP (User Datagram Protocol):

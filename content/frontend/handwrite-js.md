@@ -1,6 +1,7 @@
 ---
 title: JS
 category: Handwrite
+toc: true
 ---
 
 ## Array

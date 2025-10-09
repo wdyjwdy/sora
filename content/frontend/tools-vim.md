@@ -1,6 +1,7 @@
 ---
 title: Vim
 category: Tools
+toc: true
 ---
 
 ## File

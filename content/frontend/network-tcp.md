@@ -1,6 +1,8 @@
 ---
 title: TCP
 category: Network
+mermaid: true
+toc: true
 ---
 
 Services provided by TCP (Transmission Control Protocol):

@@ -1,6 +1,7 @@
 ---
 title: Regex
 category: Tools
+toc: true
 ---
 
 ## Metacharacters

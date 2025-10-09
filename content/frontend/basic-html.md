@@ -1,6 +1,7 @@
 ---
 title: HTML
 category: Basic
+toc: true
 ---
 
 ## Head

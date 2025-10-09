@@ -1,7 +1,7 @@
 ---
 title: JS
-
 category: Basic
+toc: true
 ---
 
 ## Array

@@ -1,6 +1,7 @@
 ---
 title: CSS
 category: Basic
+toc: true
 ---
 
 ## Selector Types

@@ -1,6 +1,7 @@
 ---
 title: Utility
 category: Handwrite
+toc: true
 ---
 
 ## Debounce

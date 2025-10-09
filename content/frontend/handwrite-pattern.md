@@ -1,6 +1,7 @@
 ---
 title: Design Patterns
 category: Handwrite
+toc: true
 ---
 
 ## JS

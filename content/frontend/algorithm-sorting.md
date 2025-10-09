@@ -1,6 +1,7 @@
 ---
 title: Sorting
 category: Algorithm
+toc: true
 ---
 
 | 算法     | 时间复杂度    | 空间复杂度 | 稳定性 |

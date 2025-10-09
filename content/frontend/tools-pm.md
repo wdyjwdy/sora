@@ -1,6 +1,7 @@
 ---
 title: Package Manager
 category: Tools
+toc: true
 ---
 
 ## Basic

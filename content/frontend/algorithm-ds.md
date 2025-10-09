@@ -1,6 +1,7 @@
 ---
 title: Data Structure
 category: Algorithm
+toc: true
 ---
 
 ## Stack

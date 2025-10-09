@@ -1,6 +1,7 @@
 ---
 title: TS
 category: Handwrite
+toc: true
 ---
 
 ## Utility Types

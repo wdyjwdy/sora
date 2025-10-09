@@ -1,6 +1,8 @@
 ---
 title: Security
 category: Network
+mermaid: true
+toc: true
 ---
 
 ## XSS

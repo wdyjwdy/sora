@@ -1,6 +1,7 @@
 ---
 title: Typescript
 category: Library
+toc: true
 ---
 
 ## Types

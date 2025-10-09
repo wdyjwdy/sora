@@ -1,6 +1,7 @@
 ---
 title: Leetcode
 category: Algorithm
+toc: true
 ---
 
 ## 双指针

@@ -1,6 +1,8 @@
 ---
 title: DNS
 category: Network
+mermaid: true
+toc: true
 ---
 
 DNS translates hostnames to IP addresses.

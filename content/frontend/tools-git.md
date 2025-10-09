@@ -1,6 +1,7 @@
 ---
 title: Git
 category: Tools
+toc: true
 ---
 
 ## Init

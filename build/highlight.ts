@@ -5,7 +5,7 @@ const langs: Record<string, Record<string, RegExp>> = {
     comment: /(\/\*.+\*\/)/g,
   },
   example: {
-    comment: /(#.+)/g,
+    comment: /(?<=#)(.+)/g,
     sharp: /(#)/g,
   },
 };

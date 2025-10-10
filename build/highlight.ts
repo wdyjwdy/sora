@@ -17,9 +17,9 @@ const langs: Record<string, Record<string, RegExp>> = {
   },
   js: {
     keyword:
-      /\b(const|let|function|return|if|else|for|while|switch|case|break|continue|try|catch|finally|throw|class|extends|new|import|from|export|default|async|await|true|false|null|undefined)\b/g,
+      /\b(const|let|function|return|if|else|for|while|switch|case|break|continue|try|catch|finally|throw|class|extends|new|import|from|export|default|async|await)\b/g,
     comment: /(\/\/.*)/g,
-    function: /(?<=\.)(\w+)(?=\()/g,
+    function: /(\w+)(?=\()/g,
   },
 };
 

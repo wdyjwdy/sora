@@ -20,6 +20,7 @@ for (let path of contentPaths) {
   const { frontmatter } = await parseContent(path);
   pages.push({ url, ...frontmatter });
 }
+pages.sort((a, b) => (a.category < b.category ? 1 : -1));
 Handlebars.registerHelper("pages", function () {
   return JSON.stringify(pages);
 });

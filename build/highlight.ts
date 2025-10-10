@@ -9,7 +9,11 @@ const langs: Record<string, Record<string, RegExp>> = {
     sharp: /(#)/g,
   },
   tree: {
-    comment: /[─└├]/g,
+    comment: /([─└├])/g,
+  },
+  diff: {
+    insert: /(\+ .+)/g,
+    delete: /(- .+)/g,
   },
 };
 

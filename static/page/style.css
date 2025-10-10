@@ -167,6 +167,14 @@ pre {
         .sharp {
             display: none;
         }
+
+        .insert {
+            color: seagreen;
+        }
+
+        .delete {
+            color: indianred;
+        }
     }
 }
 

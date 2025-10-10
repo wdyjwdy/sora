@@ -5,9 +5,9 @@ category: 语法对比
 
 ![ageru-morau-kureru](/static/imgs/japanese-ageru-morau-kureru.svg)
 
-- 「[あげる](./ageru)」：我给别人，别人给别人。
+- 「[あげる](ageru)」：我给别人，别人给别人。
 - 「[もらう](morau)」：我收到，别人收到。
-- 「[くれる](../kureru)」：别人给我。
+- 「[くれる](kureru)」：别人给我。
 
 ```example
 私は太郎に果物をあげる。#我给太郎水果。

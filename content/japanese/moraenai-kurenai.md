@@ -13,4 +13,4 @@ category: 语法对比
 時間を教えてくれますか。#你能告诉我时间吗？
 ```
 
-- 对比「[もらう・くれる](../ageru-morau-kureru)」
+- 对比「[もらう・くれる](ageru-morau-kureru)」

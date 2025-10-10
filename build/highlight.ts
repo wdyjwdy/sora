@@ -21,6 +21,12 @@ const langs: Record<string, Record<string, RegExp>> = {
     comment: /(\/\/.*)/g,
     function: /(\w+)(?=\()/g,
   },
+  ts: {
+    keyword:
+      /\b(const|let|function|return|if|else|for|while|switch|case|break|continue|try|catch|finally|throw|class|extends|new|import|from|export|default|async|await)\b/g,
+    comment: /(\/\/.*)/g,
+    function: /(\w+)(?=\()/g,
+  },
 };
 
 function highlight(html: string, lang: string) {

@@ -12,8 +12,8 @@ const langs: Record<string, Record<string, RegExp>> = {
     comment: /([─└├])/g,
   },
   diff: {
-    insert: /(\+ .+)/g,
-    delete: /(- .+)/g,
+    insert: /(^\+ .+)/gm,
+    delete: /(^- .+)/gm,
   },
 };
 

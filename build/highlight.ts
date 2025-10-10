@@ -1,7 +1,7 @@
 const langs: Record<string, Record<string, RegExp>> = {
   css: {
-    selector: /(\S+) /g,
-    property: /([a-z-]+)(?=:)/g,
+    selector: /(\S+)(?= {)/g,
+    property: /(?<= )([a-z-]+)(?=:)/g,
     comment: /(\/\*.+\*\/)/g,
   },
   example: {

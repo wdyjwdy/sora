@@ -110,7 +110,7 @@ async function buildContentFile(path: string) {
   // save the file
   const outputPath = path
     .replace(config.contentPath, config.outputPath)
-    .replace(".md", ".html");
+    .replace(".md", "/index.html");
   await Bun.write(outputPath, minify(html));
 }
 

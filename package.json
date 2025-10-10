@@ -14,7 +14,8 @@
   },
   "private": true,
   "scripts": {
-    "build": "bun build/build.ts"
+    "build": "bun build/build.ts",
+    "serve": "bun build/serve.ts"
   },
   "type": "module"
 }

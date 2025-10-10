@@ -1,13 +1,10 @@
-// import { render, renderFile } from "./build.ts";
+import { log, buildContentFile } from "./build.ts";
 import { join } from "node:path";
 import { watch } from "fs";
 import type { ServerWebSocket } from "bun";
 import config from "./config";
 
 type Socket = ServerWebSocket<{ pathname: string }>;
-
-const WEBSITE = "website";
-const CONTENT = "content";
 
 const clients = new Map<string, Socket>();
 
@@ -30,7 +27,7 @@ function serve(port = 3333) {
       } else if (pathname.startsWith("/sora/")) {
         filepath = join(config.outputPath, pathname.slice(5));
       } else {
-        filepath = join(config.outputPath, pathname, "index.html");
+        filepath = join(config.outputPath, pathname + ".html");
       }
       console.log(filepath);
 
@@ -51,8 +48,8 @@ function serve(port = 3333) {
     },
   });
 
-  // watch(CONTENT, { recursive: true }, async (_, filename) => {
-  //   await renderFile({ path: join(CONTENT, filename!), liveReload: true });
+  // watch(config.contentPath, { recursive: true }, async (_, filename) => {
+  //   await buildContentFile(join(config.contentPath, filename!), true);
   //   const pathname = "/" + filename?.replace("md", "html");
   //   const ws = clients.get(pathname);
   //   if (ws?.readyState === 1) {
@@ -64,5 +61,5 @@ function serve(port = 3333) {
   console.log(`\x1b[34m[sora]\x1b[0m listen \x1b[37mlocalhost:${port}\x1b[0m`);
 }
 
-// await render({ liveReload: true });
+// await log({ liveReload: true });
 serve();

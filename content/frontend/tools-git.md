@@ -12,7 +12,7 @@ toc: true
 
 1. 文件夹如下，执行 `git init` 后，Git 内部会进行后续操作。
 
-```
+```tree
 fruits
 ├── apple.txt
 └── banana.txt

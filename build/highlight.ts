@@ -8,6 +8,9 @@ const langs: Record<string, Record<string, RegExp>> = {
     comment: /(?<=#)(.+)/g,
     sharp: /(#)/g,
   },
+  tree: {
+    comment: /[─└├]/g,
+  },
 };
 
 function highlight(html: string, lang: string) {

@@ -9,31 +9,32 @@ import { parse } from "yaml";
 import { highlight } from "./highlight";
 import config from "./config";
 
-const templateFile = Bun.file(config.templatePath);
-const templateText = await templateFile.text();
-const templateFunc = Handlebars.compile(templateText);
+// 初始化搜索
 const pages: Array<{ url: string; title: string; category: string }> = [];
+const categories = new Set();
 const contentPaths = await getFilenames(config.contentPath);
 for (let path of contentPaths) {
   if (!path.endsWith(".md")) continue;
   const url = path.slice(8, -3);
   const { frontmatter } = await parseContent(path);
-  pages.push({ url, ...frontmatter });
+  const { title, category } = frontmatter;
+  pages.push({ url, title, category });
+  categories.add(category);
 }
 pages.sort((a, b) => (a.category < b.category ? 1 : -1));
+
+// 初始化模版
+const templateFile = Bun.file(config.templatePath);
+const templateText = await templateFile.text();
+const templateFunc = Handlebars.compile(templateText);
 Handlebars.registerHelper("pages", function () {
   return JSON.stringify(pages);
 });
 Handlebars.registerHelper("categories", function (options) {
-  const categories = [
-    ...new Set(pages.map((p) => p.category).filter((x) => x)),
-  ];
-  return categories.map((i) => options.fn(i)).join("");
+  return [...categories].map((i) => options.fn(i)).join("");
 });
 
-function addToc(markdown: string, frontmatter: any) {
-  if (!frontmatter?.toc) return markdown;
-
+function addToc(markdown: string) {
   const match = markdown.match(/(#{2,3}) (.*)/g);
   if (!match) return markdown;
 
@@ -99,7 +100,7 @@ async function buildContentFile(path: string) {
     return;
   }
   let { frontmatter, markdown } = await parseContent(path);
-  markdown = addToc(markdown, frontmatter);
+  if (frontmatter.toc) markdown = addToc(markdown);
   let html = getHtml(markdown);
   html = addHighlight(html);
   html = addTemplate(html, frontmatter);

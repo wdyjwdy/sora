@@ -156,8 +156,14 @@ pre {
             color: steelblue;
         }
 
-        .property {
+        .property,
+        .delete,
+        .keyword {
             color: indianred;
+        }
+
+        .insert {
+            color: seagreen;
         }
 
         .comment {
@@ -166,14 +172,6 @@ pre {
 
         .sharp {
             display: none;
-        }
-
-        .insert {
-            color: seagreen;
-        }
-
-        .delete {
-            color: indianred;
         }
     }
 }
@@ -191,32 +189,6 @@ pre:has(> code[class*="language-mermaid"]) {
 
 pre[class*="language-"] {
     overflow: scroll;
-}
-
-/* syntas highlight */
-.token.comment {
-    color: oklch(0.5 0 0 / 0.5);
-}
-
-.token.sharp {
-    display: none;
-}
-
-.token.deleted-sign.deleted,
-.token.attr-name,
-.token.keyword,
-.token.property {
-    color: indianred;
-}
-
-.token.attr-value,
-.token.selector,
-.token.function {
-    color: steelblue;
-}
-
-.token.inserted-sign.inserted {
-    color: seagreen;
 }
 
 /* index page */

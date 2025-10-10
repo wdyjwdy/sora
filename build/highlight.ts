@@ -15,6 +15,11 @@ const langs: Record<string, Record<string, RegExp>> = {
     insert: /(^\+ .+)/gm,
     delete: /(^- .+)/gm,
   },
+  js: {
+    keyword:
+      /\b(const|let|function|return|if|else|for|while|switch|case|break|continue|try|catch|finally|throw|class|extends|new|import|from|export|default|async|await|true|false|null|undefined)\b/g,
+    comment: /(\/\/.*)/g,
+  },
 };
 
 function highlight(html: string, lang: string) {

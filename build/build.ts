@@ -34,6 +34,14 @@ Handlebars.registerHelper("categories", function (options) {
   return [...categories].map((i) => options.fn(i)).join("");
 });
 
+// 热重载脚本
+const liveReloadScriptFile = Bun.file("build/liveload.html");
+const liveReloadScriptText = await liveReloadScriptFile.text();
+
+function addReloadScript(html: string) {
+  return html + liveReloadScriptText;
+}
+
 function addToc(markdown: string) {
   const match = markdown.match(/(#{2,3}) (.*)/g);
   if (!match) return markdown;
@@ -91,7 +99,7 @@ function minify(html: string) {
   return minifyHtml.minify(Buffer.from(html), {});
 }
 
-async function buildContentFile(path: string) {
+async function buildContentFile(path: string, serve: boolean) {
   if (path.endsWith("index.html")) {
     const file = Bun.file(path);
     const text = await file.text();
@@ -103,6 +111,7 @@ async function buildContentFile(path: string) {
   if (frontmatter.toc) markdown = addToc(markdown);
   let html = getHtml(markdown);
   html = addHighlight(html);
+  if (serve) html = addReloadScript(html);
   html = addTemplate(html, frontmatter);
   html = addPrefix(html);
   html = addId(html);
@@ -130,17 +139,17 @@ async function getFilenames(path: string) {
     .map((path) => join(path.parentPath, path.name));
 }
 
-async function build() {
+async function build(serve: boolean = false) {
   const contentPaths = await getFilenames(config.contentPath);
-  await Promise.all(contentPaths.map((path) => buildContentFile(path)));
+  await Promise.all(contentPaths.map((path) => buildContentFile(path, serve)));
 
   const staticPaths = await getFilenames(config.staticPath);
   await Promise.all(staticPaths.map((path) => buildStaticFile(path)));
 }
 
-async function log() {
+async function log(serve: boolean = false) {
   const start = Bun.nanoseconds();
-  await build();
+  await build(serve);
   const end = Bun.nanoseconds();
   const time = ((end - start) / 1_000_000).toFixed();
   console.log(`\x1b[34m[sora]\x1b[0m build \x1b[37m${time}ms\x1b[0m`);

@@ -1,0 +1,6 @@
+<script>
+    const ws = new WebSocket(`ws://${location.host}${location.pathname}`);
+    ws.onmessage = (e) => {
+        if (e.data === "reload") location.reload();
+    };
+</script>

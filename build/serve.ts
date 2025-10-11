@@ -8,7 +8,9 @@ type Socket = ServerWebSocket<{ pathname: string }>;
 
 const clients = new Map<string, Socket>();
 
-function serve(port = 3333) {
+async function serve(port = 3333) {
+  await log(true);
+
   Bun.serve({
     port,
     websocket: {
@@ -29,7 +31,6 @@ function serve(port = 3333) {
       } else {
         filepath = join(config.outputPath, pathname + ".html");
       }
-      console.log(filepath);
 
       // update socket
       const success = server.upgrade(req, {
@@ -48,18 +49,18 @@ function serve(port = 3333) {
     },
   });
 
-  // watch(config.contentPath, { recursive: true }, async (_, filename) => {
-  //   await buildContentFile(join(config.contentPath, filename!), true);
-  //   const pathname = "/" + filename?.replace("md", "html");
-  //   const ws = clients.get(pathname);
-  //   if (ws?.readyState === 1) {
-  //     ws.send("reload");
-  //   }
-  //   console.log(`\x1b[34m[sora]\x1b[0m rebuild \x1b[37m${filename}\x1b[0m`);
-  // });
+  watch(config.contentPath, { recursive: true }, async (_, filename) => {
+    await buildContentFile(join(config.contentPath, filename!), true);
+    const pathname = "/" + filename?.replace(".md", "");
+
+    const ws = clients.get(pathname);
+    if (ws?.readyState === 1) {
+      ws.send("reload");
+    }
+    console.log(`\x1b[34m[sora]\x1b[0m rebuild \x1b[37m${filename}\x1b[0m`);
+  });
 
   console.log(`\x1b[34m[sora]\x1b[0m listen \x1b[37mlocalhost:${port}\x1b[0m`);
 }
 
-await log();
 serve();

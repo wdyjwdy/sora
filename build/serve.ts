@@ -61,5 +61,5 @@ function serve(port = 3333) {
   console.log(`\x1b[34m[sora]\x1b[0m listen \x1b[37mlocalhost:${port}\x1b[0m`);
 }
 
-// await log({ liveReload: true });
+await log();
 serve();

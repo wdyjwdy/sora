@@ -9,11 +9,16 @@ const langs: Record<string, Record<string, RegExp>> = {
     sharp: /(#)/g,
   },
   tree: {
-    comment: /([─└├])/g,
+    comment: /([─└├│])/g,
   },
   diff: {
     insert: /(^\+ .+)/gm,
     delete: /(^- .+)/gm,
+  },
+  json: {
+    property: /(&quot;\w+&quot;)(?=:)/g,
+    value: /(?<=: )(&quot;.+&quot;)/g,
+    comment: /(\/\/.*)/g,
   },
   js: {
     keyword:

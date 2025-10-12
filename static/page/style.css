@@ -152,6 +152,7 @@ pre {
     background-color: var(--pre-bg);
 
     code {
+        .value,
         .function,
         .selector {
             color: steelblue;

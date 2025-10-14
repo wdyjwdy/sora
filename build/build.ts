@@ -10,15 +10,20 @@ import { highlight } from "./highlight";
 import config from "./config";
 
 // 初始化搜索
-const pages: Array<{ url: string; title: string; category: string }> = [];
+const pages: Array<{
+  url: string;
+  title: string;
+  category: string;
+  alias?: string[];
+}> = [];
 const categories = new Set();
 const contentPaths = await getFilenames(config.contentPath);
 for (let path of contentPaths) {
   if (!path.endsWith(".md")) continue;
   const url = path.slice(8, -3);
   const { frontmatter } = await parseContent(path);
-  const { title, category } = frontmatter;
-  pages.push({ url, title, category });
+  const { title, category, alias } = frontmatter;
+  pages.push({ url, title, category, alias });
   categories.add(category);
 }
 pages.sort((a, b) => (a.category < b.category ? 1 : -1));

@@ -1,7 +1,6 @@
 ---
 title: たとえば
 category: 词汇
-keys: 例えば
 ---
 
 ## 举例

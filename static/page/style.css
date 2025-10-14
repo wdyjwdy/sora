@@ -194,6 +194,10 @@ pre[class*="language-"] {
     overflow: scroll;
 }
 
+.alias {
+    text-align: center;
+}
+
 /* index page */
 .search {
     display: flex;

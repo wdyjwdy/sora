@@ -58,12 +58,11 @@
             result.replaceChildren();
             const query = this.value;
             pages
-              .filter(
-                (x) =>
-                  new RegExp(query, "i").test(x.title) ||
-                  x.category === query ||
-                  x.keys?.includes(query),
-              )
+              .filter(({ title, category, alias = [] }) => {
+                const keys = [title, category, ...alias]
+                const regex = new RegExp(query, "i")
+                return keys.some(x => regex.test(x))
+              })
               .forEach((x, i, a) => {
                 const prevCategory = a[i - 1]?.category;
                 if (x.category !== prevCategory) {

@@ -16,7 +16,7 @@ const pages: Array<{
   category: string;
   alias?: string[];
 }> = [];
-const categories = new Set();
+const categories = new Set<string>();
 const contentPaths = await getFilenames(config.contentPath);
 for (let path of contentPaths) {
   if (!path.endsWith(".md")) continue;
@@ -36,7 +36,10 @@ Handlebars.registerHelper("pages", function () {
   return JSON.stringify(pages);
 });
 Handlebars.registerHelper("categories", function (options) {
-  return [...categories].map((i) => options.fn(i)).join("");
+  return [...categories]
+    .sort()
+    .map((i) => options.fn(i))
+    .join("");
 });
 
 // 热重载脚本

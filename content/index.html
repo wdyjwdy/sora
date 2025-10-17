@@ -68,10 +68,8 @@
                 if (x.category !== prevCategory) {
                   result.insertAdjacentHTML("beforeend", `<p>${x.category}</p>`);
                 }
-                result.insertAdjacentHTML(
-                  "beforeend",
-                  `<a href="${x.url}">${x.title}</a>`,
-                );
+                const item = `<a href="${x.url}">${x.title}</a>`
+                result.insertAdjacentHTML("beforeend", item);
               });
           }
         });

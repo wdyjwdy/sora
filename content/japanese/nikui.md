@@ -1,6 +1,6 @@
 ---
 title: にくい
-category: 语法
+category: 文法
 ---
 
 ## 很难

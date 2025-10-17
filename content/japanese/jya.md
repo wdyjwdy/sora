@@ -1,6 +1,6 @@
 ---
 title: じゃ
-category: 词汇
+category: 単語
 alias: [じゃ, それじゃ, では, それでは]
 ---
 

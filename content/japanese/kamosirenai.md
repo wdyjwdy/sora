@@ -1,6 +1,6 @@
 ---
 title: かもしれない
-category: 语法
+category: 文法
 ---
 
 ## 可能

@@ -1,6 +1,6 @@
 ---
 title: 被动使役形
-category: 语法
+category: 文法
 ---
 
 ## 被别人强迫做某事

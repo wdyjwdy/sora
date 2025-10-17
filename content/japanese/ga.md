@@ -1,6 +1,6 @@
 ---
 title: が
-category: 语法
+category: 文法
 ---
 
 ## 强调主语

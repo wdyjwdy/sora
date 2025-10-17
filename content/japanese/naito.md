@@ -1,6 +1,6 @@
 ---
 title: ないと
-category: 语法
+category: 文法
 alias: [ないと, ないといけない, ないといけません]
 ---
 

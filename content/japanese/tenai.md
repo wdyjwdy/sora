@@ -1,6 +1,6 @@
 ---
 title: てない
-category: 语法
+category: 文法
 ---
 
 ## 事情未完成

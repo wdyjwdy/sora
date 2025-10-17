@@ -1,6 +1,6 @@
 ---
 title: すぎる
-category: 语法
+category: 文法
 ---
 
 ## 超过了正常的程度

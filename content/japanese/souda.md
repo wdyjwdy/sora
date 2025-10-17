@@ -1,6 +1,6 @@
 ---
 title: そうだ
-category: 语法
+category: 文法
 ---
 
 ## 推断事情的发生

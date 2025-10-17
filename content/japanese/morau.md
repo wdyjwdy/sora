@@ -1,6 +1,6 @@
 ---
 title: もらう
-category: 语法
+category: 文法
 ---
 
 ## 收到

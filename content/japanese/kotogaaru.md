@@ -1,6 +1,6 @@
 ---
 title: ことがある
-category: 语法
+category: 文法
 ---
 
 ## 以前做过某事

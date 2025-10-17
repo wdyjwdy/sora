@@ -1,6 +1,6 @@
 ---
 title: てしまう
-category: 语法
+category: 文法
 ---
 
 ## 遗憾

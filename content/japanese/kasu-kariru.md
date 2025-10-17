@@ -1,6 +1,6 @@
 ---
 title: 貸す・借りる
-category: 词汇对比
+category: 使い分け
 ---
 
 ![kasu-kariru](/static/imgs/japanese-kasu-kariru.svg)

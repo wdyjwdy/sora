@@ -1,6 +1,6 @@
 ---
 title: ところだ
-category: 语法
+category: 文法
 ---
 
 ## 即将做

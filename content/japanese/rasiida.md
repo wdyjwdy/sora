@@ -1,6 +1,6 @@
 ---
 title: らしいだ
-category: 语法
+category: 文法
 ---
 
 ## 听说

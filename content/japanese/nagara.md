@@ -1,6 +1,6 @@
 ---
 title: ながら
-category: 语法
+category: 文法
 ---
 
 ## 动作同时进行

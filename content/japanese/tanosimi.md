@@ -1,6 +1,6 @@
 ---
 title: 楽しみ
-category: 词汇
+category: 単語
 ---
 
 ## 期待

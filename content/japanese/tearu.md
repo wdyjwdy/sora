@@ -1,6 +1,6 @@
 ---
 title: てある
-category: 语法
+category: 文法
 ---
 
 ## 结果残存

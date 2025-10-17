@@ -1,6 +1,6 @@
 ---
 title: を
-category: 语法
+category: 文法
 ---
 
 ## 动作的对象

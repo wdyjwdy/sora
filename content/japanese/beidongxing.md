@@ -1,6 +1,6 @@
 ---
 title: 被动形
-category: 语法
+category: 文法
 ---
 
 ## 受到影响

@@ -1,6 +1,6 @@
 ---
 title: みたいだ
-category: 语法
+category: 文法
 ---
 
 ## 表示推断（好像）

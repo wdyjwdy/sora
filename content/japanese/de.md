@@ -1,6 +1,6 @@
 ---
 title: で
-category: 语法
+category: 文法
 ---
 
 ## 动作进行的场所

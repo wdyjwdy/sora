@@ -1,6 +1,6 @@
 ---
 title: ずつ
-category: 词汇
+category: 単語
 ---
 
 ## 分组

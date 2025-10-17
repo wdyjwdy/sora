@@ -1,6 +1,6 @@
 ---
 title: こ・そ・あ・ど
-category: 语法
+category: 文法
 ---
 
 ![ko-so-a-do](/static/imgs/japanese-ko-so-a-do.svg)

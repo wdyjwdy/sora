@@ -1,6 +1,6 @@
 ---
 title: けど
-category: 词汇
+category: 単語
 alias: [けど, けれど, けれども]
 ---
 

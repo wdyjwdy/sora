@@ -1,6 +1,6 @@
 ---
 title: て
-category: 语法
+category: 文法
 ---
 
 ## 动作的先后顺序

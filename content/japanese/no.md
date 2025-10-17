@@ -1,6 +1,6 @@
 ---
 title: の
-category: 语法
+category: 文法
 ---
 
 ## 名词化

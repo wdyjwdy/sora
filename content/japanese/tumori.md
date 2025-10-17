@@ -1,6 +1,6 @@
 ---
 title: つもりだ
-category: 语法
+category: 文法
 ---
 
 ## 准备

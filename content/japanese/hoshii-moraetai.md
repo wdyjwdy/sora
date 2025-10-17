@@ -1,6 +1,6 @@
 ---
 title: ほしい・もらえたい
-category: 语法对比
+category: 使い分け
 ---
 
 - 「[ほしい](hosii)」：想让对方做某事。

@@ -1,6 +1,6 @@
 ---
 title: がる
-category: 语法
+category: 文法
 ---
 
 ## 表示第三者的一般倾向

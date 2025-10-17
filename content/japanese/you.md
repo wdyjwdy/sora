@@ -1,6 +1,6 @@
 ---
 title: ようだ
-category: 语法
+category: 文法
 ---
 
 ## 好像

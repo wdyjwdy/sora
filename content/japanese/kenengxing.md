@@ -1,6 +1,6 @@
 ---
 title: 可能形
-category: 语法
+category: 文法
 ---
 
 ## 能够做某事

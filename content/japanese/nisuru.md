@@ -1,6 +1,6 @@
 ---
 title: にする
-category: 语法
+category: 文法
 ---
 
 ## 改变状态

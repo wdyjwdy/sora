@@ -1,6 +1,6 @@
 ---
 title: の・こと
-category: 语法对比
+category: 使い分け
 ---
 
 ## 名词化

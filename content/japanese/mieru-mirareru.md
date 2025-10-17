@@ -1,6 +1,6 @@
 ---
 title: 見える・見られる
-category: 词汇对比
+category: 使い分け
 ---
 
 ![mieru-mirareru](/static/imgs/japanese-mieru-mirareru.svg)

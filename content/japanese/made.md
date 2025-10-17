@@ -1,6 +1,6 @@
 ---
 title: まで
-category: 语法
+category: 文法
 ---
 
 ## 某时刻前的持续性动作

@@ -1,6 +1,6 @@
 ---
 title: とうとう
-category: 词汇
+category: 単語
 ---
 
 ## 最终还是

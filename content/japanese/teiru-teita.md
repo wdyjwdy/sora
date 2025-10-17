@@ -1,6 +1,6 @@
 ---
 title: ている・ていた
-category: 语法对比
+category: 使い分け
 ---
 
 ## 进行中

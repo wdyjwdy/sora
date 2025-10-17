@@ -1,6 +1,6 @@
 ---
 title: 〜たり〜たりする
-category: 语法
+category: 文法
 ---
 
 ## 列举多个动作

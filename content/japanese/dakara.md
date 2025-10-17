@@ -1,6 +1,6 @@
 ---
 title: だから
-category: 词汇
+category: 単語
 alias: [だから, ですから]
 ---
 

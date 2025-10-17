@@ -1,6 +1,6 @@
 ---
 title: といい
-category: 语法
+category: 文法
 ---
 
 ## 希望发生的情况

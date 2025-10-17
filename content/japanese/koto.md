@@ -1,6 +1,6 @@
 ---
 title: こと
-category: 语法
+category: 文法
 ---
 
 ## 关于

@@ -1,6 +1,6 @@
 ---
 title: と
-category: 语法
+category: 文法
 ---
 
 ## 并列关系

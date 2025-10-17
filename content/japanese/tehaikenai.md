@@ -1,6 +1,6 @@
 ---
 title: てはいけない
-category: 语法
+category: 文法
 ---
 
 ## 表示禁止

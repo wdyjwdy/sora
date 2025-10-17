@@ -1,6 +1,6 @@
 ---
 title: た
-category: 语法
+category: 文法
 ---
 
 ## 过去时

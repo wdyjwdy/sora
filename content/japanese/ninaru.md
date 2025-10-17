@@ -1,6 +1,6 @@
 ---
 title: になる
-category: 语法
+category: 文法
 ---
 
 ## 状态变化

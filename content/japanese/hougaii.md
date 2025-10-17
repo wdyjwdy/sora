@@ -1,6 +1,6 @@
 ---
 title: ほうがいい
-category: 语法
+category: 文法
 ---
 
 ## 表示劝告

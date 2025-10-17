@@ -1,6 +1,6 @@
 ---
 title: と思う
-category: 语法
+category: 文法
 ---
 
 ## 觉得

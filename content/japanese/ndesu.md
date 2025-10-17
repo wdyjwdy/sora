@@ -1,6 +1,6 @@
 ---
 title: んです
-category: 语法
+category: 文法
 alias: [んです, んだ, のです, のだ]
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: より
-category: 语法
+category: 文法
 ---
 
 ## 表示比较

@@ -1,6 +1,6 @@
 ---
 title: に
-category: 语法
+category: 文法
 ---
 
 ## 物体存在的场所

@@ -1,6 +1,6 @@
 ---
 title: なかなか
-category: 词汇
+category: 単語
 ---
 
 ## 非常

@@ -1,6 +1,6 @@
 ---
 title: あげる・もらう・くれる
-category: 语法对比
+category: 使い分け
 ---
 
 ![ageru-morau-kureru](/static/imgs/japanese-ageru-morau-kureru.svg)

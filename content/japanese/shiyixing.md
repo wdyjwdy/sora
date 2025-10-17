@@ -1,6 +1,6 @@
 ---
 title: 使役形
-category: 语法
+category: 文法
 ---
 
 ## 强迫别人做某事

@@ -1,6 +1,6 @@
 ---
 title: やすい
-category: 语法
+category: 文法
 ---
 
 ## 容易

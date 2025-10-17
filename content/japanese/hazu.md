@@ -1,6 +1,6 @@
 ---
 title: はずだ
-category: 语法
+category: 文法
 ---
 
 ## 应该

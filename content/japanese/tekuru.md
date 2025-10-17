@@ -1,6 +1,6 @@
 ---
 title: てくる
-category: 语法
+category: 文法
 ---
 
 ## 移动

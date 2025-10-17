@@ -1,6 +1,6 @@
 ---
 title: ておく
-category: 语法
+category: 文法
 ---
 
 ## 提前做某事

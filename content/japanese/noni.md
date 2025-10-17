@@ -1,6 +1,6 @@
 ---
 title: のに
-category: 语法
+category: 文法
 ---
 
 ## 表示转折

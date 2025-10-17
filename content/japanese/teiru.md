@@ -1,6 +1,6 @@
 ---
 title: ている
-category: 语法
+category: 文法
 ---
 
 ## 正在进行

@@ -1,6 +1,6 @@
 ---
 title: なさい
-category: 语法
+category: 文法
 ---
 
 ## 表示命令

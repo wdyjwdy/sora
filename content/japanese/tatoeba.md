@@ -1,6 +1,6 @@
 ---
 title: たとえば
-category: 词汇
+category: 単語
 ---
 
 ## 举例

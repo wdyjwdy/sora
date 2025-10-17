@@ -1,6 +1,6 @@
 ---
 title: を・に
-category: 语法对比
+category: 使い分け
 ---
 
 ## 场所

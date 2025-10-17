@@ -1,6 +1,6 @@
 ---
 title: 名词化
-category: 语法
+category: 文法
 ---
 
 ## 名词する

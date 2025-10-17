@@ -1,6 +1,6 @@
 ---
 title: あげる
-category: 语法
+category: 文法
 ---
 
 ## 给

@@ -1,6 +1,6 @@
 ---
 title: ようにする
-category: 语法
+category: 文法
 ---
 
 ## 努力做到

@@ -1,6 +1,6 @@
 ---
 title: 使用・利用
-category: 词汇对比
+category: 使い分け
 ---
 
 - 「使用」：使用。

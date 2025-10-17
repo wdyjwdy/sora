@@ -1,6 +1,6 @@
 ---
 title: は
-category: 语法
+category: 文法
 ---
 
 ## 强调话题

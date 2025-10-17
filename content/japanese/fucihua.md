@@ -1,6 +1,6 @@
 ---
 title: 副词化
-category: 语法
+category: 文法
 ---
 
 ## い形い

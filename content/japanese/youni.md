@@ -1,6 +1,6 @@
 ---
 title: ように
-category: 语法
+category: 文法
 ---
 
 ## 表示期待的状态

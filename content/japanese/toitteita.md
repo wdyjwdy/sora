@@ -1,6 +1,6 @@
 ---
 title: と言っていた
-category: 语法
+category: 文法
 ---
 
 ## 转述别人说的话

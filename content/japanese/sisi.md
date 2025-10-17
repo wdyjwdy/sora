@@ -1,6 +1,6 @@
 ---
 title: 〜し〜し〜
-category: 语法
+category: 文法
 ---
 
 ## 列举多个理由

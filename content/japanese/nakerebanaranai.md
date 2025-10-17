@@ -1,6 +1,6 @@
 ---
 title: なければならない
-category: 语法
+category: 文法
 ---
 
 ## 必须

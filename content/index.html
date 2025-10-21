@@ -26,7 +26,7 @@
                     <circle cx="11" cy="11" r="8" />
                 </svg>
             </div>
-            <input type="text" id="search" />
+            <input type="text" id="search" enterkeyhint="search" />
         </div>
         <div class="tags">
             {{#categories}}
@@ -72,6 +72,7 @@
                 result.insertAdjacentHTML("beforeend", item);
               });
             this.blur() // 关闭键盘
+            search.blur()
           }
         });
     </script>

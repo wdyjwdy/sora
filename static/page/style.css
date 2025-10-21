@@ -54,7 +54,17 @@ h2 {
 
 h3 {
     margin: 20px 0;
-    color: oklch(0.6 0.09 316.55);
+    font-weight: normal;
+
+    &::before {
+        content: "###";
+        border-radius: 4px;
+        padding: 0px 6px;
+        margin-right: 4px;
+        background-color: var(--code-bg);
+        font-family: monospace;
+        color: darkgray;
+    }
 }
 
 p {

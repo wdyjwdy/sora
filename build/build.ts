@@ -98,7 +98,10 @@ function addPrefix(html: string) {
 
 function addId(html: string) {
   return html.replace(/<h([2-3])>(.*?)<\/h\1>/g, (_, level, text) => {
-    const id = text.replaceAll(" ", "-");
+    const id = text
+      .replaceAll(" ", "-")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
     return `<h${level} id=${id}>${text}</h${level}>`;
   });
 }

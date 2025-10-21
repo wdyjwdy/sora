@@ -55,9 +55,11 @@ h2 {
 h3 {
     margin: 20px 0;
     font-weight: normal;
+    font-size: 1em;
+    color: #8f678a;
 
     &::before {
-        content: "###";
+        content: "#";
         border-radius: 4px;
         padding: 0px 6px;
         margin-right: 4px;

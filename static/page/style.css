@@ -169,6 +169,7 @@ pre {
             color: steelblue;
         }
 
+        .tag,
         .property,
         .delete,
         .keyword {

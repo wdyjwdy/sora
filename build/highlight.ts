@@ -32,6 +32,9 @@ const langs: Record<string, Record<string, RegExp>> = {
     comment: /(\/\/.*)/g,
     function: /(\w+)(?=\()/g,
   },
+  html: {
+    tag: /(?<=&lt;)(\w+)/g,
+  },
 };
 
 function highlight(html: string, lang: string) {

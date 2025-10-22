@@ -17,7 +17,7 @@ category: 文法
 大阪に住んでいる。#住在大阪。（结果残存）
 ```
 
-> 近义「[ていた](teita)」，对比「[ている・てある](teiru-tearu)、[ている・ていた](teiru-teita)」
+> 近义「[ていた](teita)」，对比「[ている・てある](teiru-tearu)、[ている・ていた](teiru-teita)、[ている・ているところだ](teiru-teirutokoroda)」
 
 ## 移动结果
 

@@ -6,7 +6,7 @@ toc: true
 
 ## Debounce
 
-![debounce](handwrite-utility-debounce)
+![](handwrite-utility-debounce)
 
 ```js
 function debounce(fn, wait) {
@@ -29,7 +29,7 @@ function debounce(fn, wait) {
 
 ## Throttle
 
-![throttle](handwrite-utility-throttle)
+![](handwrite-utility-throttle)
 
 ```js
 function throttle(fn, wait) {

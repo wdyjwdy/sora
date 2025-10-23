@@ -3,7 +3,7 @@ title: 見える・見られる
 category: 使い分け
 ---
 
-![mieru-mirareru](japanese-mieru-mirareru)
+![](japanese-mieru-mirareru)
 
 - **見える**：能自然的看见
 - **見られる**：一定条件下，能看见

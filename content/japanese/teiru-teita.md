@@ -13,7 +13,7 @@ category: 使い分け
 昨夜ご飯を食べていた。#昨晚在吃饭。（过去进行）
 ```
 
-![teiru-teita](japanese-teiru-teita-1)
+![](japanese-teiru-teita-1)
 
 ## 结果残存
 
@@ -25,4 +25,4 @@ category: 使い分け
 私が入ったとき、コップは割れていた。#我进来时，杯子已经碎了。（结果残存到过去）
 ```
 
-![teiru-teita](japanese-teiru-teita-2)
+![](japanese-teiru-teita-2)

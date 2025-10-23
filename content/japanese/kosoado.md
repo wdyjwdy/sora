@@ -3,7 +3,7 @@ title: こ・そ・あ・ど
 category: 文法
 ---
 
-![ko-so-a-do](japanese-ko-so-a-do)
+![](japanese-ko-so-a-do)
 
 ## この・ここ・これ・こう・こちら
 

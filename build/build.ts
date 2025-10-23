@@ -93,7 +93,7 @@ function addTemplate(html: string, frontmatter: Object) {
 }
 
 function addPrefix(html: string) {
-  return html.replace(/(?<=src=")(.+?)(?=")/g, "/sora/static/imgs/$1.svg");
+  return html.replace(/(?<=img src=")(.+?)(?=")/g, "/sora/static/imgs/$1.svg");
 }
 
 function addId(html: string) {

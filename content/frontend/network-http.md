@@ -7,7 +7,7 @@ mermaid: true
 
 ## Messages
 
-![message](network-http-message)
+![](network-http-message)
 
 1. HTTP Request Message
 
@@ -199,7 +199,7 @@ Break down an HTTP message into independent frames, interleave them, and
 then reassemble them on the other end. The frame is encoded as binary,
 are more efficient to parse.
 
-![frame](network-http-frame)
+![](network-http-frame)
 
 ### Response Message Prioritization
 

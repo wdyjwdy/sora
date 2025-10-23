@@ -72,7 +72,7 @@ DNS server cached records are tampered with, resulting in an incorrect IP addres
 - router hijacking
 - local server hijacking
 
-![hijacking](network-dns-hijacking)
+![](network-dns-hijacking)
 
 **Usage**
 
@@ -93,4 +93,4 @@ DNS load balancing uses the DNS to distribute site traffic across several server
 
 **Round-Robin DNS**: The server cyclically returns IP addresses in different orders
 
-![Round-Robin](network-dns-load-banlancing)
+![](network-dns-load-banlancing)

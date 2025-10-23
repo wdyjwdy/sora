@@ -199,7 +199,7 @@ toc: true
 
 ## Flex
 
-![flex](basic-css-flex)
+![](basic-css-flex)
 
 1. Flex Container
    - `flex-direction`: 主轴的方向，默认为 row。
@@ -259,7 +259,7 @@ toc: true
 
 ## Box Model
 
-![box](basic-css-box)
+![](basic-css-box)
 
 1. 标准盒模型：`height` 指定 content 高度。
 2. 替代盒模型：`height` 指定 content + padding + border 高度。

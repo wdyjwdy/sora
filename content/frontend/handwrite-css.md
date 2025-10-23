@@ -6,7 +6,7 @@ toc: true
 
 ## 三列布局
 
-![layout](handwrite-css-layout)
+![](handwrite-css-layout)
 
 1. Flex
 
@@ -34,7 +34,7 @@ toc: true
 
 ## 水平垂直居中
 
-![center](handwrite-css-center)
+![](handwrite-css-center)
 
 1. Flex
 
@@ -57,7 +57,7 @@ toc: true
 
 ## 导航栏
 
-![navbar](handwrite-css-navbar)
+![](handwrite-css-navbar)
 
 1. Flex
 

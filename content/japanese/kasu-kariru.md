@@ -3,7 +3,7 @@ title: 貸す・借りる
 category: 使い分け
 ---
 
-![kasu-kariru](/static/imgs/japanese-kasu-kariru.svg)
+![kasu-kariru](japanese-kasu-kariru)
 
 - **貸す**：主语借给别人。
 - **借りる**：别人借给主语。

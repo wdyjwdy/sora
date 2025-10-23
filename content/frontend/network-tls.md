@@ -107,7 +107,7 @@ sequenceDiagram
 
 - output length: 128 bits
 
-![md5](/static/imgs/network-tls-md5.svg)
+![md5](network-tls-md5)
 
 ### SHA-1
 
@@ -115,7 +115,7 @@ sequenceDiagram
 - safer than MD5
 - slower than MD5
 
-![sha-1](/static/imgs/network-tls-sha1.svg)
+![sha-1](network-tls-sha1)
 
 ### SHA-256
 
@@ -123,7 +123,7 @@ sequenceDiagram
 - safer than SHA-1
 - slower than SHA-1
 
-![sha-256](/static/imgs/network-tls-sha256.svg)
+![sha-256](network-tls-sha256)
 
 ## 数字签名
 

@@ -43,7 +43,7 @@ git push -u origin main
 
 ### 添加文件
 
-![add](/static/imgs/tools-git-add.svg)
+![add](tools-git-add)
 
 1. 文件如下，执行 `git add hello.txt` 后，Git 内部会进行后续操作。
 
@@ -95,7 +95,7 @@ ce01362 hello.txt
 
 ### 提交文件
 
-![commit](/static/imgs/tools-git-commit.svg)
+![commit](tools-git-commit)
 
 1. Index 如下，执行 `git commit -m 'update'` 后，Git 内部会进行后续操作。
 
@@ -238,7 +238,7 @@ ref: refs/heads/main
 
 ### 切换到分支
 
-![switch](/static/imgs/tools-git-switch.svg)
+![switch](tools-git-switch)
 
 1. 提交历史如下，执行 `git switch feat` 后，Git 内部会进行后续操作。
 
@@ -278,7 +278,7 @@ d58f2f5 commit 2
 
 ### 切换到提交
 
-![switch-detach](/static/imgs/tools-git-switch-detach.svg)
+![switch-detach](tools-git-switch-detach)
 
 1. 提交历史如下，执行 `git switch --detach d58f2f5` 后，Git 内部会进行后续操作。
 
@@ -323,7 +323,7 @@ d58f2f5 (HEAD) commit 2
 
 ### 快速合并
 
-![merge-ff](/static/imgs/tools-git-merge-ff.svg)
+![merge-ff](tools-git-merge-ff)
 
 1. 提交历史如下，执行 `git merge feat` 后，Git 内部会进行后续操作。
 
@@ -367,7 +367,7 @@ b0cd9f5
 
 ### 三路合并
 
-![merge](/static/imgs/tools-git-merge.svg)
+![merge](tools-git-merge)
 
 1. 提交历史如下，执行 `git merge feat` 后，Git 内部会进行后续操作。
 
@@ -670,7 +670,7 @@ e7f88c9 commit 1
 
 ### 克隆远程仓库
 
-![clone](/static/imgs/tools-git-clone.svg)
+![clone](tools-git-clone)
 
 1. 提交历史如下，执行 `git clone <url>` 后，Git 内部会进行后续操作。
 
@@ -732,7 +732,7 @@ e7f88c9 commit 1
 
 ### 同步远程仓库
 
-![fetch](/static/imgs/tools-git-fetch.svg)
+![fetch](tools-git-fetch)
 
 1. 提交历史如下，执行 `git fetch` 后，Git 内部会进行后续操作。
 
@@ -905,7 +905,7 @@ A <- B <- C <- D <- D' <- C'
 
 ### 重置指针
 
-![reset-soft](/static/imgs/tools-git-reset-soft.svg)
+![reset-soft](tools-git-reset-soft)
 
 1. 提交历史如下，执行 `git reset --soft 04022cf` 后，Git 内部会进行后续操作。
 
@@ -938,7 +938,7 @@ $ cat .git/refs/heads/main # value
 
 ### 重置指针，暂存区
 
-![reset-mixed](/static/imgs/tools-git-reset-mixed.svg)
+![reset-mixed](tools-git-reset-mixed)
 
 1. 提交历史如下，执行 `git reset --mixed 04022cf` 后，Git 内部会进行后续操作。
 
@@ -978,7 +978,7 @@ $ cat .git/refs/heads/main # value
 
 ### 重置指针，暂存区，工作区
 
-![reset-hard](/static/imgs/tools-git-reset-hard.svg)
+![reset-hard](tools-git-reset-hard)
 
 1. 提交历史如下，执行 `git reset --hard 04022cf` 后，Git 内部会进行后续操作。
 

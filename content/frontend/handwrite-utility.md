@@ -6,7 +6,7 @@ toc: true
 
 ## Debounce
 
-![debounce](/static/imgs/handwrite-utility-debounce.svg)
+![debounce](handwrite-utility-debounce)
 
 ```js
 function debounce(fn, wait) {
@@ -29,7 +29,7 @@ function debounce(fn, wait) {
 
 ## Throttle
 
-![throttle](/static/imgs/handwrite-utility-throttle.svg)
+![throttle](handwrite-utility-throttle)
 
 ```js
 function throttle(fn, wait) {

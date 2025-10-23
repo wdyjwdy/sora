@@ -71,7 +71,7 @@ Suppose that the file consisting of 500,000 bytes, that the MSS is 1,000 bytes.
 - segment 2 gets assigned sequence number 1,000
 - segment 500 gets assigned sequence number 499,000
 
-![Sequence Numbers](/static/imgs/network-tcp-seqnum.svg)
+![Sequence Numbers](network-tcp-seqnum)
 
 > **MSS (Maximum Segment Size)**
 >
@@ -112,7 +112,7 @@ Extending the host-to-host delivery service provided by the network layer to a *
 1. **multiplexing**: gathering data from different sockets, and passing the segments to the network layer
 2. **demultiplexing**: delivering the data in segment to the correct socket
 
-![multiplexing](/static/imgs/network-udp-multiplexing.svg)
+![multiplexing](network-udp-multiplexing)
 
 > **How does TCP identify a socket?**
 >
@@ -221,7 +221,7 @@ sequenceDiagram
 
 由下图可知 Stop-and-wait 效率低于 Pipelining
 
-![pipelining](/static/imgs/network-tcp-pipelining.svg)
+![pipelining](network-tcp-pipelining)
 
 在管道协议中，数据包可能会乱序，因此 ACK 需要指定对应的 SEQ，例如：
 
@@ -243,7 +243,7 @@ GBN 是一个管道协议，但它限制了管道中数据包的数量，即窗�
 - 发送方重传时，会重传目标数据包，及其之后的数据包
 - 接收方收到逆序数据包时，直接丢弃
 
-![gbn](/static/imgs/network-tcp-gbn.svg)
+![gbn](network-tcp-gbn)
 
 ### SR (Selective Repeat)
 
@@ -252,7 +252,7 @@ GBN 协议在某个数据包丢失或出错或乱序时，会导致大量数据�
 - 发送方重传时，只会重传目标数据包
 - 接收方收到逆序数据包时，会缓存下来
 
-![sr](/static/imgs/network-tcp-sr.svg)
+![sr](network-tcp-sr)
 
 > **序列号重复**
 >
@@ -289,7 +289,7 @@ sequenceDiagram
 
 TCP provides a flow-control service to its applications to eliminate the possibility of the sender overflowing the receiver’s buffer. The sender need makes sure that $LastByteSent – LastByteAcked <= ReceiveWindow$.
 
-![flow-control](/static/imgs/network-tcp-flow-control.svg)
+![flow-control](network-tcp-flow-control)
 
 ### Connection Establishment
 
@@ -377,11 +377,11 @@ sequenceDiagram
 
 ### Algorithm
 
-![congestion-control](/static/imgs/network-tcp-congestion-control.svg)
+![congestion-control](network-tcp-congestion-control)
 
 ### TCP Tahoe
 
-![Tahoe](/static/imgs/network-tcp-tahoe.svg)
+![Tahoe](network-tcp-tahoe)
 
 - x = 4, cwnd >= ssthresh
 - x = 8, 3 ACKs, set ssthresh to 6, set cwnd = 1
@@ -389,7 +389,7 @@ sequenceDiagram
 
 ### TCP Reno
 
-![Reno](/static/imgs/network-tcp-reno.svg)
+![Reno](network-tcp-reno)
 
 - x = 4, cwnd >= ssthresh
 - x = 8, 3 ACKs, set ssthresh to 6, set cwnd = 9
@@ -399,4 +399,4 @@ sequenceDiagram
 
 CUBIC only changes the congestion avoidance phase.
 
-![Cubic](/static/imgs/network-tcp-cubic.svg)
+![Cubic](network-tcp-cubic)

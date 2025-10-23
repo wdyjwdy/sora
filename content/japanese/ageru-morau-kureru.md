@@ -3,7 +3,7 @@ title: あげる・もらう・くれる
 category: 使い分け
 ---
 
-![ageru-morau-kureru](/static/imgs/japanese-ageru-morau-kureru.svg)
+![ageru-morau-kureru](japanese-ageru-morau-kureru)
 
 - 「[あげる](ageru)」：我给别人，别人给别人。
 - 「[もらう](morau)」：我收到，别人收到。

@@ -196,7 +196,7 @@ node_modules
 
 ### 磁盘空间
 
-![store](/static/imgs/tools-pm-pnpm-store.svg)
+![store](tools-pm-pnpm-store)
 
 假设 project-1 安装依赖 `dev-2`, `dev-3`，project-2 安装依赖 `dev-3`, `dev-4`。npm 会在磁盘安装两次 `dev-3`。
 

@@ -7,7 +7,7 @@ toc: true
 
 CDN reduces the distance between the user and the assets.
 
-![CDN](/static/imgs/network-cdn.svg)
+![CDN](network-cdn)
 
 ## Lookup
 

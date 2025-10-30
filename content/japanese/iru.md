@@ -27,3 +27,5 @@ category: 文法
 ```example
 私には友だちがいる。#我有一个朋友
 ```
+
+> [ある](aru#所有)、[している](shiteiru#所有)、[持っている](motteiru#所有)

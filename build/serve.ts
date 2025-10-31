@@ -1,4 +1,4 @@
-import { log, buildContentFile } from "./build.ts";
+import { log, buildContentFile, buildStaticFile } from "./build.ts";
 import { join } from "node:path";
 import { watch } from "fs";
 import type { ServerWebSocket } from "bun";
@@ -41,7 +41,18 @@ async function serve(port = 3333) {
       if (success) return;
 
       // response page
-      const file = Bun.file(filepath, { type: "text/html" });
+      const suffix = pathname.split(".").at(-1);
+      let type;
+      if (suffix === "html") {
+        type = "text/html";
+      } else if (suffix === "css") {
+        type = "text/css";
+      } else if (suffix === "js") {
+        type = "text/javascript";
+      } else if (suffix === "svg") {
+        type = "image/svg+xml";
+      }
+      const file = Bun.file(filepath, { type });
       if (!(await file.exists())) {
         return new Response("Not Found", { status: 404 });
       }
@@ -56,6 +67,16 @@ async function serve(port = 3333) {
     const ws = clients.get(pathname);
     if (ws?.readyState === 1) {
       ws.send("reload");
+    }
+    console.log(`\x1b[34m[sora]\x1b[0m rebuild \x1b[37m${filename}\x1b[0m`);
+  });
+
+  watch(config.staticPath, { recursive: true }, async (_, filename) => {
+    await buildStaticFile(join(config.staticPath, filename!));
+    for (let ws of clients.values()) {
+      if (ws?.readyState === 1) {
+        ws.send("reload");
+      }
     }
     console.log(`\x1b[34m[sora]\x1b[0m rebuild \x1b[37m${filename}\x1b[0m`);
   });

@@ -3,4 +3,5 @@ export default {
   staticPath: "static",
   templatePath: "build/template.html",
   outputPath: "site",
+  assetPrefix: "/sora/",
 };

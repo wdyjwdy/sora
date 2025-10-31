@@ -166,6 +166,6 @@ async function log(serve: boolean = false) {
   console.log(`\x1b[34m[sora]\x1b[0m build \x1b[37m${time}ms\x1b[0m`);
 }
 
-log();
+await log();
 
-export { log, buildContentFile };
+export { log, buildContentFile, buildStaticFile };

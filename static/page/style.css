@@ -116,10 +116,6 @@ hr {
     border: 1px solid oklch(0.8 0 0 / 0.5);
 }
 
-strong {
-    color: seagreen;
-}
-
 em {
     font-style: normal;
     color: indianred;
@@ -131,27 +127,24 @@ img {
 
 blockquote {
     margin: 20px 0;
-    padding: 0 8px;
-    border-radius: 8px;
-    background-color: oklch(0.52 0.18 142.49 / 0.1);
+    padding: 2px 8px;
+    border-left: 6px solid oklch(0.5 0 0 / 0.2);
+    border-radius: 6px;
+    background-color: oklch(0.5 0 0 / 0.1);
 
-    strong {
-        color: seagreen;
-    }
-
-    code:not(pre code),
+    code,
     pre {
-        background-color: oklch(0.8 0 0 / 0.1);
-        border-color: oklch(0.8 0 0 / 0.2);
+        background-color: oklch(0.8 0 0 / 0.1) !important;
+        border-color: oklch(0.8 0 0 / 0.2) !important;
     }
 }
 
-code:not(pre code) {
+code:not([class]) {
     padding: 0 6px;
     border-radius: 8px;
     border: 1px solid var(--code-border);
     background-color: var(--code-bg);
-    font-family: auto;
+    font-size: 0.8em;
 }
 
 pre {
@@ -207,6 +200,11 @@ pre[class*="language-"] {
 
 .alias {
     text-align: center;
+
+    code {
+        font-family: auto;
+        font-size: 1em;
+    }
 }
 
 /* index page */

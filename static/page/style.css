@@ -74,11 +74,11 @@ p {
 
 a {
     color: steelblue;
-    text-decoration-thickness: from-font;
-    text-underline-offset: 6px;
     text-decoration-line: unset;
 
     &:hover {
+        text-decoration-thickness: from-font;
+        text-underline-offset: 6px;
         text-decoration-line: underline;
     }
 }

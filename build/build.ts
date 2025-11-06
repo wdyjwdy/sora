@@ -1,13 +1,18 @@
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
-import { micromark } from "micromark";
-import { gfmTable, gfmTableHtml } from "micromark-extension-gfm-table";
 import { Buffer } from "node:buffer";
 import minifyHtml from "@minify-html/node";
 import Handlebars from "handlebars";
 import { parse } from "yaml";
 import { highlight } from "./highlight";
 import config from "./config";
+import MarkdownIt from "markdown-it";
+import MarkdownItAnchor from "markdown-it-anchor";
+import MarkdownItTOC from "markdown-it-table-of-contents";
+
+const mdit = MarkdownIt({ highlight })
+  .use(MarkdownItAnchor)
+  .use(MarkdownItTOC, { includeLevel: [2, 3] });
 
 // 初始化搜索
 const pages: Array<{
@@ -51,17 +56,7 @@ function addReloadScript(html: string) {
 }
 
 function addToc(markdown: string) {
-  const match = markdown.match(/(#{2,3}) (.*)/g);
-  if (!match) return markdown;
-
-  const toc = [];
-  for (let val of match) {
-    const [level, heading] = val.split(/(?<=#) /);
-    if (level === "###") toc.push("  ");
-    const id = heading.replaceAll(" ", "-");
-    toc.push(`- [${heading}](#${id})\n`);
-  }
-  return toc.join("") + markdown;
+  return "[[toc]]\n" + markdown;
 }
 
 async function parseContent(path: string) {
@@ -75,17 +70,7 @@ async function parseContent(path: string) {
 }
 
 function getHtml(markdown: string) {
-  return micromark(markdown, {
-    extensions: [gfmTable()],
-    htmlExtensions: [gfmTableHtml()],
-  });
-}
-
-function addHighlight(html: string) {
-  const regex = /<pre><code class="language-(.+?)">(.*?)<\/code><\/pre>/gs;
-  return html.replace(regex, (_, lang, code) => {
-    return `<pre><code class="language-${lang}">${highlight(code, lang)}</code></pre>`;
-  });
+  return mdit.render(markdown);
 }
 
 function addTemplate(html: string, frontmatter: Object) {
@@ -94,16 +79,6 @@ function addTemplate(html: string, frontmatter: Object) {
 
 function addPrefix(html: string) {
   return html.replace(/(?<=img src=")(.+?)(?=")/g, "/sora/static/imgs/$1.svg");
-}
-
-function addId(html: string) {
-  return html.replace(/<h([2-3])>(.*?)<\/h\1>/g, (_, level, text) => {
-    const id = text
-      .replaceAll(" ", "-")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-    return `<h${level} id=${id}>${text}</h${level}>`;
-  });
 }
 
 function minify(html: string) {
@@ -121,11 +96,9 @@ async function buildContentFile(path: string, serve: boolean) {
   let { frontmatter, markdown } = await parseContent(path);
   if (frontmatter.toc) markdown = addToc(markdown);
   let html = getHtml(markdown);
-  html = addHighlight(html);
   if (serve) html = addReloadScript(html);
   html = addTemplate(html, frontmatter);
   html = addPrefix(html);
-  html = addId(html);
 
   // save the file
   const outputPath = path

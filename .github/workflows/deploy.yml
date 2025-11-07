@@ -33,7 +33,7 @@ jobs:
         run: bun install
 
       - name: Build
-        run: bun build/build.ts
+        run: bun run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

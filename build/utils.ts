@@ -4,16 +4,26 @@ import { Buffer } from "node:buffer";
 import minifyHtml from "@minify-html/node";
 import Handlebars from "handlebars";
 import { parse } from "yaml";
-import { highlight } from "./highlight";
 import config from "./config";
 import MarkdownIt from "markdown-it";
 import MarkdownItAnchor from "markdown-it-anchor";
 import MarkdownItTOC from "markdown-it-table-of-contents";
+import MarkdownItPlugin from "./plugin.js";
+import Shiki from "@shikijs/markdown-it";
 
 // 初始化 Markdown Parser
-const mdit = MarkdownIt({ highlight })
+const mdit = MarkdownIt()
   .use(MarkdownItAnchor)
-  .use(MarkdownItTOC, { includeLevel: [2, 3] });
+  .use(MarkdownItTOC, { includeLevel: [2, 3] })
+  .use(MarkdownItPlugin)
+  .use(
+    await Shiki({
+      themes: {
+        light: "min-light",
+        dark: "github-dark-dimmed",
+      },
+    }),
+  );
 
 // 初始化搜索
 const pages: Array<{

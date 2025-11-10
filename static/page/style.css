@@ -1,9 +1,10 @@
 :root {
+    --border-hard: oklch(0.5 0 0 / 0.2);
+    --border-soft: oklch(0.5 0 0 / 0.1);
+
     @media (prefers-color-scheme: light) {
         --body-bg: oklch(0.99 0 0);
         --body-color: oklch(0.37 0 0);
-        --pre-bg: oklch(1 0 0);
-        --pre-border: oklch(0.87 0 0);
         --code-bg: oklch(0.96 0 0);
         --code-border: oklch(0.9 0 0);
         --button-bg: oklch(0.98 0 0);
@@ -14,13 +15,20 @@
     @media (prefers-color-scheme: dark) {
         --body-bg: oklch(0.26 0 0);
         --body-color: oklch(0.8 0 0);
-        --pre-bg: oklch(0.22 0 0);
-        --pre-border: oklch(0.3 0 0);
         --code-bg: oklch(0.3 0 0);
         --code-border: oklch(0.4 0 0);
         --button-bg: oklch(0.24 0 0);
         --button-border: oklch(0.4 0 0);
         --tags-bg: oklch(0.3 0 0);
+        .shiki,
+        .shiki span {
+            color: var(--shiki-dark) !important;
+        }
+    }
+
+    .shiki,
+    .shiki span {
+        background-color: transparent !important;
     }
 }
 
@@ -97,7 +105,7 @@ li {
 table {
     margin: 20px 0;
     font-size: 1em;
-    border: 1px solid var(--pre-border);
+    border: 1px solid var(--border-hard);
     border-radius: 10px;
     border-spacing: 0px;
     overflow: hidden;
@@ -151,51 +159,23 @@ pre {
     margin: 20px 0;
     padding: 6px 10px;
     border-radius: 8px;
-    border: 1px solid var(--pre-border);
-    background-color: var(--pre-bg);
+    border: 1px solid var(--border-soft);
     overflow: scroll;
-
-    code {
-        .value,
-        .function,
-        .selector {
-            color: steelblue;
-        }
-
-        .tag,
-        .property,
-        .delete,
-        .keyword {
-            color: indianred;
-        }
-
-        .insert {
-            color: seagreen;
-        }
-
-        .comment {
-            color: oklch(0.5 0 0 / 0.5);
-        }
-
-        .sharp {
-            display: none;
-        }
-    }
 }
 
 pre code[class="language-example"] {
     font-family: auto;
     white-space: pre-line;
+
+    .comment {
+        color: oklch(0.5 0 0 / 0.5);
+    }
 }
 
 pre:has(> code[class*="language-mermaid"]) {
     max-width: 800px;
     background-color: unset;
     border: unset;
-}
-
-pre[class*="language-"] {
-    overflow: scroll;
 }
 
 .alias {

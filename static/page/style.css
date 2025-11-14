@@ -99,11 +99,13 @@ ul {
 
 @counter-style circled-alpha {
     system: fixed;
+    suffix: " ";
     symbols: ① ② ③ ④ ⑤;
 }
 
 ol {
     list-style: circled-alpha;
+    list-style-position: inside;
 }
 
 table {

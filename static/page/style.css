@@ -99,23 +99,25 @@ ul {
 
 ol {
     margin: 10px 0;
-    padding-left: 20px;
+    list-style: none;
 
     li {
-        padding-left: 4px;
-        &:nth-child(1)::marker {
+        &::before {
+            margin-right: 4px;
+        }
+        &:nth-child(1)::before {
             content: "①";
         }
-        &:nth-child(2)::marker {
+        &:nth-child(2)::before {
             content: "②";
         }
-        &:nth-child(3)::marker {
+        &:nth-child(3)::before {
             content: "③";
         }
-        &:nth-child(4)::marker {
+        &:nth-child(4)::before {
             content: "④";
         }
-        &:nth-child(4)::marker {
+        &:nth-child(5)::before {
             content: "⑤";
         }
     }

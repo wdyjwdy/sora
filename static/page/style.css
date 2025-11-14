@@ -97,20 +97,13 @@ ul {
     }
 }
 
-ol {
-    margin: 10px 0;
-    list-style: none;
+@counter-style circled-alpha {
+    system: fixed;
+    symbols: ① ② ③ ④ ⑤;
+}
 
-    li {
-        &::before {
-            margin-right: 4px;
-            content: counter(list-item);
-            margin-right: 4px;
-            border: 1px solid;
-            border-radius: 50%;
-            padding: 0 6.5px;
-        }
-    }
+ol {
+    list-style: circled-alpha;
 }
 
 table {

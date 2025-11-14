@@ -91,15 +91,34 @@ ul {
     margin: 10px 0;
     padding-left: 20px;
     list-style-type: circle;
+
+    li {
+        margin: 10px 0;
+    }
 }
 
 ol {
     margin: 10px 0;
     padding-left: 20px;
-}
 
-li {
-    margin: 10px 0;
+    li {
+        padding-left: 4px;
+        &:nth-child(1)::marker {
+            content: "①";
+        }
+        &:nth-child(2)::marker {
+            content: "②";
+        }
+        &:nth-child(3)::marker {
+            content: "③";
+        }
+        &:nth-child(4)::marker {
+            content: "④";
+        }
+        &:nth-child(4)::marker {
+            content: "⑤";
+        }
+    }
 }
 
 table {

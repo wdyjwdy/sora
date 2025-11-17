@@ -197,40 +197,41 @@ toc: true
    }
    ```
 
-## Flex
+## Flex Box
 
 ![](basic-css-flex)
 
-1. Flex Container
-   - `flex-direction`: 主轴的方向，默认为 row。
+### Flex Container
 
-     ```
-     row row-reverse column column-reverse
-     ```
+- `flex-direction`: 主轴的方向。
 
-   - `flex-wrap`: 元素溢出时是否换行，默认为 no-wrap。
+  ```
+  row(default) row-reverse column column-reverse
+  ```
 
-     ```
-     wrap no-wrap
-     ```
+- `flex-wrap`: 元素溢出时是否换行。
 
-   - `justify-content`: 主轴上元素的对齐方式，默认为 start。
+  ```
+  no-wrap(default) wrap
+  ```
 
-     ```
-     flex-start center flex-end space-between space-around space-evenly
-     ```
+- `justify-content`: 主轴上元素的对齐方式。
 
-   - `align-items`: 交叉轴上元素的对齐方式，默认为 stretch。
+  ```
+  flex-start(default) center flex-end space-between space-around space-evenly
+  ```
 
-     ```
-     flex-start center flex-end baseline stretch
-     ```
+- `align-items`: 交叉轴上元素的对齐方式。
 
-   - `align-content`: 交叉轴上主轴的对齐方式。
+  ```
+  flex-start center flex-end baseline stretch(default)
+  ```
 
-     ```
-     flex-start center flex-end space-between space-around space-evenly stretch
-     ```
+- `align-content`: 交叉轴上主轴的对齐方式。
+
+  ```
+  flex-start center flex-end space-between space-around space-evenly stretch
+  ```
 
 2. Flex Item
    - `flex`: grow, shrink, basis 的简写。

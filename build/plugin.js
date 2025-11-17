@@ -27,6 +27,11 @@ export default function plugin(md) {
       return `<pre><code class="language-tree">${tmp}</code></pre>`;
     }
 
+    if (lang === "comment") {
+      const tmp = code.replace(/(#.+)/g, `<span class="comment">$1</span>`);
+      return `<pre><code class="language-comment">${tmp}</code></pre>`;
+    }
+
     return defaultFence(tokens, idx, options, env, self);
   };
 }

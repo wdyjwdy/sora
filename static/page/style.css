@@ -172,6 +172,12 @@ pre code[class="language-example"] {
     }
 }
 
+pre code[class="language-comment"] {
+    .comment {
+        color: oklch(0.5 0 0 / 0.5);
+    }
+}
+
 pre:has(> code[class*="language-mermaid"]) {
     max-width: 800px;
     background-color: unset;

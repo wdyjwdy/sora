@@ -4,36 +4,34 @@ category: Basic
 toc: true
 ---
 
-## Selector Types
+## Selector
 
-| Selector     | Weight      | Examples                |
-| ------------ | ----------- | ----------------------- |
-| \*           | (0,0,0)     | select all              |
-| element      | (0,0,1)     | `div`, `span`           |
-| class        | (0,1,0)     | `.red`, `.dark`         |
-| attribute    | (0,1,0)     | `div[title]`            |
-| pseudo class | (0,1,0)     | `button:hover`          |
-| id           | (1,0,0)     | `#id`                   |
-| inline style | (1,0,0,0)   | `style="color: red;"`   |
-| !important   | (1,0,0,0,0) | `color: red !important` |
+| Selector     |          Weight | Examples                 |
+| ------------ | --------------: | ------------------------ |
+| \*           |       (0, 0, 0) | select all               |
+| element      |       (0, 0, 1) | `div`, `span`            |
+| class        |       (0, 1, 0) | `.red`, `.dark`          |
+| attribute    |       (0, 1, 0) | `h1[title]`              |
+| pseudo class |       (0, 1, 0) | `button:hover`           |
+| id           |       (1, 0, 0) | `#id`                    |
+| inline style |    (1, 0, 0, 0) | `style="color: red;"`    |
+| !important   | (1, 0, 0, 0, 0) | `color: red !important;` |
 
-1. Class Selector
+- Class Selector
 
-   等价于 `[class~=names]`
+  ```css
+  .red /* 含有 red 类的元素 */
+  p.red /* 含有 red 类的 p 元素 */
+  p.red.bold /* 含有 red, bold 类的 p 元素 */
+  ```
 
-   ```css
-   .red /* 含有 red 类的元素 */
-   p.red /* 含有 red 类的 p 元素 */
-   p.red.bold /* 含有 red, bold 类的 p 元素 */
-   ```
+- Attribute Selector
 
-2. Attribute Selector
-
-   ```css
-   a[title] /* 存在 title 属性 */
-   a[title="name"] /* 存在 title 属性，且值为 name */
-   a[class~="dark"] /* 存在 class 属性，且值包含 dark */
-   ```
+  ```css
+  a[title] /* 存在 title 属性 */
+  a[title="name"] /* 存在 title 属性，且值为 name */
+  a[class~="dark"] /* 存在 class 属性，且值包含 dark */
+  ```
 
 ## Pseudo Classes
 
@@ -137,65 +135,37 @@ toc: true
 
 ## Nesting
 
-1. Child Selector
+```css
+/* bad */
+section p {...}
+/* good */
+section {
+  p {...}
+}
 
-   ```css
-   /* 以下语句等价 */
-   section {
-     p {...}
-   }
-   section {
-     & p {...}
-   }
-   section p {...}
-   ```
+/* bad */
+button:hover {...}
+/* good */
+button {
+  &:hover {...}
+}
 
-2. Compound Selector
+/* bad */
+section + p {...}
+/* good */
+section {
+  + p {...}
+}
 
-   ```css
-   /* 以下语句等价 */
-   .app {
-     .theme {...}
-   }
-   .app .theme {...}
-
-   /* 以下语句等价 */
-   .app {
-     &.theme {...}
-   }
-   .app.theme {...}
-
-   /* 以下语句等价 */
-   button {
-     &:hover {...}
-   }
-   button:hover {...}
-   ```
-
-3. Combinators
-
-   ```css
-   /* 以下语句等价 */
-   section {
-     + p {...}
-   }
-   section {
-     & + p {...}
-   }
-   section + p {...}
-   ```
-
-4. At
-
-   ```css
-   /* 以下语句等价 */
-   section {
-     @media (prefers-color-scheme: dark) {...}
-   }
-   @media (prefers-color-scheme: dark) {
-     section {...}
-   }
-   ```
+/* bad */
+@media (prefers-color-scheme: dark) {
+    section {...}
+}
+/* good */
+section {
+    @media (prefers-color-scheme: dark) {...}
+}
+```
 
 ## Flex Box
 
@@ -385,5 +355,18 @@ toc: true
   body {
     transform: translate(20px, 20px);
     transform: translate(-50%);
+  }
+  ```
+
+## Variables
+
+- 作用域
+
+  ```css
+  :root {
+    --white: #000; /* 全局 */
+  }
+  #navbar {
+    --white: #000; /* 局部 */
   }
   ```

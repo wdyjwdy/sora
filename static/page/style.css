@@ -105,7 +105,7 @@ ul {
 
 ol {
     list-style: circled-alpha;
-    list-style-position: inside;
+    margin-left: 25px;
 }
 
 table {

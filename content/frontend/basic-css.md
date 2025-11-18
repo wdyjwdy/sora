@@ -203,28 +203,28 @@ toc: true
 
 ### Flex Container
 
-- `flex-direction`: 主轴的方向。
+- `flex-direction`: 主轴方向。
 
-  ```
-  row(default) row-reverse column column-reverse
+  ```color
+  @[royalblue]{row} row-reverse column column-reverse
   ```
 
-- `flex-wrap`: 元素溢出时是否换行。
+- `flex-wrap`: 主轴元素溢出时是否换行。
 
-  ```
-  no-wrap(default) wrap
+  ```color
+  wrap @[royalblue]{no-wrap}
   ```
 
 - `justify-content`: 主轴上元素的对齐方式。
 
-  ```
-  flex-start(default) center flex-end space-between space-around space-evenly
+  ```color
+  @[royalblue]{flex-start} center flex-end space-between space-around space-evenly
   ```
 
 - `align-items`: 交叉轴上元素的对齐方式。
 
-  ```
-  flex-start center flex-end baseline stretch(default)
+  ```color
+  flex-start center flex-end baseline @[royalblue]{stretch}
   ```
 
 - `align-content`: 交叉轴上主轴的对齐方式。
@@ -233,30 +233,49 @@ toc: true
   flex-start center flex-end space-between space-around space-evenly stretch
   ```
 
-2. Flex Item
-   - `flex`: grow, shrink, basis 的简写。
-   - `flex-grow`: 延展元素，按比例分配剩余空间，默认为 0。
+### Flex Item
 
-     ```
-     [0, 1): 占比百分数
-     [1, Infinity): 占比数
-     ```
+- `flex`: grow, shrink, basis 的缩写。
 
-   - `flex-shrink`: 收缩元素，按比例分配收缩空间，默认为 1。
+  ```color
+  flex: @[seagreen]{flex-grow flex-shrink flex-basis};
+  ```
 
-     ```
-     [0, 1): 占比百分数
-     [1, Infinity): 占比数
-     ```
+- `flex-grow`: 延展元素，按比例分配剩余空间（容器宽度减去元素总宽度）。
 
-   - `flex-basis`: 设置元素的宽度，默认为 auto。
-   - `align-self`: 交叉轴上指定元素的对齐方式。
+  ```color
+  @[seagreen]{0}: 不占用剩余空间（默认）
+  @[seagreen]{0.5}: 占用一半剩余空间
+  @[seagreen]{1}: 占用全部剩余空间
+  ```
 
-     ```
-     flex-start center flex-end baseline stretch
-     ```
+- `flex-shrink`: 收缩元素，按比例分配剩余空间（容器宽度减去元素总宽度）。
 
-   - `order`: 元素的排列顺序
+  ```color
+  @[seagreen]{0}: 不占用剩余空间
+  @[seagreen]{0.5}: 占用一半剩余空间
+  @[seagreen]{1}: 占用全部剩余空间（默认）
+  ```
+
+- `flex-basis`: 元素在主轴方向的长度。
+
+> **flex-basis vs width**\
+> When flex-direction is row, flex-basis controls width.\
+> When flex-direction is column, flex-basis controls height.
+
+- `align-self`: 交叉轴上元素的对齐方式。
+
+  ```color
+  flex-start center flex-end baseline @[seagreen]{stretch}
+  ```
+
+- `order`: 元素的排列顺序。
+
+  ```color
+  @[seagreen]{-1}: 排在 0 左边
+  @[seagreen]{0}: 默认
+  @[seagreen]{1}: 排在 0 右边
+  ```
 
 ## Box Model
 

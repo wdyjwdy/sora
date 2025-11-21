@@ -19,8 +19,8 @@ const mdit = MarkdownIt()
   .use(
     await Shiki({
       themes: {
-        light: "min-light",
-        dark: "github-dark-dimmed",
+        light: "one-light",
+        dark: "github-dark",
       },
     }),
   );

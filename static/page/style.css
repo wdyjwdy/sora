@@ -152,7 +152,7 @@ code:not([class]) {
     border-radius: 8px;
     border: 1px solid var(--gray-hard);
     background-color: var(--gray-soft);
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 
 pre {

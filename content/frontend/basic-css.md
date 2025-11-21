@@ -364,9 +364,24 @@ section {
 
   ```css
   :root {
-    --white: #000; /* 全局 */
+    --main-color: white; /* 全局 */
   }
-  #navbar {
-    --white: #000; /* 局部 */
+  element {
+    --main-color: white; /* 局部 */
   }
+  ```
+
+- 默认值
+
+  ```css
+  element {
+    color: var(--main-color, white); /* White if --main-color undefined  */
+  }
+  ```
+
+- JS 操作
+
+  ```js
+  element.style.getPropertyValue("--main-color"); // get
+  element.style.setProperty("--main-color", "red"); // set
   ```

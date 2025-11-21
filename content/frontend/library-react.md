@@ -4,157 +4,173 @@ category: Library
 toc: true
 ---
 
-## Basic
+## 简介
 
-### Passing Props
+- 单向数据流：数据通过 Props 流动，Props 对于子组件只读，只能通过 Callback 通知父组件进行修改。（Context 不是数据流机制）
+- 函数组件：用 Function 表示 UI，用 Hooks 表示状态。
+- 虚拟 DOM：精准更新，避免不必要 DOM 操作。
 
-1. Pass props
+## 条件渲染
 
-   ```jsx
-   function Parent() {
-     return <Child age={18} />;
-   }
+- `if else`
 
-   function Child({ age }) {
-     return <h1>{age}</h1>;
-   }
-   ```
+  ```jsx
+  function Comp() {
+    if (cond) {
+      return <A />;
+    } else {
+      return <B />;
+    }
+  }
+  ```
 
-2. Pass JSX
+- `cond ? a : b`
 
-   ```jsx
-   function Parent() {
-     return (
-       <Child>
-         <h1>Hello</h1>
-       </Child>
-     );
-   }
+  ```jsx
+  function Comp() {
+    return <div>{cond ? <A /> : <B />}</div>;
+  }
+  ```
 
-   function Child({ children }) {
-     return <section>{children}</section>;
-   }
-   ```
+- `cond && a`
 
-3. Pass all props
+  ```jsx
+  function Comp() {
+    return <div>{cond && <A />}</div>;
+  }
+  ```
 
-   ```jsx
-   function Parent(props) {
-     return <Child {...props} />;
-   }
-   ```
-
-> React component functions accept a single argument, a props object:
->
-> ```jsx
-> function Child(props) {
->   let { age } = props;
->   let { children } = props;
-> }
-> ```
-
-### Conditional Rendering
-
-1. if statement
-
-   ```jsx
-   function Text({ condition }) {
-     let text;
-     if (condition) {
-       text = <p>A</p>;
-     } else {
-       text = <p>B</p>;
-     }
-     return <section>{text}</section>;
-   }
-   ```
-
-2. ternary operator (if true, render A, otherwise B)
-
-   ```jsx
-   function Text({ condition }) {
-     return <section>{condition ? <p>A</p> : <p>B</p>}</section>;
-   }
-   ```
-
-3. AND operator (if true, render A, otherwise nothing)
-
-   ```jsx
-   function Text({ condition }) {
-     return <section>{condition && <h1>A</h1>}</section>;
-   }
-   ```
-
-> 1. ternary operator
+> **`&&` 操作会短路**
 >
 > ```js
-> true ? A : B; // return A
-> false ? A : B; // return B
-> ```
->
-> 2. AND operator
->
-> ```js
-> true && A; // return A
 > false && A; // return false
 > 0 && A; // return 0
 > ```
 
-### Rendering Lists
+## 列表渲染
 
-1. Rendering data from arrays
+- `key` 可以用来标记元素，从而进行复用。
 
-   ```jsx
-   function List() {
-     const fruits = [
-       { id: 1, name: "Apple" },
-       { id: 2, name: "Banana" },
-       { id: 3, name: "Cherry" },
-     ];
-     return (
-       <ul>
-         {fruits.map(({ id, name }) => (
-           <li key={id}>{name}</li>
-         ))}
-       </ul>
-     );
-   }
-   ```
+  ```color
+  @[seagreen]{不使用 key，头部插入元素时，会新建 1 个元素，更新 2 个元素。}
+  b    a (update)
+  c -> b (update)
+       c (create)
 
-> **Why does React need keys?**
->
-> 当修改列表时，React 需要用 key 来判断列表元素是否发生变化（移动，删除，插入，更新），从而仅更新变化的元素，而不是重新渲染整个列表。
->
-> 1. 使用 index 作 key，当删除第一个元素时，后续元素的 index 会改变，导致 React 重新渲染整个列表。
-> 2. 使用 id 作 key，当删除第一个元素时，后续元素的 id 不变，React 只更新变化的元素。
->
-> 因此，当列表不会发生变化时，使用 index 作 key 是可以的。
+  @[seagreen]{使用 key，头部插入元素时，会新建 1 个元素，复用 2 个元素。}
+  b<2>    a<1> (create)
+  c<3> -> b<2>
+          c<3>
 
-### Pure functions
+  @[seagreen]{把 index 当作 key，头部插入元素时，会新建 1 个元素，更新 2 个元素。}
+  b<0>    a<0> (update)
+  c<1> -> b<1> (update)
+          c<2> (create)
+  ```
 
-definition:
+- `key` 可以强制替换组件，而不是复用。（切换 cond 时，不保留组件状态。）
 
-1. Same inputs, same output
-2. No side effects
+  ```jsx
+  cond ? <Child key="a" /> : <Child key="b" />;
+  ```
 
-benefit：
+## 组件传值
 
-1. Skipping rendering components whose inputs have not changed
+- Props
 
-### UI Tree
+  ```jsx
+  function Parent() {
+    return <Child num={100} />;
+  }
 
-1. Render trees: represent the nested relationship between React components
-2. Dependency trees: represent the module dependencies in a React app
+  function Child(props) {
+    return <h1>{props.num}</h1>;
+  }
+  ```
 
-### Ohter
+- Slots
 
-1. controlled components: driven by props
-2. uncontrolled components: driven by state
+  ```jsx
+  function Parent() {
+    return (
+      <Child>
+        <span>100</span>
+      </Child>
+    );
+  }
 
-## Hooks
+  function Child(props) {
+    return <h1>{props.children}</h1>;
+  }
+  ```
 
-### useState
+- Context
 
-### useReducer
+  ```jsx
+  const NumContext = createContext(1);
 
-### useContext
+  function Parent() {
+    return (
+      <NumContext value={100}>
+        <Child />
+      </NumContext>
+    );
+  }
+
+  function Child() {
+    const num = useContext(NumContext);
+    return <h1>{num}</h1>;
+  }
+  ```
+
+## 生命周期
+
+- 类组件
+
+  ```color
+  @[seagreen]{Mount}
+    constructor() @[gray]{// init state }
+    render() @[gray]{// return jsx }
+    React updates DOM and Refs
+    componentDidMount() @[gray]{// fetch or DOM Manipulation}
+
+  @[seagreen]{Update}
+    New props or setState
+    render()
+    React updates DOM and Refs
+    componentDidUpdate(prevProps, prevState) @[gray]{// fetch or DOM Manipulation}
+
+  @[seagreen]{Unmount}
+    componentWillUnmount() @[gray]{// perform cleanup}
+  ```
+
+- 函数组件
+
+  ```jsx
+  useEffect(fn); // run every render
+  useEffect(fn, []); // run when the component mounts (componentDidMount)
+  useEffect(fn, [dep]); // run when the dep changes (componentDidUpdate)
+  useEffect(() => {
+    return () => {}; // run when the component unmounts (componentWillUnmount)
+  }, []);
+  ```
+
+## 响应式原理
+
+- `useState` 通过 setter 触发 re-render
+
+  ```js
+  function useState(initialValue) {
+    let state = initialValue;
+    function setState(update) {
+      state = update;
+      render(); // 触发重渲染
+    }
+    return [state, setState];
+  }
+  ```
+
+## 差异算法
+
+- 同层比较：仅比较同层级节点。（因为 DOM 跨层级操作较少）
+- 节点复用：复用 key 和 type 相同的节点。

@@ -7,19 +7,16 @@ toc: true
 ## 简介
 
 - 响应式数据：通过 Ref (getter, setter) 和 Reactive (proxy) 实现。
-- 单向数据流：数据通过 Props 流动，Props 对于子组件只读，只能通过父组件修改。
+- 单向数据流：数据通过 Props 流动，Props 对于子组件只读，只能通过 Emits 通知父组件进行修改。（Inject 不是数据流机制）
 - 单文件组件：HTML，JS，CSS 合并在一个 Vue 文件中。
 - 指令系统：v-for, v-if。
+- 虚拟 DOM：精准更新，避免不必要 DOM 操作。
 
-> **emits 和 inject 不违反单向数据流**\
-> emits 并非子组件修改数据，而是通知父组件进行修改。\
-> inject 不是数据流机制，单项数据流约束的是 props。
-
-## v-if and v-show
+## 条件渲染
 
 - `v-if` 切换状态时，DOM 元素会被销毁和重建。
 
-  ```html
+  ```vue
   <h1>hello</h1>
   <!--v-if-->
   ```
@@ -31,7 +28,7 @@ toc: true
   <h1 style="display: none;">hello</h1>
   ```
 
-## v-for and key
+## 列表渲染
 
 - `key` 可以用来标记元素，从而进行复用。
 
@@ -46,23 +43,21 @@ toc: true
   c<3> -> b<2>
           c<3>
 
-  @[seagreen]{把 index 当作 key，头部插入元素时，会新建 1 个元素，复用 2 个元素。}
+  @[seagreen]{把 index 当作 key，头部插入元素时，会新建 1 个元素，更新 2 个元素。}
   b<0>    a<0> (update)
   c<1> -> b<1> (update)
           c<2> (create)
   ```
 
-- `key` 可以强制替换组件，而不是复用。
+- `key` 可以强制替换组件，而不是复用。（num 改变时，替换 h1 标签，而不是更新 num 文本。）
 
   ```vue
   <h1 :key="num">{{ num }}</h1>
   ```
 
-## ☑️ nextTick()
-
 ## 组件传值
 
-- props (reactive, readonly)
+- Props (reactive, readonly)
 
   ```color
   @[seagreen]{Parent.vue}
@@ -73,7 +68,7 @@ toc: true
   <h1>{{ title }}</h1>
   ```
 
-- slots
+- Slots
 
   ```color
   @[seagreen]{Parent.vue}
@@ -83,7 +78,7 @@ toc: true
   <h1><slot /></h1>
   ```
 
-- emits
+- Emits
 
   ```color
   @[seagreen]{Parent.vue}
@@ -94,7 +89,7 @@ toc: true
   <button @click="$emit('increment')" />
   ```
 
-- attribute inheritance
+- Attribute Inheritance
 
   ```color
   @[seagreen]{Parent.vue}
@@ -104,7 +99,7 @@ toc: true
   <h1>hello</h1>
   ```
 
-- provide and inject (reactive, write)
+- Provide and Inject (reactive, write)
 
   ```color
   @[seagreen]{Parent.vue}
@@ -172,7 +167,7 @@ toc: true
   Parent (onUpdated)
   ```
 
-## 响应性原理
+## 响应式原理
 
 - `ref` 通过 getter, setter 实现
 
@@ -209,7 +204,7 @@ toc: true
   }
   ```
 
-## diff
+## 差异算法
 
 - 缓存静态内容：缓存静态节点。跳过 re-render 时的 create。
 

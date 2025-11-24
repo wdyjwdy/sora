@@ -23,15 +23,6 @@ toc: true
    let newArr = [...arr];
    ```
 
-3. 判断数组
-
-   ```js
-   Array.isArray([]); // true
-   [] instanceof Array // true
-   [].constructor === Array // true
-   Object.prototype.toString.call([]).slice(8,-1) === 'Array' // true
-   ```
-
 > - **类数组对象**：有 `length`, `非负整数` 属性的对象。
 > - **可迭代对象**：实现 `[Symbol.iterator]()` 方法的对象。
 
@@ -173,26 +164,6 @@ getInteger()[3](); // 10
 
    // Static method
    Person.isPerson = function() { ... }
-   ```
-
-## Types
-
-1. typeof
-
-   ```js
-   // 基础类型
-   typeof number    // 'number'
-   typeof string    // 'string'
-   typeof boolean   // 'boolean'
-   typeof null      // 'object' ‼️
-   typeof undefined // 'undefined'
-
-   typeof bigint    // 'bigint'
-   typeof symbol    // 'symbol'
-
-   // 对象类型
-   typeof function  // 'function' ‼️
-   typeof others    // 'object'
    ```
 
 ## Iterator

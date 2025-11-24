@@ -135,37 +135,6 @@ function bind(thisArg = window, ...args) {
 }
 ```
 
-## instanceOf
-
-1. 遍历 `instance` 的原型链
-2. 检查 `constructor` 的原型是否在其中
-
-```js
-function Instanceof(instance, constructor) {
-  let proto = Object.getPrototypeOf(instance);
-  while (proto) {
-    if (proto === constructor.prototype) return true;
-    proto = Object.getPrototypeOf(proto);
-  }
-  return false;
-}
-```
-
-## new
-
-1. 创建一个空对象
-2. 调用构造函数（this -> 空实例）
-3. 空实例原型 -> 构造函数原型
-
-```js
-function New(constructor, ...args) {
-  let instance = {};
-  constructor.call(instance, ...args);
-  Object.setPrototypeOf(instance, constructor.prototype);
-  return instance;
-}
-```
-
 ## Object
 
 ### create
@@ -205,6 +174,53 @@ function keys() {
     arr.push(key);
   }
   return arr;
+}
+```
+
+## Operator
+
+### typeof
+
+- Primitive
+  - If val is undefined, return "undefined".
+  - **If val is null, return "object".**
+  - If val is a String, return "string".
+  - If val is a Symbol, return "symbol".
+  - If val is a Boolean, return "boolean".
+  - If val is a Number, return "number".
+  - If val is a BigInt, return "bigint".
+- Object
+  - **If val has a \[\[Call\]\] internal method, return "function".**
+  - Else return "object".
+
+### instanceOf
+
+1. 遍历 `instance` 的原型链
+2. 检查 `constructor` 的原型是否在其中
+
+```js
+function Instanceof(instance, constructor) {
+  let proto = Object.getPrototypeOf(instance);
+  while (proto) {
+    if (proto === constructor.prototype) return true;
+    proto = Object.getPrototypeOf(proto);
+  }
+  return false;
+}
+```
+
+### new
+
+1. 创建一个空对象
+2. 调用构造函数（this -> 空实例）
+3. 空实例原型 -> 构造函数原型
+
+```js
+function New(constructor, ...args) {
+  let instance = {};
+  constructor.call(instance, ...args);
+  Object.setPrototypeOf(instance, constructor.prototype);
+  return instance;
 }
 ```
 

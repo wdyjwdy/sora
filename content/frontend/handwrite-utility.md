@@ -80,6 +80,19 @@ function curry(fn) {
 
 ## Clone Shallow
 
+> 仅考虑 Array 和 Object 的拷贝。
+
+```ts
+function cloneShallow<T>(val: T): T {
+  if (Array.isArray(val)) {
+    return val.slice() as T;
+  }
+  const prototype = Object.getPrototypeOf(val);
+  const newObject = Object.create(prototype);
+  return Object.assign(newObject, val);
+}
+```
+
 ```js
 function cloneShallow(target) {
   const clone = Array.isArray(target) ? [] : {};
@@ -91,6 +104,8 @@ function cloneShallow(target) {
 ```
 
 ## Clone Deep
+
+> 仅考虑 Array 和 Object 的拷贝。
 
 ```js
 function cloneDeep(target) {
@@ -104,4 +119,21 @@ function cloneDeep(target) {
   }
   return clone;
 }
+```
+
+## isPrimitive
+
+```ts
+function isPrimitive(val: unknown): boolean {
+  return val === null || (typeof val !== "function" && typeof val !== "object");
+}
+```
+
+## isArray
+
+```js
+Array.isArray([]); // true
+[] instanceof Array // true
+[].constructor === Array // true
+Object.prototype.toString.call([]).slice(8,-1) === 'Array' // true
 ```

@@ -69,3 +69,32 @@ toc: true
     margin-left: auto; /* 填充剩余空间 */
   }
   ```
+
+## 明暗主题
+
+- Media Query and CSS Variables
+
+  ```css
+  :root {
+    --bg: white;
+    @media (prefers-color-scheme: dark) {
+      --bg: black;
+    }
+  }
+
+  html {
+    background-color: var(--bg);
+  }
+  ```
+
+- light-dark()
+
+  ```css
+  :root {
+    color-scheme: light dark;
+  }
+
+  html {
+    background-color: light-dark(white, black);
+  }
+  ```

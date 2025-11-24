@@ -1,83 +1,37 @@
 :root {
+    color-scheme: light dark;
     --gray-hard: oklch(0.5 0 0 / 0.2);
     --gray-soft: oklch(0.5 0 0 / 0.1);
-
-    @media (prefers-color-scheme: light) {
-        --body-bg: oklch(0.99 0 0);
-        --body-color: oklch(0.37 0 0);
-        --code-bg: oklch(0.96 0 0);
-        --code-border: oklch(0.9 0 0);
-        --button-bg: oklch(0.98 0 0);
-        --button-border: oklab(0.9 0 0);
-        --tags-bg: oklch(0.96 0 0);
-    }
-
-    @media (prefers-color-scheme: dark) {
-        --body-bg: oklch(0.26 0 0);
-        --body-color: oklch(0.8 0 0);
-        --code-bg: oklch(0.3 0 0);
-        --code-border: oklch(0.4 0 0);
-        --button-bg: oklch(0.24 0 0);
-        --button-border: oklch(0.4 0 0);
-        --tags-bg: oklch(0.3 0 0);
-        .shiki,
-        .shiki span {
-            color: var(--shiki-dark) !important;
-            font-style: var(--shiki-dark-font-style) !important;
-            font-weight: var(--shiki-dark-font-weight) !important;
-        }
-    }
-
-    .shiki,
-    .shiki span {
-        background-color: transparent !important;
-        font-style: var(--shiki-light-font-style);
-        font-weight: var(--shiki-light-font-weight);
-    }
-}
-
-* {
-    margin: 0;
-    padding: 0;
 }
 
 html {
     font-size: 20px;
-    color: var(--body-color);
-    background-color: var(--body-bg);
+    color: light-dark(oklch(0.37 0 0), oklch(0.8 0 0));
+    background-color: light-dark(oklch(1 0 0), oklch(0.2 0 0));
 }
 
 body {
-    padding: 20px;
+    margin: 0;
+    padding: 60px 20px;
 }
 
 h1 {
-    margin: 20px 0;
     text-align: center;
 }
 
-h2 {
-    margin: 20px 0;
-}
-
 h3 {
-    margin: 20px 0;
     font-weight: normal;
     font-size: 1em;
 
     &::before {
-        content: "#";
-        border-radius: 4px;
-        padding: 0px 6px;
+        content: "✦";
         margin-right: 4px;
-        background-color: var(--code-bg);
-        font-family: monospace;
-        color: darkgray;
     }
 }
 
 p {
-    line-height: 2em;
+    margin: 0;
+    line-height: 2;
 }
 
 a {
@@ -92,10 +46,8 @@ a {
 }
 
 ul {
-    margin: 10px 0;
     padding-left: 20px;
     list-style-type: circle;
-
     li {
         margin: 10px 0;
     }
@@ -108,13 +60,16 @@ ul {
 }
 
 ol {
+    padding-left: 25px;
     list-style: circled-alpha;
-    margin-left: 25px;
+    li {
+        margin: 10px 0;
+    }
 }
 
 table {
-    margin: 20px 0;
     font-size: 1em;
+    margin: 20px 0;
     border: 1px solid var(--gray-hard);
     border-radius: 10px;
     border-spacing: 0px;
@@ -130,17 +85,9 @@ table {
     }
 }
 
-hr {
-    border: 1px solid oklch(0.8 0 0 / 0.5);
-}
-
 em {
     font-style: normal;
     color: indianred;
-}
-
-img {
-    max-width: min(100%, 800px);
 }
 
 blockquote {
@@ -156,14 +103,14 @@ code:not([class]) {
     border-radius: 8px;
     border: 1px solid var(--gray-hard);
     background-color: var(--gray-soft);
-    font-size: 0.9em;
+    font-size: 0.8em;
 }
 
 pre {
-    margin: 20px 0;
     padding: 6px 10px;
     border-radius: 8px;
     border: 1px solid var(--gray-hard);
+    background-color: light-dark(oklch(0.98 0 0), oklch(0.24 0 0)) !important;
     overflow: scroll;
 }
 
@@ -176,16 +123,12 @@ pre code[class="language-example"] {
     }
 }
 
-pre code[class="language-comment"] {
-    .comment {
-        color: oklch(0.5 0 0 / 0.5);
-    }
-}
-
 pre:has(> code[class*="language-mermaid"]) {
     max-width: 800px;
-    background-color: unset;
-    border: unset;
+}
+
+img {
+    max-width: min(100%, 800px);
 }
 
 .alias {
@@ -202,8 +145,8 @@ pre:has(> code[class*="language-mermaid"]) {
     display: flex;
 
     div {
-        background-color: var(--button-bg);
-        border: 1px solid var(--button-border);
+        background-color: var(--gray-soft);
+        border: 1px solid var(--gray-hard);
         border-top-left-radius: 6px;
         border-bottom-left-radius: 6px;
         display: flex;
@@ -212,7 +155,7 @@ pre:has(> code[class*="language-mermaid"]) {
 
     input {
         all: unset;
-        border: 1px solid var(--button-border);
+        border: 1px solid var(--gray-hard);
         border-top-right-radius: 6px;
         border-bottom-right-radius: 6px;
         border-left: none;
@@ -228,15 +171,18 @@ pre:has(> code[class*="language-mermaid"]) {
     flex-wrap: wrap;
 
     button {
-        all: unset;
+        font-size: 1em;
+        font-family: auto;
+        color: inherit;
         padding: 4px 10px;
-        background-color: var(--tags-bg);
+        background-color: var(--gray-soft);
+        border-style: none;
         border-radius: 10px;
         touch-action: none;
         cursor: pointer;
 
         &:hover {
-            background-color: oklch(0.75 0 0 / 0.3);
+            background-color: var(--gray-hard);
         }
     }
 }
@@ -248,6 +194,18 @@ pre:has(> code[class*="language-mermaid"]) {
     gap: 10px;
 
     p {
-        border-bottom: 1px solid var(--button-border);
+        border-bottom: 1px solid var(--gray-hard);
+    }
+}
+
+.shiki,
+.shiki span {
+    font-style: var(--shiki-light-font-style);
+    font-weight: var(--shiki-light-font-weight);
+
+    @media (prefers-color-scheme: dark) {
+        color: var(--shiki-dark) !important;
+        font-style: var(--shiki-dark-font-style) !important;
+        font-weight: var(--shiki-dark-font-weight) !important;
     }
 }

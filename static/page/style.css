@@ -103,7 +103,7 @@ code:not([class]) {
     border-radius: 8px;
     border: 1px solid var(--gray-hard);
     background-color: var(--gray-soft);
-    font-size: 0.8em;
+    font-family: "Courier New";
 }
 
 pre {
@@ -112,6 +112,10 @@ pre {
     border: 1px solid var(--gray-hard);
     background-color: light-dark(oklch(0.98 0 0), oklch(0.24 0 0)) !important;
     overflow: scroll;
+
+    code {
+        font-family: "Courier New";
+    }
 }
 
 pre code[class="language-example"] {

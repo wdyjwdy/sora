@@ -193,17 +193,19 @@ function keys() {
   - **If val has a \[\[Call\]\] internal method, return "function".**
   - Else return "object".
 
-### instanceOf
+### instanceof
 
 1. 遍历 `instance` 的原型链
 2. 检查 `constructor` 的原型是否在其中
 
-```js
-function Instanceof(instance, constructor) {
-  let proto = Object.getPrototypeOf(instance);
-  while (proto) {
-    if (proto === constructor.prototype) return true;
-    proto = Object.getPrototypeOf(proto);
+```ts
+function Instanceof(instance: Object, constructor: Function) {
+  let prototype = Object.getPrototypeOf(instance);
+  while (prototype !== null) {
+    if (prototype === constructor.prototype) {
+      return true;
+    }
+    prototype = Object.getPrototypeOf(prototype);
   }
   return false;
 }
@@ -211,16 +213,14 @@ function Instanceof(instance, constructor) {
 
 ### new
 
-1. 创建一个空对象
-2. 调用构造函数（this -> 空实例）
-3. 空实例原型 -> 构造函数原型
+1. 创建一个原型为 `constructor` 原型的对象。
+2. 调用 `constructor`，将其 `this` 指向新对象。
 
 ```js
-function New(constructor, ...args) {
-  let instance = {};
-  constructor.call(instance, ...args);
-  Object.setPrototypeOf(instance, constructor.prototype);
-  return instance;
+function New(constructor: Function, ...args: unknown[]) {
+  const instance = Object.create(constructor.prototype);
+  const result = constructor.call(instance, ...args);
+  return result ?? instance;
 }
 ```
 

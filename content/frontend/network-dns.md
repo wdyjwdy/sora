@@ -1,7 +1,6 @@
 ---
 title: DNS
 category: Network
-mermaid: true
 toc: true
 ---
 
@@ -14,7 +13,7 @@ DNS translates hostnames to IP addresses.
 >
 > - Speed: UDP is connectionless
 > - Simplicity: UDP has a simple protocol structure
->
+
 > **When is TCP used?**
 >
 > - When the data exceeds 512 Bytes
@@ -23,16 +22,15 @@ DNS translates hostnames to IP addresses.
 
 ## Lookup
 
-```mermaid
-sequenceDiagram
-  Client ->> Local: Domain Name
-  Local ->> Root: Domain Name
-  Root ->> Local: TLD Server IP
-  Local ->> TLD: Domain Name
-  TLD ->> Local: Auth Server IP
-  Local ->> Auth: Domain Name
-  Auth ->> Local: IP
-  Local ->> Client: IP
+```seq
+Client -> Local: Domain Name
+Local -> Root: Domain Name
+Root -> Local: TLD IP
+Local -> TLD: Domain Name
+TLD -> Local: Auth IP
+Local -> Auth: Domain Name
+Auth -> Local: IP
+Local -> Client: IP
 ```
 
 ## Caching

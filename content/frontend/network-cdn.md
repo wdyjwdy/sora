@@ -11,14 +11,13 @@ CDN reduces the distance between the user and the assets.
 
 ## Lookup
 
-```mermaid
-sequenceDiagram
-  Client ->> Local: Domain Name
-  Local ->> DNS: Domain Name
-  DNS ->> Local: CDN Authoritative Server IP
-  Local ->> CDN Auth: Domain Name
-  CDN Auth ->> Local: CDN Content Server IP
-  Local ->> Client: CDN Content Server IP
+```seq
+Client -> Local: Domain Name
+Local -> DNS: Domain Name
+DNS -> Local: CDN Auth IP
+Local -> CDN Auth: Domain Name
+CDN Auth -> Local: CDN Content IP
+Local -> Client: CDN Content IP
 ```
 
 ## Cluster Selection Strategies

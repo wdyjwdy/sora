@@ -81,13 +81,9 @@ Suppose that the file consisting of 500,000 bytes, that the MSS is 1,000 bytes.
 
 Suppose that Receiver has received all bytes numbered 0 through 535. Then Sender puts 536 in the acknowledgment number field.
 
-```mermaid
-sequenceDiagram
-  participant S as Sender
-  participant R as Receiver
-
-  S ->> R: seq: 500
-  R ->> S: ack: 536
+```seq
+Sender -> Receiver: seq=500
+Receiver -> Sender: ack=536
 ```
 
 Suppose the starting sequence numbers are 42 and 79 for the client and server.
@@ -131,12 +127,8 @@ Extending the host-to-host delivery service provided by the network layer to a *
 
 假设网络层满足以上条件，实现可靠传输很简单：
 
-```mermaid
-sequenceDiagram
-  participant S as Sender
-  participant R as Receiver
-
-  S ->> R: data
+```seq
+Sender -> Receiver: data
 ```
 
 ---

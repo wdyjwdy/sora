@@ -1,5 +1,5 @@
 function parse(text: string) {
-  const matchs = text.matchAll(/(.+) -> (.+): (.+)/g);
+  const matchs = text.matchAll(/(.+) -> (.+?): (.+)/g);
   const results = [...matchs].map((v) => ({ A: v[1], B: v[2], T: v[3] }));
 
   const set = new Set<string>();
@@ -34,7 +34,7 @@ function render(data: Data) {
     .map((v, i) => renderSignal(v.text, v.gridX1, v.gridX2, i + 1))
     .join("");
   const defs = `<defs><marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs>`;
-  const svg = `<svg class="sequence-diagram" width="${width}" height="${height}">${defs + actorsSvg + signalSvg}</svg>`;
+  const svg = `<svg class="sequence-diagram" viewBox="0 0 ${width} ${height}" style="max-width: ${width};" width="100%">${defs + actorsSvg + signalSvg}</svg>`;
   return svg;
 }
 

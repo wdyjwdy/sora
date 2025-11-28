@@ -15,33 +15,26 @@ export default function plugin(md) {
     if (lang === "mermaid") {
       const tmp = `<div class="mermaid">${code}</div>`;
       return `<pre><code class="language-mermaid">${tmp}</code></pre>`;
-    }
-
-    if (lang === "example") {
+    } else if (lang === "example") {
       const tmp = code.replace(
         /([^#]+)(#)(.+)/g,
         `<span class="text">$1</span><span class="comment">$3</span>`,
       );
       return `<pre><code class="language-example">${tmp}</code></pre>`;
-    }
-
-    if (lang === "tree") {
+    } else if (lang === "tree") {
       const tmp = code.replace(/([─└├│])/g, `<span class="comment">$1</span>`);
       return `<pre><code class="language-tree">${tmp}</code></pre>`;
-    }
-
-    if (lang === "color") {
+    } else if (lang === "color") {
       const tmp = code.replace(
         /@\[(\w+)\]\{([^}]*)\}/g,
         `<span style="color: $1">$2</span>`,
       );
       return `<pre><code class="language-color">${tmp}</code></pre>`;
-    }
-
-    if (lang === "seq") {
+    } else if (lang === "seq") {
       return generateSequenceDiagramSvg(rawCode);
+    } else if (lang === "pre") {
+      return `<div class="html-preview"><template shadowrootmode="open">${rawCode}</template></div>`;
     }
-
     return defaultFence(tokens, idx, options, env, self);
   };
 }

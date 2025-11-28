@@ -149,6 +149,7 @@ img {
     marker {
         fill: light-dark(darkgray, dimgray);
     }
+
     text {
         fill: light-dark(oklch(0.37 0 0), oklch(0.8 0 0));
     }

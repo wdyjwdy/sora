@@ -1,3 +1,5 @@
+import { generateSequenceDiagramSvg } from "./sequence-diagram";
+
 export default function plugin(md) {
   const defaultFence =
     md.renderer.rules.fence ||
@@ -6,7 +8,8 @@ export default function plugin(md) {
     };
 
   md.renderer.rules.fence = (tokens, idx, options, env, self) => {
-    const code = md.utils.escapeHtml(tokens[idx].content);
+    const rawCode = tokens[idx].content;
+    const code = md.utils.escapeHtml(rawCode);
     const lang = tokens[idx].info;
 
     if (lang === "mermaid") {
@@ -34,6 +37,11 @@ export default function plugin(md) {
       );
       return `<pre><code class="language-color">${tmp}</code></pre>`;
     }
+
+    if (lang === "seq") {
+      return generateSequenceDiagramSvg(rawCode);
+    }
+
     return defaultFence(tokens, idx, options, env, self);
   };
 }

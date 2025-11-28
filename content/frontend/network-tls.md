@@ -20,9 +20,8 @@ toc: true
 
 Where $m$ is message, $c$ is ciphertext, $K$ is symmetric key
 
-```mermaid
-sequenceDiagram
-  A ->> B: 密文
+```seq
+A -> B: 密文
 ```
 
 使用**非对称加密**进行通信，不需要提前共享密钥
@@ -32,25 +31,17 @@ sequenceDiagram
 
 Where $K^+_B$ and $K^-_B$ is B's public key and private key respectively
 
-```mermaid
-sequenceDiagram
-  participant A
-  participant B
-
-  B ->> A: 公钥
-  A ->> B: 蜜文
+```seq
+B -> A: 公钥
+A -> B: 密文
 ```
 
 由于非对称加密计算量较大，因此通常使用非对称加密来交换对称密钥，然后进行对称加密通信
 
-```mermaid
-sequenceDiagram
-  participant A
-  participant B
-
-  B ->> A: 公钥
-  A ->> B: 公钥加密的对称密钥
-  A ->> B: 蜜文
+```seq
+B -> A: 公钥
+A -> B: 公钥加密的对称密钥
+A -> B: 密文
 ```
 
 ### RSA
@@ -72,13 +63,9 @@ Where $m < n$
 
 ### DH
 
-```mermaid
-sequenceDiagram
-  participant C as Client
-  participant S as Server
-
-  C ->> S: p, g, A
-  S ->> C: B
+```seq
+Client -> Server: p, g, A
+Server -> Client: B
 ```
 
 Key Generation:
@@ -98,9 +85,8 @@ Encryption and Decryption:
 
 - 哈希: $H = Hash(m)$
 
-```mermaid
-sequenceDiagram
-  A ->> B: m, H
+```seq
+A -> B: m, H
 ```
 
 ### MD5
@@ -131,12 +117,8 @@ sequenceDiagram
 
 - 签名 (Signature): $S = K^-_B(m)$
 
-```mermaid
-sequenceDiagram
-  participant A
-  participant B
-
-  B ->> A: m, S
+```seq
+B -> A: m, S
 ```
 
 > $K^-_B(m)$ 也可以用来验消息完整性
@@ -145,24 +127,16 @@ sequenceDiagram
 
 - 签名 (Signature): $S = K^-_B(Hash(m))$
 
-```mermaid
-sequenceDiagram
-  participant A
-  participant B
-
-  B ->> A: m, S
+```seq
+B -> A: m, S
 ```
 
 由于需要确认公钥确实是 B 的，因此需要 CA 提供证书（B 的公钥和 IP 等）予以证明，通过计算 $K^+_{CA}(Certificate)$ 并判断 IP 来验证
 
 - 证书 (Certificate): $C = K^-_{CA}(K^+_B, IP_B)$
 
-```mermaid
-sequenceDiagram
-  participant A
-  participant B
-
-  B ->> A: m, C
+```seq
+B -> A: m, C
 ```
 
 ## TLS 1.2

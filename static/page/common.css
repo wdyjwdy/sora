@@ -1,0 +1,104 @@
+:root {
+    color-scheme: light dark;
+    --gray-hard: oklch(0.5 0 0 / 0.2);
+    --gray-soft: oklch(0.5 0 0 / 0.1);
+}
+
+html {
+    font-size: 20px;
+    color: light-dark(oklch(0.37 0 0), oklch(0.8 0 0));
+    background-color: light-dark(oklch(1 0 0), oklch(0.2 0 0));
+}
+
+body {
+    margin: 0;
+    padding: 60px 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    margin: 0;
+    line-height: 2;
+}
+
+a {
+    color: steelblue;
+    text-decoration-line: unset;
+
+    &:hover {
+        text-decoration-thickness: from-font;
+        text-underline-offset: 6px;
+        text-decoration-line: underline;
+    }
+}
+
+ul {
+    padding-left: 20px;
+    list-style: circle;
+}
+
+ol {
+    padding-left: 20px;
+}
+
+li {
+    margin: 10px 0;
+}
+
+table {
+    font-size: 1em;
+    margin: 20px 0;
+    border: 1px solid var(--gray-hard);
+    border-radius: 10px;
+    border-spacing: 0px;
+    overflow: hidden;
+
+    thead {
+        background-color: var(--gray-soft);
+    }
+
+    td,
+    th {
+        padding: 10px 20px;
+    }
+}
+
+em {
+    font-style: normal;
+    color: indianred;
+}
+
+blockquote {
+    margin: 20px 0;
+    padding: 2px 8px;
+    border-left: 6px solid var(--gray-hard);
+    border-radius: 6px;
+    background-color: var(--gray-soft);
+}
+
+code:not([class]) {
+    padding: 0 6px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-hard);
+    background-color: var(--gray-soft);
+    font-family: "Courier New";
+}
+
+pre {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-hard);
+    background-color: light-dark(oklch(0.98 0 0), oklch(0.24 0 0)) !important;
+    overflow: scroll;
+
+    code {
+        font-family: "Courier New", "STSong";
+    }
+}
+
+img {
+    max-width: min(100%, 800px);
+}

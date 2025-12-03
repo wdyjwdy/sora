@@ -28,3 +28,12 @@ pre code[class="language-example"] {
         color: oklch(0.5 0 0 / 0.5);
     }
 }
+
+.alias {
+    text-align: center;
+
+    code {
+        font-family: auto;
+        font-size: 1em;
+    }
+}

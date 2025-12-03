@@ -4,10 +4,17 @@
     --gray-soft: oklch(0.5 0 0 / 0.1);
 }
 
+@font-face {
+    font-family: "En";
+    src: local("Hiragino Mincho ProN W3");
+    unicode-range: U+0020-007F;
+}
+
 html {
     font-size: 20px;
     color: light-dark(oklch(0.37 0 0), oklch(0.8 0 0));
     background-color: light-dark(oklch(1 0 0), oklch(0.2 0 0));
+    font-family: "En", STSong;
 }
 
 body {

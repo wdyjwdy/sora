@@ -11,6 +11,12 @@ import MarkdownItTOC from "markdown-it-table-of-contents";
 import MarkdownItPlugin from "./plugin.js";
 import Shiki from "@shikijs/markdown-it";
 
+// 初始化其他
+const cssPaths = await getFilenames("static/page/");
+const cssNames = cssPaths
+  .filter((v) => v.endsWith("css"))
+  .map((v) => v.slice(12, -4));
+
 // 初始化 Markdown Parser
 const mdit = MarkdownIt()
   .use(MarkdownItAnchor)
@@ -62,8 +68,11 @@ async function parseContent(path: string) {
   const file = Bun.file(path);
   const text = await file.text();
   const match = text.match(/^---(.*?)---/s);
+  const folder = cssNames.includes(path.split("/")[1])
+    ? path.split("/")[1]
+    : null;
   return {
-    frontmatter: match ? parse(match[1]) : {},
+    frontmatter: match ? { ...parse(match[1]), folder } : {},
     markdown: match ? text.slice(match[0].length) : text,
   };
 }

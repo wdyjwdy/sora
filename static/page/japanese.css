@@ -1,3 +1,16 @@
+h1 {
+    font-family: Hiragino Mincho ProN;
+}
+
+h3 {
+    font-weight: normal;
+    font-size: 1em;
+
+    &::before {
+        content: "✦";
+    }
+}
+
 ol {
     padding-left: 40px;
 
@@ -6,22 +19,8 @@ ol {
     }
 }
 
-h3 {
-    font-weight: normal;
-    font-size: 1em;
-    font-family: Klee;
-
-    &::before {
-        content: "✦";
-    }
-}
-
 pre code[class="language-example"] {
     white-space: pre-line;
-
-    .text {
-        font-family: Klee;
-    }
 
     .comment {
         font-family: STSong;

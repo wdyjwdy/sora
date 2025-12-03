@@ -8,6 +8,14 @@
     font-family: "En";
     src: local("Hiragino Mincho ProN W3");
     unicode-range: U+0020-007F;
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "En";
+    src: local("Hiragino Mincho ProN W6");
+    unicode-range: U+0020-007F;
+    font-weight: 700;
 }
 
 html {

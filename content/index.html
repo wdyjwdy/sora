@@ -4,7 +4,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/static/page/heart.svg" type="image/svg+xml" />
         <link rel="stylesheet" href="/static/page/common.css" />
-        <link rel="stylesheet" href="/static/page/index.css" />
         <title>ノート</title>
     </head>
     <body>
@@ -76,4 +75,74 @@
           }
         });
     </script>
+    <style>
+        .search {
+            display: flex;
+
+            div {
+                background-color: var(--gray-soft);
+                border: 1px solid var(--gray-hard);
+                border-top-left-radius: 6px;
+                border-bottom-left-radius: 6px;
+                display: flex;
+                padding: 8px;
+            }
+
+            input {
+                all: unset;
+                border: 1px solid var(--gray-hard);
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+                border-left: none;
+                padding: 8px;
+                width: 100%;
+            }
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+
+            button {
+                font-size: 1em;
+                font-family: auto;
+                color: inherit;
+                padding: 4px 10px;
+                background-color: var(--gray-soft);
+                border-style: none;
+                border-radius: 10px;
+                touch-action: none;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: var(--gray-hard);
+                }
+            }
+        }
+
+        .result {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            p {
+                border-bottom: 1px solid var(--gray-hard);
+            }
+        }
+
+        .shiki,
+        .shiki span {
+            font-style: var(--shiki-light-font-style);
+            font-weight: var(--shiki-light-font-weight);
+
+            @media (prefers-color-scheme: dark) {
+                color: var(--shiki-dark) !important;
+                font-style: var(--shiki-dark-font-style) !important;
+                font-weight: var(--shiki-dark-font-weight) !important;
+            }
+        }
+    </style>
 </html>

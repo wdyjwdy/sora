@@ -1,0 +1,8 @@
+pre code[class="language-example"] {
+    font-family: auto;
+    white-space: pre-line;
+
+    .comment {
+        color: oklch(0.5 0 0 / 0.5);
+    }
+}

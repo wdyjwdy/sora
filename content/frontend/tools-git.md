@@ -6,19 +6,17 @@ toc: true
 
 ## Init
 
-- `git init`: 在当前目录下初始化一个代码仓库
-
 ### 新建本地仓库
 
-1. 文件夹如下，执行 `git init` 后，Git 内部会进行后续操作。
+1. 新建文件夹，执行 `git init` 命令。
 
 ```tree
 fruits
-├── apple.txt
-└── banana.txt
+  ├── apple.txt
+  └── banana.txt
 ```
 
-2. 创建一个 .git 文件夹。
+2. Git 自动创建 .git 文件夹。
 
 ```diff
 fruits
@@ -30,28 +28,32 @@ fruits
 ### 关联远程仓库
 
 ```sh
-git remote add origin <repo-addr>
-git push -u origin main
+$ git remote add origin <repo-addr> # 指定地址
+$ git push -u origin main # 指定分支
 ```
 
 ## Add
 
-- `git add hello.txt`: 添加 hello.txt
-- `git add fruits`: 添加 fruits 目录下所有文件
-- `git add .`: 添加所有文件
-- `git add *.js`: 添加所有 js 文件
+```sh
+$ git add hello.txt # 添加 hello.txt
+$ git add fruits    # 添加 fruits 目录下所有文件
+$ git add .         # 添加所有文件
+$ git add *.js      # 添加所有 js 文件
+```
 
 ### 添加文件
 
 ![](tools-git-add)
 
-1. 文件如下，执行 `git add hello.txt` 后，Git 内部会进行后续操作。
+1. 新建文件，执行 `git add hello.txt` 命令。
 
-```
-hello // hello.txt
+```color
+hello @[gray]{# hello.txt}
 ```
 
-2. 在 objects 目录下生成一个 blob 对象，其内容为 hello，文件名为 Hash(hello)。
+2. Git 自动在 objects 目录下生成一个 blob 对象，用于记录 file content。
+   - blob file name: ce01362 (hash of "hello")
+   - blob file content: "hello"
 
 ```diff
 + .git/objects/ce01362
@@ -59,13 +61,13 @@ hello // hello.txt
 
 ```sh
 $ git cat-file -t ce01362 # type
-blob
+#> blob
 
 $ git cat-file -p ce01362 # value
-hello
+#> hello
 ```
 
-3. 在 Index 中添加一条记录，记录文件名和文件路径。
+3. Git 自动在 index 中添加一条记录，用于记录 file name 和 file path。
 
 ```diff
 - .git/index
@@ -77,27 +79,22 @@ $ git ls-files -s # index
 ce01362 hello.txt
 ```
 
-> - 当两个文件的内容相同时，它们的哈希值也相同，因此只会生成一个 blob 对象。
+> - 两个文件 content 相同，则 hash 也相同，因此只会生成一个 blob 对象。
 > - 空文件夹不会被 Git 管理。
-> - Index 以列表的形式储存文件名，也包括嵌套文件
->
->   ```sh
->   $ git ls-files -s # index
->   ce01362 hello.txt
->   4c479de fruits/apple.txt
->   ```
 
 ## Commit
 
-- `git commit`: 提交 Index 中的内容到 Repository，并使用 Vim 输入 Commit Message。
-- `git commit -m 'update'`: 提交 Index 中的内容到 Repository，并使用 update 作为 Commit Message。
-- `git commit --amend`: 等价于 `git reset --soft HEAD~1` 加 `git commit`。
+```sh
+$ git commit             # 提交 Index 中的内容到 Repository，并使用 Vim 输入 Commit Message。
+$ git commit -m 'update' # 提交 Index 中的内容到 Repository，并使用 "update" 作为 Commit Message。
+$ git commit --amend     # 等价于 git reset --soft HEAD~1 & git commit。
+```
 
 ### 提交文件
 
 ![](tools-git-commit)
 
-1. Index 如下，执行 `git commit -m 'update'` 后，Git 内部会进行后续操作。
+1. index 如下，执行 `git commit -m 'update'` 命令。
 
 ```sh
 4c479de fruits/apple.txt
@@ -105,7 +102,7 @@ ce01362 hello.txt
 ce01362 hello.txt
 ```
 
-2. 在 objects 目录下生成若干 tree 对象，以树的形式记录 Index 中的文件列表
+2. Git 在 objects 目录下生成若干 tree 对象，以树的形式记录 index 中的文件列表。
 
 ```diff
 .git/objects
@@ -114,31 +111,40 @@ ce01362 hello.txt
 ```
 
 ```sh
-# tree 3ea2839
-tree b0665b8 fruits
-blob ce01362 hello.txt
+$ git cat-file -t 3ea2839 # type
+#> tree
 
-# tree b0665b8
-blob 4c479de apple.txt
-blob 637a09b banana.txt
+$ git cat-file -p 3ea2839 # value
+#> tree b0665b8 fruits
+#> blob ce01362 hello.txt
+
+$ git cat-file -t b0665b8 # type
+#> tree
+
+$ git cat-file -p b0665b8 # value
+#> blob 4c479de apple.txt
+#> blob 637a09b banana.txt
 ```
 
-3. 在 objects 目录下生成一个 commit 对象，记录了 tree 的根节点，和一些提交信息
+3. Git 在 objects 目录下生成一个 commit 对象，记录了 tree 的根节点，和 Commit Message。
 
 ```diff
 + .git/objects/705d22a
 ```
 
 ```sh
-# commit 705d22a
-tree 3ea2839
-author wdyjwdy <email.com>
-committer wdyjwdy <email.com>
+$ git cat-file -t 705d22a # type
+#> commit
 
-update
+$ git cat-file -p 705d22a # value
+#> tree 3ea2839
+#> author wdyjwdy <email.com>
+#> committer wdyjwdy <email.com>
+#>
+#> update
 ```
 
-4. 更新当前分支指针，指向生成的 commit 对象
+4. Git 将当前分支指向生成的 commit 对象。
 
 ```diff
 - .git/refs/heads/main
@@ -147,7 +153,7 @@ update
 
 ```sh
 $ cat .git/refs/heads/main # value
-705d22a
+#> 705d22a
 ```
 
 > 1. `HEAD^`: HEAD 的父节点

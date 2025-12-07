@@ -34,5 +34,6 @@ pre code[class="language-example"] {
     code {
         font-family: auto;
         font-size: 1em;
+        color: inherit;
     }
 }

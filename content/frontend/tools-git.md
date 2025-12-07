@@ -6,9 +6,9 @@ toc: true
 
 ## Init
 
-### 新建本地仓库
+### Creating a Local Repository
 
-1. 新建文件夹，执行 `git init` 命令。
+1. Run `git init`.
 
 ```tree
 fruits
@@ -16,7 +16,7 @@ fruits
   └── banana.txt
 ```
 
-2. Git 自动创建 .git 文件夹。
+2. Git will create the folder `.git`.
 
 ```diff
 fruits
@@ -25,11 +25,11 @@ fruits
 + └── .git
 ```
 
-### 关联远程仓库
+### Adding a Local Repository to GitHub
 
 ```sh
-$ git remote add origin <repo-addr> # 指定地址
-$ git push -u origin main # 指定分支
+$ git remote add origin repo-addr # Specify the address.
+$ git push -u origin main # Specify the branch.
 ```
 
 ## Add
@@ -172,17 +172,22 @@ $ cat .git/refs/heads/main # value
 
 ## Branch
 
-### 新建分支
+### Creating a New Branch
 
-1. 提交历史如下，执行 `git branch feat` 后，Git 内部会进行后续操作。
+```
+Prior: A <- B <- C (main*)
+After: A <- B <- C (main*, feat)
+```
 
-```sh
+1. Run `git branch feat`.
+
+```
 846aac5 (HEAD -> main) commit 3
 d58f2f5 commit 2
 43bed3d commit 1
 ```
 
-2. 在 refs/heads 目录下创建一个名为 feat 的文件，内容为当前 commit。
+2. Git will create the file `refs/heads/feat`, whose content points to the current commit.
 
 ```diff
 + .git/refs/heads/feat
@@ -190,20 +195,10 @@ d58f2f5 commit 2
 
 ```sh
 $ cat refs/heads/feat # value
-846aac5
+#> 846aac5
 ```
 
-3. 操作完成后，历史记录如下。
-
-```sh
-846aac5 (HEAD -> main, feat) commit 3
-d58f2f5 commit 2
-43bed3d commit 1
-```
-
-### 删除分支
-
-1. 提交历史如下，执行 `git branch -d feat` 后，Git 内部会进行后续操作。
+3. Done.
 
 ```
 846aac5 (HEAD -> main, feat) commit 3
@@ -211,13 +206,37 @@ d58f2f5 commit 2
 43bed3d commit 1
 ```
 
-2. 删除 refs/heads 目录下的 feat 文件
+> **Current branch**
+>
+> The HEAD file points to the current branch.
+>
+> ```sh
+> $ cat .git/HEAD # value
+> #> ref: refs/heads/main
+> ```
+
+### Deleting a Branch
+
+```
+Prior: A <- B <- C (main*, feat)
+After: A <- B <- C (main*)
+```
+
+1. Run `git branch -d feat`.
+
+```
+846aac5 (HEAD -> main, feat) commit 3
+d58f2f5 commit 2
+43bed3d commit 1
+```
+
+2. Git will delete the file `refs/heads/feat`.
 
 ```diff
 - .git/refs/heads/feat
 ```
 
-3. 操作完成后，历史记录如下。
+3. Done.
 
 ```
 846aac5 (HEAD -> main) commit 3
@@ -225,36 +244,33 @@ d58f2f5 commit 2
 43bed3d commit 1
 ```
 
-> 删除分支后，分支上的 commit 对象并不会被删除，这些对象会变成垃圾对象。
-
-### 查看当前分支
-
-1. HEAD 文件指向当前分支。
-
-```sh
-$ cat .git/HEAD # value
-ref: refs/heads/main
-```
+> Deleting a branch does not delete the **blob** object.
 
 ## Switch
 
-- `git switch feat`: 切换到 feat 分支
-- `git switch -c feat`: 创建并切换到 feat 分支
-- `git switch --detach 6cc8ff6`: 切换到 6cc8ff6 提交
-
-### 切换到分支
-
-![](tools-git-switch)
-
-1. 提交历史如下，执行 `git switch feat` 后，Git 内部会进行后续操作。
-
 ```sh
+$ git switch feat # switch to the feat branch.
+$ git switch -c feat # create and switch to the feat branch.
+$ git switch --detach 6cc8ff6 # switch to the commit 6cc8ff6. (detached HEAD)
+$ git switch - # switch to the previous branch.
+```
+
+### Switching to a Branch
+
+```
+Prior: A <- B <- C (main*, feat)
+After: A <- B <- C (main, feat*)
+```
+
+1. Run `git switch feat`.
+
+```
 846aac5 (HEAD -> main, feat) commit 3
 d58f2f5 commit 2
 43bed3d commit 1
 ```
 
-2. 更新 HEAD 文件，将其指向 feat 分支。
+2. Update the HEAD file to point to the feat branch.
 
 ```diff
 - .git/HEAD
@@ -263,30 +279,33 @@ d58f2f5 commit 2
 
 ```sh
 $ cat .git/HEAD # value
-ref: refs/heads/feat
+#> ref: refs/heads/feat
 ```
 
-3. 更新 Index，内容为 feat 的文件列表（把 tree 展平得到的列表）。
+3. Update the Index file to the file-tree listing for feat branch.
 
 ```diff
 - .git/index
 + .git/index
 ```
 
-4. 更新 Working Tree，和 Index 保持一致。
-5. 操作完成后，历史记录如下。
+4. Update the Working Tree to match the Index.
+5. Done.
 
-```sh
+```
 846aac5 (HEAD -> feat, main) commit 3
 d58f2f5 commit 2
 43bed3d commit 1
 ```
 
-### 切换到提交
+### Switching to a Commit
 
-![](tools-git-switch-detach)
+```color
+Prior: A <- B <- C (main*)
+After: A <- B (*) <- C (main)
+```
 
-1. 提交历史如下，执行 `git switch --detach d58f2f5` 后，Git 内部会进行后续操作。
+1. Run `git switch --detach d58f2f5`.
 
 ```sh
 846aac5 (HEAD -> main) commit 3
@@ -294,7 +313,7 @@ d58f2f5 commit 2
 43bed3d commit 1
 ```
 
-2. 更新 HEAD 文件，将其指向 d58f2f5。
+2. Update the HEAD file to point to the commit d58f2f5.
 
 ```diff
 - .git/HEAD
@@ -303,27 +322,24 @@ d58f2f5 commit 2
 
 ```sh
 $ cat .git/HEAD # value
-d58f2f5
+#> d58f2f5
 ```
 
-3. 更新 Index，内容为 d58f2f5 的文件列表（把 tree 展平得到的列表）。
+3. Update the Index file to the file-tree listing for commit d58f2f5.
 
 ```diff
 - .git/index
 + .git/index
 ```
 
-4. 更新 Working Tree，和 Index 保持一致。
-5. 操作完成后，历史记录如下。
+4. Update the Working Tree to match the Index.
+5. Done.
 
-```sh
+```
 846aac5 (main) commit 3
 d58f2f5 (HEAD) commit 2
 43bed3d commit 1
 ```
-
-> - 如果想基于该提交工作，可以执行 `git switch -c <name>` 创建一个新分支。
-> - 如果想返回之前的分支，可以执行 `git switch -`。
 
 ## Merge
 

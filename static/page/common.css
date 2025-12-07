@@ -96,11 +96,11 @@ blockquote {
 }
 
 code:not([class]) {
-    padding: 0 6px;
-    border-radius: 8px;
-    border: 1px solid var(--gray-hard);
+    padding: 2px 6px;
+    border-radius: 4px;
     background-color: var(--gray-soft);
-    font-family: "Courier New";
+    font-family: inherit;
+    color: indianred;
 }
 
 pre {

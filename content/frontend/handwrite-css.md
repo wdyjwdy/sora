@@ -15,25 +15,23 @@ toc: true
 <style>
 .container {
   width: 400px;
-  border: 1px solid lightgray;
-  border-radius: 20px;
+  max-width: calc(100% - 20px);
+  border: 1px solid oklch(0.5 0 0 / 0.2);
+  border-radius: 25px;
   display: flex;
   gap: 10px;
   padding: 10px;
-  max-width: calc(100% - 20px);
 }
-.left,.center,.right {
+.left, .center, .right {
   width: 60px;
   height: 60px;
-  border: 1px solid lightgray;
-  border-radius: 16px;
+  border: 1px solid oklch(0.5 0 0 / 0.2);
+  border-radius: 15px;
+  padding: 0 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: monospace;
-}
-.left,.right {
-  width: 70px
 }
 .center {
   flex: 1;
@@ -74,8 +72,8 @@ toc: true
 <style>
 .container {
   width: 400px;
-  border: 1px solid lightgray;
-  border-radius: 20px;
+  border: 1px solid oklch(0.5 0 0 / 0.2);
+  border-radius: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,8 +84,8 @@ toc: true
 .item {
   width: 60px;
   height: 60px;
-  border: 1px solid lightgray;
-  border-radius: 16px;
+  border: 1px solid oklch(0.5 0 0 / 0.2);
+  border-radius: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,13 +121,12 @@ toc: true
   <div class="B">B</div>
   <div class="C">C</div>
   <div class="D">D</div>
-  <div class="E">E</div>
 </div>
 <style>
 .container {
   width: 400px;
-  border: 1px solid lightgray;
-  border-radius: 20px;
+  border: 1px solid oklch(0.5 0 0 / 0.2);
+  border-radius: 25px;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -137,11 +134,12 @@ toc: true
   padding: 10px;
   max-width: calc(100% - 20px);
 }
-.A,.B,.C,.D,.E {
+.container div {
   width: 60px;
   height: 60px;
-  border: 1px solid lightgray;
-  border-radius: 16px;
+  border: 1px solid oklch(0.5 0 0 / 0.2);
+  border-radius: 15px;
+  padding: 0 4px;
   display: flex;
   justify-content: center;
   align-items: center;

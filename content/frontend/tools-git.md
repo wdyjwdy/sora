@@ -35,23 +35,21 @@ $ git push -u origin main # Specify the branch.
 ## Add
 
 ```sh
-$ git add hello.txt # 添加 hello.txt
-$ git add fruits    # 添加 fruits 目录下所有文件
-$ git add .         # 添加所有文件
-$ git add *.js      # 添加所有 js 文件
+$ git add hello.txt # add hello.txt
+$ git add fruits # add all files under the fruits directory
+$ git add . # add all files
+$ git add *.js # add all .js files
 ```
 
-### 添加文件
+### Adding a File
 
-![](tools-git-add)
-
-1. 新建文件，执行 `git add hello.txt` 命令。
+1. Run `git add hello.txt`.
 
 ```color
 hello @[gray]{# hello.txt}
 ```
 
-2. Git 自动在 objects 目录下生成一个 blob 对象，用于记录 file content。
+2. Git will create a blob object `objects/ce01362`.
    - blob file name: ce01362 (hash of "hello")
    - blob file content: "hello"
 
@@ -67,7 +65,8 @@ $ git cat-file -p ce01362 # value
 #> hello
 ```
 
-3. Git 自动在 index 中添加一条记录，用于记录 file name 和 file path。
+3. Git will add an entry to the index.
+   - entry format: file name, file path
 
 ```diff
 - .git/index
@@ -76,11 +75,11 @@ $ git cat-file -p ce01362 # value
 
 ```sh
 $ git ls-files -s # index
-ce01362 hello.txt
+#> ce01362 hello.txt
 ```
 
-> - 两个文件 content 相同，则 hash 也相同，因此只会生成一个 blob 对象。
-> - 空文件夹不会被 Git 管理。
+> - If two files have identical content, their hashes are the same, so only one blob object is created.
+> - Empty directories are not tracked by Git.
 
 ## Commit
 

@@ -93,6 +93,11 @@ blockquote {
     border-left: 6px solid var(--gray-hard);
     border-radius: 6px;
     background-color: var(--gray-soft);
+
+    ol,
+    ul {
+        margin: 0;
+    }
 }
 
 code:not([class]) {

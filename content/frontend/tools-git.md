@@ -41,7 +41,7 @@ $ git add . # add all files
 $ git add *.js # add all .js files
 ```
 
-### Adding a File
+### Staging a File
 
 1. Run `git add hello.txt`.
 
@@ -89,19 +89,18 @@ $ git commit -m 'update' # 提交 Index 中的内容到 Repository，并使用 "
 $ git commit --amend     # 等价于 git reset --soft HEAD~1 & git commit。
 ```
 
-### 提交文件
+### Committing a File
 
-![](tools-git-commit)
-
-1. index 如下，执行 `git commit -m 'update'` 命令。
+1. Run `git commit -m 'update'`.
 
 ```sh
-4c479de fruits/apple.txt
-637a09b fruits/banana.txt
-ce01362 hello.txt
+$ git ls-files -s # index
+#> 4c479de fruits/apple.txt
+#> 637a09b fruits/banana.txt
+#> ce01362 hello.txt
 ```
 
-2. Git 在 objects 目录下生成若干 tree 对象，以树的形式记录 index 中的文件列表。
+2. Git will create two **tree objects** to record the file tree.
 
 ```diff
 .git/objects
@@ -125,7 +124,7 @@ $ git cat-file -p b0665b8 # value
 #> blob 637a09b banana.txt
 ```
 
-3. Git 在 objects 目录下生成一个 commit 对象，记录了 tree 的根节点，和 Commit Message。
+3. Git will create a **commit object** that points to the root tree.
 
 ```diff
 + .git/objects/705d22a
@@ -137,13 +136,13 @@ $ git cat-file -t 705d22a # type
 
 $ git cat-file -p 705d22a # value
 #> tree 3ea2839
-#> author wdyjwdy <email.com>
-#> committer wdyjwdy <email.com>
+#> author ...
+#> committer ...
 #>
 #> update
 ```
 
-4. Git 将当前分支指向生成的 commit 对象。
+4. Git updates the current branch to point to the commit object.
 
 ```diff
 - .git/refs/heads/main
@@ -155,21 +154,16 @@ $ cat .git/refs/heads/main # value
 #> 705d22a
 ```
 
-> 1. `HEAD^`: HEAD 的父节点
-> 2. `HEAD^2`: HEAD 的第二个父节点
-> 3. `HEAD~`: HEAD 的父节点
-> 4. `HEAD~2`: HEAD 父节点的父节点
-
-### 查看最新提交
-
-1. 分支指针指向最新提交。
+## Branch
 
 ```sh
-$ cat .git/refs/heads/main # value
-846aac5
+$ git branch # 列出所有分支
+$ git branch feat # create feat branch
+$ git branch -d feat # delete feat branch
+$ git branch -D feat # force delete feat branch
+$ cat .git/refs/heads/main # show the branch's latest commit
+$ cat .git/HEAD # show the current branch
 ```
-
-## Branch
 
 ### Creating a New Branch
 
@@ -204,15 +198,6 @@ $ cat refs/heads/feat # value
 d58f2f5 commit 2
 43bed3d commit 1
 ```
-
-> **Current branch**
->
-> The HEAD file points to the current branch.
->
-> ```sh
-> $ cat .git/HEAD # value
-> #> ref: refs/heads/main
-> ```
 
 ### Deleting a Branch
 
@@ -251,7 +236,7 @@ d58f2f5 commit 2
 $ git switch feat # switch to the feat branch.
 $ git switch -c feat # create and switch to the feat branch.
 $ git switch --detach 6cc8ff6 # switch to the commit 6cc8ff6. (detached HEAD)
-$ git switch - # switch to the previous branch.
+$ git switch - # return to the previous branch.
 ```
 
 ### Switching to a Branch
@@ -269,7 +254,7 @@ d58f2f5 commit 2
 43bed3d commit 1
 ```
 
-2. Update the HEAD file to point to the feat branch.
+2. Update the **HEAD** file to point to the feat branch.
 
 ```diff
 - .git/HEAD
@@ -281,14 +266,14 @@ $ cat .git/HEAD # value
 #> ref: refs/heads/feat
 ```
 
-3. Update the Index file to the file-tree listing for feat branch.
+3. Update the **Index** file to match the snapshot of the HEAD.
 
 ```diff
 - .git/index
 + .git/index
 ```
 
-4. Update the Working Tree to match the Index.
+4. Update the **Working Tree** to match the Index.
 5. Done.
 
 ```
@@ -296,6 +281,8 @@ $ cat .git/HEAD # value
 d58f2f5 commit 2
 43bed3d commit 1
 ```
+
+> If your working directory or staging area has uncommitted changes that conflict with the branch you’re switching to, Git won't let you switch branches.
 
 ### Switching to a Commit
 
@@ -312,7 +299,7 @@ d58f2f5 commit 2
 43bed3d commit 1
 ```
 
-2. Update the HEAD file to point to the commit d58f2f5.
+2. Update the **HEAD** file to point to the commit d58f2f5.
 
 ```diff
 - .git/HEAD
@@ -324,14 +311,14 @@ $ cat .git/HEAD # value
 #> d58f2f5
 ```
 
-3. Update the Index file to the file-tree listing for commit d58f2f5.
+3. Update the **Index** file match the snapshot of the HEAD.
 
 ```diff
 - .git/index
 + .git/index
 ```
 
-4. Update the Working Tree to match the Index.
+4. Update the **Working Tree** to match the Index.
 5. Done.
 
 ```
@@ -342,19 +329,26 @@ d58f2f5 (HEAD) commit 2
 
 ## Merge
 
-### 快速合并
+### Fast-Forward
+
+If the commit you want to merge is already ahead of your current commit, Git simply moves the pointer forward.
+
+```
+Prior: A <- B (main*) <- C (feat)
+After: A <- B <- C (main*, feat)
+```
 
 ![](tools-git-merge-ff)
 
-1. 提交历史如下，执行 `git merge feat` 后，Git 内部会进行后续操作。
+1. Run `git merge feat`.
 
-```sh
+```
 * b0cd9f5 (feat) commit 3
 * e1e6af3 (HEAD -> main) commit 2
 * 1b157d3 commit 1
 ```
 
-2. 更新 ORIG_HEAD 指针，指向 main 分支的最新提交，即 commit 2。
+2. Update the ORIG_HEAD pointer to point to the latest commit on the main branch.
 
 ```diff
 - .git/ORIG_HEAD
@@ -363,10 +357,10 @@ d58f2f5 (HEAD) commit 2
 
 ```sh
 $ cat .git/ORIG_HEAD # value
-e1e6af3
+#> e1e6af3 (commit 2)
 ```
 
-3. 更新 main 分支指针，指向 feat 分支的最新提交，即 commit 3。
+3. Update the main branch pointer to point to the latest commit on the feat branch.
 
 ```diff
 - .git/refs/heads/main
@@ -375,31 +369,42 @@ e1e6af3
 
 ```sh
 $ cat .git/refs/heads/main # value
-b0cd9f5
+#> b0cd9f5 (commit 3)
 ```
 
-4. 操作完成后，历史记录如下。
+4. Done.
 
-```sh
+```
 * b0cd9f5 (HEAD -> main, feat) commit 3
 * e1e6af3 commit 2
 * 1b157d3 commit 1
 ```
 
-### 三路合并
+### Three-Way Merge
+
+If the commit you want to merge isn't a direct descendant of your current commit, Git does a three-way merge.
+
+```
+Prior: A <- B (main*)
+        \
+         C (feat)
+After: A <- B <- M (main*)
+        \       /
+         C (feat)
+```
 
 ![](tools-git-merge)
 
-1. 提交历史如下，执行 `git merge feat` 后，Git 内部会进行后续操作。
+1. Run `git merge feat`.
 
-```sh
+```
 * a9532ef (HEAD -> main) commit 3
 | * 88d8b74 (feat) commit 2
 |/
 * 34b711b commit 1
 ```
 
-2. 更新 ORIG_HEAD 指针，指向 main 分支的最新提交，即 commit 3。
+2. Update the ORIG_HEAD pointer to point to the latest commit on the main branch.
 
 ```diff
 - .git/ORIG_HEAD
@@ -408,10 +413,10 @@ b0cd9f5
 
 ```sh
 $ cat .git/ORIG_HEAD # value
-a9532ef
+#> a9532ef (commit 3)
 ```
 
-3. 创建一个新 commit，记录了 feat 中的修改。
+3. Create a new commit that points to the snapshot of the merge result.
 
 ```diff
 .git/objects
@@ -421,16 +426,16 @@ a9532ef
 
 ```sh
 $ git cat-file -p cbd588d # value
-tree 03b2125
-parent a9532ef # commit 3 （有两个父节点）
-parent 88d8b74 # commit 2
-author wdyjwdy <email.com>
-committer wdyjwdy <email.com>
-
-Merge branch 'feat'
+#> tree 03b2125
+#> parent a9532ef (commit 3)
+#> parent 88d8b74 (commit 2)
+#> author ...
+#> committer ...
+#>
+#> Merge branch 'feat'
 ```
 
-4. 更新 main 分支指针，指向上一步的 commit。
+4. Update the main branch pointer to point to the newly created commit.
 
 ```diff
 - .git/refs/heads/main
@@ -439,12 +444,12 @@ Merge branch 'feat'
 
 ```sh
 $ cat .git/refs/heads/main # value
-cbd588d
+#> cbd588d (merge commit)
 ```
 
-5. 操作完成后，历史记录如下。
+5. Done.
 
-```sh
+```
 *   cbd588d (HEAD -> main) Merge branch 'feat'
 |\
 | * 88d8b74 (feat) commit 2
@@ -453,19 +458,19 @@ cbd588d
 * 34b711b commit 1
 ```
 
-### 带冲突的三路合并
+### Three-Way Merge with Conflicts
 
-1. 提交历史如下，feat 和 main 在同一行上都有修改，执行 `git merge feat` 后，Git 内部会进行后续操作。
+1. Run `git merge feat`.
 
-```sh
+```
 * fb1c925 (feat) commit 3
 | * bcf8030 (HEAD -> main) commit 2
 |/
 * ccf620f commit 1
 ```
 
-2. 更新 ORIG_HEAD 指针
-3. 新增或修改一些文件，用于解决冲突。
+2. Update the ORIG_HEAD pointer.
+3. Add some files to resolve the conflicts.
 
 ```diff
 - .git/index
@@ -474,9 +479,9 @@ cbd588d
 
 ```sh
 $ git ls-files -s # index 中记录冲突文件的三个版本
-4c479de	apple.txt # commit 1 (root)
-4a77268	apple.txt # commit 2 (main)
-29b651e	apple.txt # commit 3 (feat)
+#> 4c479de	apple.txt # commit 1 (root)
+#> 4a77268	apple.txt # commit 2 (main)
+#> 29b651e	apple.txt # commit 3 (feat)
 ```
 
 ```diff
@@ -486,12 +491,12 @@ $ git ls-files -s # index 中记录冲突文件的三个版本
 
 ```sh
 $ git cat-file -p 675e90 # 冲突文件
-apple
-<<<<<<< HEAD
-banana
-=======
-cherry
->>>>>>> feat
+#> apple
+#> <<<<<<< HEAD
+#> banana
+#> =======
+#> cherry
+#> >>>>>>> feat
 ```
 
 ```diff
@@ -502,10 +507,10 @@ cherry
 + └── MERGE_MSG  # merge commit message
 ```
 
-4. 用户解决冲突，即暂存了所有解决冲突的文件后，手动执行 `git commit` 命令手动进行提交。
-5. 操作完成后，历史记录如下。
+4. Run `git commit`.
+5. Done.
 
-```sh
+```
 *   ab3525e (HEAD -> main) Merge branch 'feat'
 |\
 | * fb1c925 (feat) commit 3
@@ -516,8 +521,7 @@ cherry
 
 ### ORIG_HEAD
 
-Merge 操作时会更新 ORIG_HEAD，指向 Merge 前的 commit 对象，
-需要撤销刚刚的 Merge 操作时，可以执行 `git reset ORIG_HEAD`。
+If you need to undo the merge you just performed, you can run `git reset ORIG_HEAD`.
 
 ## Rebase
 
@@ -1154,6 +1158,27 @@ apple.txt (v1) # Repository
 + apple.txt (v1)
 ```
 
+## Status
+
+### Viewing File Status
+
+1. Run `git status -s`, status format: `XY Path`.
+   - `X`: Index status
+   - `Y`: Working Tree status
+   - `Path`: File path
+
+```sh
+$ git status -s
+#> MM a.txt
+```
+
+```color
+@[indianred]{??} a.txt @[gray]{# file is untracked.}
+ @[indianred]{M} a.txt @[gray]{# Index and Working Tree differ, existing file modified.}
+@[seagreen]{M}  a.txt @[gray]{# Index and Repository differ, existing file modified.}
+@[seagreen]{A}  a.txt @[gray]{# Index and Repository differ, new file added.}
+```
+
 ## Log
 
 - `git log`: 打印提交记录
@@ -1164,3 +1189,21 @@ apple.txt (v1) # Repository
 ## Reflog
 
 - `git reflog`: 打印操作记录
+
+## Examples
+
+### Changing a Branch Name
+
+```sh
+$ git branch --move old-name new-name # rename
+$ git push -u origin new-name # push and set upstream
+$ git push origin -d old-name # delete remote branch
+```
+
+### Recovering a Deleted Branch
+
+```sh
+$ git reflog # find the commit
+$ git switch --detach 644e3c4 # switch to that commit
+$ git switch -c feat # create and switch to a new branch
+```

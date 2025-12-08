@@ -69,6 +69,7 @@ table {
     border: 1px solid var(--gray-hard);
     border-radius: 10px;
     border-spacing: 0px;
+    overflow: hidden;
     min-width: max-content;
 
     thead {

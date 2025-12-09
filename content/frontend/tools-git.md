@@ -693,95 +693,79 @@ e7f88c9 commit 1
 
 ## Clone
 
-### 克隆远程仓库
+### Cloning a Remote Repository
 
-![](tools-git-clone)
+```
+Remote: A <- B <- C (main*)
+Local Prior:
+Local After:  A <- B <- C (main*, origin/main*)
+```
 
-1. 提交历史如下，执行 `git clone <url>` 后，Git 内部会进行后续操作。
+1. Run `git clone <url>`.
 
-```sh
+```
 # remote log
 98890cc (HEAD -> main) commit 3
 5650cb4 commit 2
 8c7a5ee commit 1
 ```
 
-2. 下载 .git 文件，并重建工作区。
+2. Download the `.git` directory and rebuild the working tree.
 
 ```diff
 + hello.txt # Working Tree
 + .git # Repository
 ```
 
-3. 操作完成后，历史记录如下。
+3. Done.
 
-```sh
+```
 # local log
 98890cc (HEAD -> main, origin/main, origin/HEAD) commit 3
 5650cb4 commit 2
 8c7a5ee commit 1
 ```
 
-### clone 与 init 的区别
-
-`git clone` 与 `git init` 有以下区别。
-
-1. config 文件增加了远程分支的信息。
-
-```diff
-+ [remote "origin"]
-+    url = https://github.com/wdyjwdy/learn-git.git
-+    fetch = +refs/heads/*:refs/remotes/origin/*
-+ [branch "main"]
-+    remote = origin
-+    merge = refs/heads/main
-```
-
-2. objects 目录下的对象会被打包。
-
-```diff
-+ packed-refs
-  objects
-  └── pack
-+     ├── pack-ebd0add.idx
-+     └── pack-ebd0add.pack
-```
-
-3. refs 目录下增加了远程分支的引用。
-
-```diff
-+ refs/remotes/origin/HEAD
-```
+> **origin/HEAD** points to the default branch of the remote repository.
 
 ## Fetch
 
-### 同步远程仓库
-
-![](tools-git-fetch)
-
-1. 提交历史如下，执行 `git fetch` 后，Git 内部会进行后续操作。
-
 ```sh
+$ git fetch origin # download objects and refs from 'origin'
+$ git fetch # default is 'origin'
+```
+
+### Synchronizing Remote Repository
+
+```
+Remote: A <- B <- C (main*)
+Local Prior: A <- B (main*, origin/main*)
+Local After: A <- B (main*) <- C (origin/main*)
+```
+
+1. Run `git fetch`.
+
+```
 # remote
 98890cc (HEAD -> main) commit 3
 5650cb4 commit 2
 8c7a5ee commit 1
 
 # local
-5650cb4 (HEAD -> main) commit 2
+5650cb4 (HEAD -> main, origin/main, origin/HEAD) commit 2
 8c7a5ee commit 1
 ```
 
-2. 在 objects 目录下生成远程新提交的相关对象（即 commit 3）。
+2. Git will download related objects and refs.
 
 ```diff
 objects
 + ├── 38ea824 # blob
 + ├── 1318e47 # tree
-+ └── 98890cc # commit
++ └── 98890cc # commit 3
 ```
 
-3. 更新 origin/main 分支指针，指向远程最新提交（即 commit 3）。
+3. Update the origin/main branch pointer to point to the latest remote commit.
 
 ```diff
 - .git/refs/remotes/origin/main
@@ -790,10 +774,10 @@ objects
 
 ```sh
 $ cat .git/refs/remotes/origin/main # value
-98890cc
+#> 98890cc (commit 3)
 ```
 
-4. 更新 FETCH_HEAD，记录了本次 fetch 时，远程仓库的 commit, branch, url。
+4. Update the FETCH_HEAD.
 
 ```diff
 - FETCH_HEAD
@@ -802,12 +786,12 @@ $ cat .git/refs/remotes/origin/main # value
 
 ```sh
 $ cat .git/FETCH_HEAD # value
-98890cc branch 'main' of <url>
+#> 98890cc branch 'main' of <url>
 ```
 
-5. 操作完成后，历史记录如下。
+5. Done
 
-```sh
+```
 # local
 98890cc (origin/main, origin/HEAD) commit 3
 5650cb4 (HEAD -> main) commit 2
@@ -821,68 +805,55 @@ Fetch 操作时会更新 FETCH_HEAD，指向了所 Fetch 的远程分支，
 
 ## Pull
 
-### 拉取远程仓库
-
-1. 提交历史如下，执行 `git pull` 后，Git 内部会进行后续操作。
-
 ```sh
-# remote
-98890cc (HEAD -> main) commit 3
-5650cb4 commit 2
-8c7a5ee commit 1
-
-# local
-5650cb4 (HEAD -> main, origin/main, origin/HEAD) commit 2
-8c7a5ee commit 1
-```
-
-2. 执行 `git fetch`（见 [fetch](#fetch) 部分）
-3. 执行 `git merge origin/main`（见 [merge](#merge) 部分）
-4. 操作完成后，历史记录如下。
-
-```sh
-# local
-98890cc (HEAD -> main, origin/main, origin/HEAD) commit 3
-5650cb4 commit 2
-8c7a5ee commit 1
+$ git pull # equivalent to `git fetch & git merge`
 ```
 
 ## Push
 
-- `git push origin feat`: 将 feat 分支上的修改推送到远程 origin feat 分支
-- `git push -u origin feat`: 将 feat 分支上的修改推送到远程 origin feat 分支，并将 feat 和 origin feat 进行关联
-- `git push`: 将当前分支的修改推送到远程同名分支（需要分支已关联）
-- `git push -d origin feat`: 删除远程 origin feat 分支
-
-### 推送本地修改
-
-1. 提交历史如下，执行 `git push` 后，Git 内部会进行后续操作。
-
 ```sh
-# loacl log
+$ git push origin feat # Push changes on the 'feat' to the remote 'origin'.
+$ git push # default is 'origin current-branch'.
+$ git push -u origin feat # Push changes and set upstream.
+$ git push -d origin feat # Delete the remote 'origin/feat' branch.
+```
+
+### Pushing Local Changes
+
+```
+Remote Prior: A <- B (feat)
+Remote After: A <- B <- C (feat)
+Local Prior: A <- B (origin/feat) <- C (feat*)
+Local After: A <- B <- C (feat*, origin/feat)
+```
+
+1. Run `git push`.
+
+```
+# local log
 5637202 (HEAD -> feat) commit 3
 5650cb4 (origin/feat) commit 2
 8c7a5ee commit 1
 ```
 
-2. 将修改文件的对象推送到远程的 objects 文件。
-3. 更新远程 refs/heads/feat 分支指针，指向最新 commit。
-4. 操作完成后，历史记录如下。
+2. Upload objects.
+3. Update the origin/feat branch pointer to point to the latest commit.
+4. Done.
 
-```sh
+```
 # loacl log
-5637202 (HEAD -> hello, origin/hello) commit 3
+5637202 (HEAD -> feat, origin/feat) commit 3
 5650cb4 commit 2
 8c7a5ee commit 1
 ```
 
-> 使用 `git push` 上传的文件的内容有大小限制，默认为 1MB，如果超过了 1MB 则需要使用 `git config http.postBuffer` 配置缓冲区大小。
+> `git push` limits the content size to 1 MB, and you can configure it using `git config http.postBuffer`.
 
-### 删除远程分支
+### Deleting Remote Branches
 
-1. 在本地执行 `git push -d origin feat` 后，Git 内部会进行后续操作。
-2. 删除远程 .git/refs/heads/feat 文件
-3. 删除本地 .git/refs/remotes/origin/feat 文件
+1. Run `git push -d origin feat`.
+2. delete the remote file `.git/refs/heads/feat`.
+3. delete the local file `.git/refs/remotes/origin/feat`.
 
 ## Revert
 

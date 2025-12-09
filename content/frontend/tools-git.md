@@ -1152,14 +1152,16 @@ $ git status -s
 
 ## Log
 
-- `git log`: 打印提交记录
-- `git log --oneline`: 单行显示
-- `git log --graph`: 图形显示
-- `git log hello.txt`: 打印指定文件的提交记录
+```sh
+$ git log
+$ git log --oneline
+```
 
 ## Reflog
 
-- `git reflog`: 打印操作记录
+```sh
+$ git reflog
+```
 
 ## Examples
 

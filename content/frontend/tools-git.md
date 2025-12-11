@@ -157,7 +157,8 @@ $ cat .git/refs/heads/main # value
 ## Branch
 
 ```sh
-$ git branch # 列出所有分支
+$ git branch # list all local branches
+$ git branch -a # list all local and remote branches
 $ git branch feat # create feat branch
 $ git branch -d feat # delete feat branch
 $ git branch -D feat # force delete feat branch

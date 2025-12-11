@@ -25,13 +25,6 @@ fruits
 + └── .git
 ```
 
-### Adding a Local Repository to GitHub
-
-```sh
-$ git remote add origin repo-addr # Specify the address.
-$ git push -u origin main # Specify the branch.
-```
-
 ## Add
 
 ```sh
@@ -45,8 +38,9 @@ $ git add *.js # add all .js files
 
 1. Run `git add hello.txt`.
 
-```color
-hello @[gray]{# hello.txt}
+```tree
+project
+  └── hello.txt (content is "hello")
 ```
 
 2. Git will create a blob object `objects/ce01362`.
@@ -65,17 +59,12 @@ $ git cat-file -p ce01362 # value
 #> hello
 ```
 
-3. Git will add an entry to the index.
+3. Git will add an entry to the Index.
    - entry format: file name, file path
 
 ```diff
-- .git/index
-+ .git/index
-```
-
-```sh
-$ git ls-files -s # index
-#> ce01362 hello.txt
+# .git/index
++ ce01362 hello.txt
 ```
 
 > - If two files have identical content, their hashes are the same, so only one blob object is created.
@@ -1063,6 +1052,13 @@ $ git reflog # view operation history
 ```
 
 ## Examples
+
+### Adding a Local Repository to GitHub
+
+```sh
+$ git remote add origin repo-addr # Specify the address.
+$ git push -u origin main # Specify the branch.
+```
 
 ### Creating a Branch From a Commit
 

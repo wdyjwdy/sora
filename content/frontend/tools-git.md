@@ -334,129 +334,39 @@ d58f2f5 (HEAD) commit 2
 
 If the commit you want to merge is already ahead of your current commit, Git simply moves the pointer forward.
 
-```
-Prior: A <- B (main*) <- C (feat)
-After: A <- B <- C (main*, feat)
-```
-
-![](tools-git-merge-ff)
-
 1. Run `git merge feat`.
 
 ```
-* b0cd9f5 (feat) commit 3
-* e1e6af3 (HEAD -> main) commit 2
-* 1b157d3 commit 1
+A <- B (main*) <- C (feat)
 ```
 
-2. Update the ORIG_HEAD pointer to point to the latest commit on the main branch.
-
-```diff
-- .git/ORIG_HEAD
-+ .git/ORIG_HEAD
-```
-
-```sh
-$ cat .git/ORIG_HEAD # value
-#> e1e6af3 (commit 2)
-```
-
-3. Update the main branch pointer to point to the latest commit on the feat branch.
-
-```diff
-- .git/refs/heads/main
-+ .git/refs/heads/main
-```
-
-```sh
-$ cat .git/refs/heads/main # value
-#> b0cd9f5 (commit 3)
-```
-
-4. Done.
+2. Update the main branch pointer to point to the latest commit on the feat branch.
+3. Done.
 
 ```
-* b0cd9f5 (HEAD -> main, feat) commit 3
-* e1e6af3 commit 2
-* 1b157d3 commit 1
+A <- B <- C (main*, feat)
 ```
 
 ### Three-Way Merge
 
 If the commit you want to merge isn't a direct descendant of your current commit, Git does a three-way merge.
 
-```
-Prior: A <- B (main*)
-        \
-         C (feat)
-After: A <- B <- M (main*)
-        \       /
-         C (feat)
-```
-
-![](tools-git-merge)
-
 1. Run `git merge feat`.
 
 ```
-* a9532ef (HEAD -> main) commit 3
-| * 88d8b74 (feat) commit 2
-|/
-* 34b711b commit 1
+A <- B (main*)
+ \
+  C (feat)
 ```
 
-2. Update the ORIG_HEAD pointer to point to the latest commit on the main branch.
-
-```diff
-- .git/ORIG_HEAD
-+ .git/ORIG_HEAD
-```
-
-```sh
-$ cat .git/ORIG_HEAD # value
-#> a9532ef (commit 3)
-```
-
-3. Create a new commit that points to the snapshot of the merge result.
-
-```diff
-.git/objects
-+ ├── 03b2125 (tree)
-+ └── cbd588d (commit)
-```
-
-```sh
-$ git cat-file -p cbd588d # value
-#> tree 03b2125
-#> parent a9532ef (commit 3)
-#> parent 88d8b74 (commit 2)
-#> author ...
-#> committer ...
-#>
-#> Merge branch 'feat'
-```
-
-4. Update the main branch pointer to point to the newly created commit.
-
-```diff
-- .git/refs/heads/main
-+ .git/refs/heads/main
-```
-
-```sh
-$ cat .git/refs/heads/main # value
-#> cbd588d (merge commit)
-```
-
-5. Done.
+2. Create a new commit that points to the snapshot of the merge result.
+3. Update the main branch pointer to point to the newly created commit.
+4. Done.
 
 ```
-*   cbd588d (HEAD -> main) Merge branch 'feat'
-|\
-| * 88d8b74 (feat) commit 2
-* | a9532ef commit 3
-|/
-* 34b711b commit 1
+After: A <- B <- M (main*)
+        \       /
+         C (feat)
 ```
 
 ### Three-Way Merge with Conflicts
@@ -526,25 +436,27 @@ If you need to undo the merge you just performed, you can run `git reset ORIG_HE
 
 ## Rebase
 
-### Applying a Branch
+Take all the changes that were committed on one branch and replay them on a different branch.
 
-1. Run `git rebase feat`.
+### Replaying Changes
+
+1. Run `git rebase main`.
 
 ```
-A <- B (main*)
+A <- B (main)
  \
-  C (feat)
+  C (feat*)
 ```
 
-2. Resubmit the commits from the feat branch (commit 3) to the main branch.
+2. Resubmit the commits from the feat branch to the main branch.
 3. Update the feat branch pointer to point to the latest commit.
 4. Done.
 
 ```
-A <- B (main*) <- C' (feat)
+A <- B (main) <- C' (feat*)
 ```
 
-### Applying a Branch with Conflicts
+### Replaying Changes with Conflicts
 
 Almost identical to a [Three-Way Merge with Conflicts](#three-way-merge-with-conflicts), with the following differences:
 
@@ -1140,17 +1052,24 @@ $ git status -s
 ## Log
 
 ```sh
-$ git log
+$ git log # view commit history
 $ git log --oneline
 ```
 
 ## Reflog
 
 ```sh
-$ git reflog
+$ git reflog # view operation history
 ```
 
 ## Examples
+
+### Creating a Branch From a Commit
+
+```sh
+$ git switch --detach f5a72ba
+$ git branch branch-name
+```
 
 ### Changing a Branch Name
 

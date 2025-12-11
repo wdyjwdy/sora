@@ -575,6 +575,11 @@ $ cat .git/refs/heads/feat # value
 
 ## Cherry-Pick
 
+```sh
+$ git cherry-pick A # Apply commit A.
+$ git cherry-pick A..C # Apply commits B, C.
+```
+
 ### Apply a Single Commit
 
 1. Run `git cherry-pick D`.
@@ -858,41 +863,43 @@ Local After: A <- B <- C (feat*, origin/feat)
 
 ## Revert
 
-- `git revert A`: 抵消 commit A
-- `git revert A B`: 抵消 commit A B
-- `git revert A..C`: 抵消 commit B C
+```sh
+$ git revert A # revert commit A.
+$ git revert A B # revert commit A, B.
+$ git revert A..C # revert commit B, C.
+```
 
-### 抵消单个提交
+### Revert a Single Commit
 
-1. 提交历史如下，执行 `git revert B` 后，Git 内部会进行后续操作。
+1. Run `git revert B`.
 
 ```
 A <- B <- C
 ```
 
-2. 创建一个 commit B'，其内容与 commit B 相反。
-3. 操作完成后，历史记录如下。
+2. Create a commit B' that is the opposite of commit B.
+3. Done.
 
 ```
 A <- B <- C <- B'
 ```
 
-### 抵消多个提交
+### Revert Multiple Commits
 
-1. 提交历史如下，执行 `git revert B..D` 后，Git 内部会进行后续操作。
+1. Run `git revert B..D`.
 
 ```
 A <- B <- C <- D
 ```
 
-2. 创建 commit D', C'，其内容分别与 commit D, C 相反。
-3. 操作完成后，历史记录如下。
+2. Create commit D', C' that are the opposites of commit D, C.
+3. Done.
 
 ```
 A <- B <- C <- D <- D' <- C'
 ```
 
-> `git revert` 会先抵消最新的提交 D，再抵消提交 C
+> It will revert the latest commit D, then commit C.
 
 ## Reset
 

@@ -526,52 +526,31 @@ If you need to undo the merge you just performed, you can run `git reset ORIG_HE
 
 ## Rebase
 
-### 应用分支
+### Applying a Branch
 
-1. 提交历史如下，在 main 分支执行 `git merge feat` 后，Git 内部会进行后续操作。
+1. Run `git rebase feat`.
 
-```sh
-* fda4ab8 (feat) commit 3
-| * 3007e64 (HEAD -> main) commit 2
-|/
-* 2239c5b commit 1
+```
+A <- B (main*)
+ \
+  C (feat)
 ```
 
-2. 将 feat 分支中 root 节点之后的 commit（即 commit 3），重新提交到 main 分支上。
+2. Resubmit the commits from the feat branch (commit 3) to the main branch.
+3. Update the feat branch pointer to point to the latest commit.
+4. Done.
 
-```diff
-.git/objects
-+ ├── 830241f # tree
-+ └── 37ffdf1 # commit（哈希发生改变）
+```
+A <- B (main*) <- C' (feat)
 ```
 
-3. 更新 feat 分支指针，指向最新 commit。
+### Applying a Branch with Conflicts
 
-```diff
-- .git/refs/heads/feat
-+ .git/refs/heads/feat
-```
+Almost identical to a [Three-Way Merge with Conflicts](#three-way-merge-with-conflicts), with the following differences:
 
-```sh
-$ cat .git/refs/heads/feat # value
-37ffdf1
-```
-
-4. 操作完成后，历史记录如下：
-
-```sh
-* 37ffdf1 (feat) commit 3
-* 3007e64 (HEAD -> main) commit 2
-* 2239c5b commit 1
-```
-
-### 带冲突的应用分支
-
-和[带冲突的三路合并](#带冲突的三路合并)几乎一样，只有以下区别：
-
-- 当有多个 commit 需要处理时，rebase 会逐个处理 commit 的冲突，而 merge 会一次性处理所有 commit 的冲突。
-- rebase 会新增多个 commit，而 merge 只会新增一个 commit。
-- rebase 会移动 feat 分支指针，而 merge 会移动 main 分支指针。
+- Rebase handles conflicts for each commit individually, while Merge handles conflicts for all commits at once.
+- Rebase creates multiple new commits, while Merge creates only one new commit.
+- Rebase moves the feature branch pointer, while Merge moves the main branch pointer.
 
 ## Cherry-Pick
 
@@ -580,7 +559,7 @@ $ git cherry-pick A # Apply commit A.
 $ git cherry-pick A..C # Apply commits B, C.
 ```
 
-### Apply a Single Commit
+### Applying a Single Commit
 
 1. Run `git cherry-pick D`.
 
@@ -599,7 +578,7 @@ A <- B <- C <- D (main)
        E <- F <- D' (feat*)
 ```
 
-### Apply Multiple Commits
+### Applying Multiple Commits
 
 1. Run `git cherry-pick C..E`.
 
@@ -869,7 +848,7 @@ $ git revert A B # revert commit A, B.
 $ git revert A..C # revert commit B, C.
 ```
 
-### Revert a Single Commit
+### Reverting a Single Commit
 
 1. Run `git revert B`.
 
@@ -884,7 +863,7 @@ A <- B <- C
 A <- B <- C <- B'
 ```
 
-### Revert Multiple Commits
+### Reverting Multiple Commits
 
 1. Run `git revert B..D`.
 

@@ -9,26 +9,7 @@
     </head>
     <body>
         <h1>ノート</h1>
-        <div class="search">
-            <div>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-search-icon lucide-search"
-                >
-                    <path d="m21 21-4.34-4.34" />
-                    <circle cx="11" cy="11" r="8" />
-                </svg>
-            </div>
-            <input type="text" id="search" enterkeyhint="search" />
-        </div>
+        <input type="search" />
         <div class="tags">
             {{#categories}}
             <button>{{this}}</button>
@@ -38,7 +19,7 @@
     </body>
     <script>
         const pages = {{{pages}}};
-        const search = document.querySelector("#search");
+        const search = document.querySelector("input");
         const tags = document.querySelector(".tags");
         const result = document.querySelector(".result");
 
@@ -77,49 +58,21 @@
         });
     </script>
     <style>
-        .search {
-            display: flex;
-
-            div {
-                background-color: var(--gray-soft);
-                border: 1px solid var(--gray-hard);
-                border-top-left-radius: 6px;
-                border-bottom-left-radius: 6px;
-                display: flex;
-                padding: 8px;
-            }
-
-            input {
-                all: unset;
-                border: 1px solid var(--gray-hard);
-                border-top-right-radius: 6px;
-                border-bottom-right-radius: 6px;
-                border-left: none;
-                padding: 8px;
-                width: 100%;
-            }
+        input {
+            margin: 20px 0;
+            font-size: 1em;
+            width: 100%;
+            font-family: inherit;
+            color: inherit;
         }
 
         .tags {
             display: flex;
-            gap: 10px;
-            margin: 20px 0;
             flex-wrap: wrap;
-
+            gap: 2px;
             button {
                 font-size: 1em;
-                font-family: auto;
-                color: inherit;
-                padding: 4px 10px;
-                background-color: var(--gray-soft);
-                border-style: none;
-                border-radius: 10px;
-                touch-action: none;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: var(--gray-hard);
-                }
+                font-family: inherit;
             }
         }
 
@@ -131,18 +84,6 @@
 
             p {
                 border-bottom: 1px solid var(--gray-hard);
-            }
-        }
-
-        .shiki,
-        .shiki span {
-            font-style: var(--shiki-light-font-style);
-            font-weight: var(--shiki-light-font-weight);
-
-            @media (prefers-color-scheme: dark) {
-                color: var(--shiki-dark) !important;
-                font-style: var(--shiki-dark-font-style) !important;
-                font-weight: var(--shiki-dark-font-weight) !important;
             }
         }
     </style>

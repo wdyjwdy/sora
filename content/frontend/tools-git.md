@@ -573,44 +573,44 @@ $ cat .git/refs/heads/feat # value
 - rebase 会新增多个 commit，而 merge 只会新增一个 commit。
 - rebase 会移动 feat 分支指针，而 merge 会移动 main 分支指针。
 
-## Cherry-pick
+## Cherry-Pick
 
-### 应用单个提交
+### Apply a Single Commit
 
-1. 提交历史如下，在 feat 分支执行 `git cherry-pick D`。
-
-```
-A <- B <- C <- D (main)
-      \
-       E <- F (feat)
-```
-
-2. 将 commit D 应用到 feat 分支。
-3. 操作完成后，历史记录如下。
+1. Run `git cherry-pick D`.
 
 ```
 A <- B <- C <- D (main)
       \
-       E <- F <- D' (feat)
+       E <- F (feat*)
 ```
 
-### 应用多个提交
+2. Apply commit D to the feat branch.
+3. Done.
 
-1. 提交历史如下，在 feat 分支执行 `git cherry-pick C..E`。
+```
+A <- B <- C <- D (main)
+      \
+       E <- F <- D' (feat*)
+```
+
+### Apply Multiple Commits
+
+1. Run `git cherry-pick C..E`.
 
 ```
 A <- B <- C <- D <- E (main)
       \
-       F <- G (feat)
+       F <- G (feat*)
 ```
 
-2. 将 commit D, E 应用到 feat 分支。
-3. 操作完成后，历史记录如下。
+2. Apply commits D and E to the feat branch.
+3. Done.
 
 ```
 A <- B <- C <- D <- E (main)
       \
-       F <- G <- D' <- E' (feat)
+       F <- G <- D' <- E' (feat*)
 ```
 
 ## Tag

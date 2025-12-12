@@ -500,17 +500,22 @@ A <- B <- C <- D <- E (main)
 
 ## Tag
 
-### 创建简单标签
-
-1. 提交历史如下，执行 `git tag v1` 后，Git 内部会进行后续操作。
-
 ```sh
+$ git tag v1 # lightweight tag
+$ git tag -a v1 -m 'version 1' # annotated tag
+```
+
+### Creating a Lightweight Tag
+
+1. Run `git tag v1`.
+
+```
 a0f247e (HEAD -> main) commit 3
 57ca93f commit 2
 e7f88c9 commit 1
 ```
 
-2. 在 refs/tags 目录下创建一个名为 v1 的文件，内容为当前 commit。
+2. Git will create the file `refs/tags/v1`, whose content points to the current commit.
 
 ```diff
 + .git/refs/tags/v1
@@ -518,28 +523,28 @@ e7f88c9 commit 1
 
 ```sh
 $ cat .git/refs/tags/v1 # value
-a0f247e
+#> a0f247e (commit)
 ```
 
-3. 操作完成后，历史记录如下。
+3. Done.
 
-```sh
+```
 a0f247e (HEAD -> main, tag: v1) commit 3
 57ca93f commit 2
 e7f88c9 commit 1
 ```
 
-### 创建内容标签
+### Creating an Annotated Tag
 
-1. 提交历史如下，执行 `git tag -a v1 -m 'version 1` 后，Git 内部会进行后续操作。
+1. Run `git tag -a v1 -m 'version 1'`.
 
-```sh
+```
 a0f247e (HEAD -> main) commit 3
 57ca93f commit 2
 e7f88c9 commit 1
 ```
 
-2. 在 objects 目录下创建一个 tag 对象，内容为当前 commit 和 tag message。
+2. Git will create a **tag** object, which contains the current commit and tag message.
 
 ```diff
 + .git/objects/adf306e
@@ -547,18 +552,18 @@ e7f88c9 commit 1
 
 ```sh
 $ git cat-file -t adf306e # type
-tag
+#> tag
 
 $ git cat-file -p adf306e # value
-object a0f247e
-type commit
-tag v1
-tagger wdyjwdy <email.com>
-
-version 1
+#> object a0f247e
+#> type commit
+#> tag v1
+#> tagger wdyjwdy <email.com>
+#>
+#> version 1
 ```
 
-3. 在 refs/tags 目录下创建一个名为 v1 的文件，内容为 tag 对象的引用。
+3. Git will create the file `refs/tags/v1`, whose content points to the tag object.
 
 ```diff
 + .git/refs/tags/v1
@@ -566,12 +571,12 @@ version 1
 
 ```sh
 $ cat .git/refs/tags/v1 # value
-adf306e
+#> adf306e (tag)
 ```
 
-4. 操作完成后，历史记录如下。
+4. Done.
 
-```sh
+```
 a0f247e (HEAD -> main, tag: v1) commit 3
 57ca93f commit 2
 e7f88c9 commit 1

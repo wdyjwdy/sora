@@ -822,14 +822,16 @@ A <- B (main*)
 
 ## Stash
 
-- `git stash`: 暂存 Working Tree 和 Index
-- `git stash pop`: 取出暂存并恢复 Working Tree 和 Index
-- `git stash drop stash@{0}`: 丢弃暂存
-- `git stash list`: 查看暂存列表
+```sh
+$ git stash # save the Index and Working Tree.
+$ git stash pop # restore the Index and Working Tree.
+$ git stash drop stash@{0} # drop the stash at position 0.
+$ git stash list # list all stashes.
+```
 
-### 暂存工作
+### Saving the Working Tree.
 
-1. 文件状态如下，执行 `ggit stash` 后，Git 内部会进行后续操作。
+1. Run `git stash`.
 
 ```
 apple.txt (v3) # Working Tree
@@ -837,21 +839,16 @@ apple.txt (v2) # Index
 apple.txt (v1) # Repository
 ```
 
-2. 将 Working Tree 和 Index 的文件保存为 blob 对象，并记录在 commit 中。
+2. Git will save the changes in the Working Tree as blob objects and record them in the commit.
 
 ```diff
 .git/objects
-# blob, tree, commit (apple.txt v3, Working Tree)
-+ ├── c68a266
-+ ├── 246b33c
-+ ├── d82a947
-# blob, tree, commit (apple.txt v2, Index)
-+ ├── 280a3c0
-+ ├── 7cf7b97
-+ └── 4f98016
++ ├── c68a266 (v3 blob)
++ ├── 246b33c (v3 tree)
++ └── d82a947 (v3 commit)
 ```
 
-3. 添加 refs/stash 文件，指向记录 Working Tree 的 commit 对象。
+3. Git will create the file `.git/refs/stash`, whose content points to the commit object.
 
 ```diff
 + .git/refs/stash
@@ -859,10 +856,10 @@ apple.txt (v1) # Repository
 
 ```sh
 $ cat .git/refs/stash # value
-d82a947
+#> d82a947
 ```
 
-4. 用 HEAD 更新 Working Tree 和 Index。
+4. Restoring the Working Tree and Index from the Repository.
 
 ```diff
 # Working Tree
@@ -873,9 +870,7 @@ d82a947
 + apple.txt (v1)
 ```
 
-### 恢复工作
-
-1. 文件状态如下，执行 `ggit stash pop` 后，Git 内部会进行后续操作。
+5. Done.
 
 ```
 apple.txt (v1) # Working Tree
@@ -883,7 +878,17 @@ apple.txt (v1) # Index
 apple.txt (v1) # Repository
 ```
 
-2. 用 stash commit 更新 Working Tree。
+### Restoring the Working Tree
+
+1. Run `git stash pop`.
+
+```
+apple.txt (v1) # Working Tree
+apple.txt (v1) # Index
+apple.txt (v1) # Repository
+```
+
+2. Restoring the Working Tree from the Stash commit.
 
 ```diff
 # Working Tree
@@ -891,9 +896,16 @@ apple.txt (v1) # Repository
 + apple.txt (v3)
 ```
 
-3. 删除暂存的工作。
+3. Delete the stash commit.
+4. Done.
 
-> 注意 pop 操作不会更新 Index
+```
+apple.txt (v3) # Working Tree
+apple.txt (v1) # Index
+apple.txt (v1) # Repository
+```
+
+> Note that the Index will not be restored.
 
 ## Restore
 

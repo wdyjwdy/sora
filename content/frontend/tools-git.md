@@ -897,12 +897,14 @@ apple.txt (v1) # Repository
 
 ## Restore
 
-- `git restore apple.txt`: 丢弃对 apple.txt 的修改（Edit 的逆操作）
-- `git restore --staged apple.txt`: 取消对 apple.txt 的添加（[Add](#add) 的逆操作）
+```sh
+$ git restore apple.txt # discard changes to apple.txt
+$ git restore --staged apple.txt # unstage apple.txt
+```
 
-### 丢弃修改
+### Restoring the Working Tree from the Index.
 
-1. 文件状态如下，执行 `git restore apple.txt` 后，Git 内部会进行后续操作。
+1. Run `git restore apple.txt`.
 
 ```
 apple.txt (v3) # Working Tree
@@ -910,17 +912,25 @@ apple.txt (v2) # Index
 apple.txt (v1) # Repository
 ```
 
-2. 用 Index 的内容还原 Working Tree。
+2. Restore the Working Tree using the snapshot of the Index.
 
 ```diff
-# Working Tree
+# working directory
 - apple.txt (v3)
 + apple.txt (v2)
 ```
 
-### 取消添加
+3. Done.
 
-1. 文件状态如下，执行 `git restore apple.txt` 后，Git 内部会进行后续操作。
+```
+apple.txt (v2) # Working Tree
+apple.txt (v2) # Index
+apple.txt (v1) # Repository
+```
+
+### Restoring the Index from the Repository.
+
+1. Run `git restore --staged apple.txt`.
 
 ```
 apple.txt (v3) # Working Tree
@@ -928,12 +938,20 @@ apple.txt (v2) # Index
 apple.txt (v1) # Repository
 ```
 
-2. 用 Commit (HEAD) 的内容还原 Index。
+2. Restore the Index using the snapshot of the Repository.
 
 ```diff
 # Index
 - apple.txt (v2)
 + apple.txt (v1)
+```
+
+3. Done.
+
+```
+apple.txt (v3) # Working Tree
+apple.txt (v1) # Index
+apple.txt (v1) # Repository
 ```
 
 ## Status

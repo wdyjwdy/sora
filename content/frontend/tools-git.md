@@ -353,9 +353,9 @@ A <- B (main*)
 4. Done.
 
 ```
-After: A <- B <- M (main*)
-        \       /
-         C (feat)
+A <- B <- M (main*)
+ \       /
+  C (feat)
 ```
 
 ### Three-Way Merge with Conflicts
@@ -363,60 +363,36 @@ After: A <- B <- M (main*)
 1. Run `git merge feat`.
 
 ```
-* fb1c925 (feat) commit 3
-| * bcf8030 (HEAD -> main) commit 2
-|/
-* ccf620f commit 1
+A <- B (main*)
+ \
+  C (feat)
 ```
 
-2. Update the ORIG_HEAD pointer.
-3. Add some files to resolve the conflicts.
+2. Modify files with conflicts.
 
 ```diff
-- .git/index
-+ .git/index
+# hello.txt (conflict file)
+- <<<<<<< HEAD
+- hello main
+- =======
+- hello feat
+- >>>>>>> feat
++ hello main and feat
 ```
+
+3. Stage and commit the modified files.
 
 ```sh
-$ git ls-files -s # index 中记录冲突文件的三个版本
-#> 4c479de	apple.txt # commit 1 (root)
-#> 4a77268	apple.txt # commit 2 (main)
-#> 29b651e	apple.txt # commit 3 (feat)
+$ git add hello.txt
+$ git commit
 ```
 
-```diff
-+ .git/objects/b3535c9 # tree
-+ .git/objects/675e90a # blob
-```
-
-```sh
-$ git cat-file -p 675e90 # 冲突文件
-#> apple
-#> <<<<<<< HEAD
-#> banana
-#> =======
-#> cherry
-#> >>>>>>> feat
-```
-
-```diff
-.git
-+ ├── AUTO_MERGE # 指向解决冲突的文件
-+ ├── MERGE_HEAD # 指向 feat 分支的最新提交
-+ ├── MERGE_MODE # 合并模式
-+ └── MERGE_MSG  # merge commit message
-```
-
-4. Run `git commit`.
-5. Done.
+4. Done.
 
 ```
-*   ab3525e (HEAD -> main) Merge branch 'feat'
-|\
-| * fb1c925 (feat) commit 3
-* | bcf8030 commit 2
-|/
-* ccf620f commit 1
+A <- B <- M (main*)
+ \       /
+  C (feat)
 ```
 
 ### ORIG_HEAD
@@ -503,6 +479,8 @@ A <- B <- C <- D <- E (main)
 ```sh
 $ git tag v1 # lightweight tag
 $ git tag -a v1 -m 'version 1' # annotated tag
+$ git tag -d v1 # delete tag
+$ git tag # list tags
 ```
 
 ### Creating a Lightweight Tag
@@ -510,28 +488,20 @@ $ git tag -a v1 -m 'version 1' # annotated tag
 1. Run `git tag v1`.
 
 ```
-a0f247e (HEAD -> main) commit 3
-57ca93f commit 2
-e7f88c9 commit 1
+A <- B <- C (main*)
 ```
 
-2. Git will create the file `refs/tags/v1`, whose content points to the current commit.
-
-```diff
-+ .git/refs/tags/v1
-```
+2. Git will create the file `.git/refs/tags/v1`, whose content points to the current commit.
 
 ```sh
 $ cat .git/refs/tags/v1 # value
-#> a0f247e (commit)
+#> a0f247e (commit C)
 ```
 
 3. Done.
 
 ```
-a0f247e (HEAD -> main, tag: v1) commit 3
-57ca93f commit 2
-e7f88c9 commit 1
+A <- B <- C (main*, tag:v1)
 ```
 
 ### Creating an Annotated Tag
@@ -563,15 +533,11 @@ $ git cat-file -p adf306e # value
 #> version 1
 ```
 
-3. Git will create the file `refs/tags/v1`, whose content points to the tag object.
-
-```diff
-+ .git/refs/tags/v1
-```
+3. Git will create the file `.git/refs/tags/v1`, whose content points to the tag object.
 
 ```sh
 $ cat .git/refs/tags/v1 # value
-#> adf306e (tag)
+#> adf306e (tag v1)
 ```
 
 4. Done.
@@ -628,65 +594,27 @@ $ git fetch # default is 'origin'
 
 ### Synchronizing Remote Repository
 
-```
-Remote: A <- B <- C (main*)
-Local Prior: A <- B (main*, origin/main*)
-Local After: A <- B (main*) <- C (origin/main*)
-```
-
 1. Run `git fetch`.
 
 ```
-# remote
-98890cc (HEAD -> main) commit 3
-5650cb4 commit 2
-8c7a5ee commit 1
-
-# local
-5650cb4 (HEAD -> main, origin/main, origin/HEAD) commit 2
-8c7a5ee commit 1
+Remote: A <- B <- C (main*)
+Local:  A <- B (main*, origin/main*)
 ```
 
 2. Git will download related objects and refs.
-
-```diff
-objects
-+ ├── 38ea824 # blob
-+ ├── 1318e47 # tree
-+ └── 98890cc # commit 3
-```
-
 3. Update the origin/main branch pointer to point to the latest remote commit.
 
 ```diff
-- .git/refs/remotes/origin/main
-+ .git/refs/remotes/origin/main
+# .git/refs/remotes/origin/main
+- 5650cb4 (commit B)
++ 98890cc (commit C)
 ```
 
-```sh
-$ cat .git/refs/remotes/origin/main # value
-#> 98890cc (commit 3)
-```
-
-4. Update the FETCH_HEAD.
-
-```diff
-- FETCH_HEAD
-+ FETCH_HEAD
-```
-
-```sh
-$ cat .git/FETCH_HEAD # value
-#> 98890cc branch 'main' of <url>
-```
-
-5. Done
+4. Done
 
 ```
-# local
-98890cc (origin/main, origin/HEAD) commit 3
-5650cb4 (HEAD -> main) commit 2
-8c7a5ee commit 1
+Remote: A <- B <- C (main*)
+Local:  A <- B (main*) <- C (origin/main*)
 ```
 
 ### FETCH_HEAD
@@ -697,7 +625,32 @@ Fetch 操作时会更新 FETCH_HEAD，指向了所 Fetch 的远程分支，
 ## Pull
 
 ```sh
-$ git pull # equivalent to `git fetch & git merge`
+$ git pull # fetch and merge.
+$ git pull --ff-only # fetch and fast-forward merge.
+$ git pull --rebase # fetch and rebase merge.
+```
+
+### Updating Remote Changes
+
+1. Run `git pull`.
+
+```
+Remote: A <- B <- C (main*)
+Local:  A <- B (main*, origin/main*)
+```
+
+2. Git will run `git fetch`.
+
+```
+Remote: A <- B <- C (main*)
+Local:  A <- B (main*) <- C (origin/main*)
+```
+
+3. Git will run `git merge origin/main`.
+
+```
+Remote: A <- B <- C (main*)
+Local:  A <- B <- C (main*, origin/main*)
 ```
 
 ## Push
@@ -788,123 +741,101 @@ A <- B <- C <- D <- D' <- C'
 
 ## Reset
 
-- `git reset --soft A`: 重置 HEAD 指针到 A。
-- `git reset --mixed A`: 重置 HEAD 指针到 A，并更新 Index。
-- `git reset --hard A`: 重置 HEAD 指针到 A，并更新 Index 和 Working Tree。
-
-### 重置指针
-
-![](tools-git-reset-soft)
-
-1. 提交历史如下，执行 `git reset --soft 04022cf` 后，Git 内部会进行后续操作。
-
 ```sh
-947a868 (HEAD -> main) commit 3
-04022cf commit 2
-8de34b2 commit 1
+$ git reset --soft A # moves the HEAD to commit A.
+$ git reset --mixed A # moves the HEAD to commit A, and updates the Index.
+$ git reset --hard A # moves the HEAD to commit A, and updates the Index and Working Tree.
 ```
 
-2. 更新 main 指针，指向 commit 2。
+### Updating HEAD
+
+1. Run `git reset --soft B`.
+
+```
+A <- B <- C (main*)
+```
+
+2. Update the main pointer to commit B.
 
 ```diff
-- .git/refs/heads/main
-+ .git/refs/heads/main
+# .git/refs/heads/main
+- 947a868 (commit C)
++ 04022cf (commit B)
 ```
 
-```sh
-$ cat .git/refs/heads/main # value
-04022cf
+3. Done.
+
+```
+A <- B (main*)
 ```
 
-3. 操作完成后，历史记录如下。
+### Updating HEAD, Index
 
-```sh
-04022cf (HEAD -> feat) commit 2
-8de34b2 commit 1
+1. Run `git reset --soft B`.
+
+```
+A <- B <- C (main*)
 ```
 
-> 由于 `reset --soft` 仅仅移动了指针，因此还原 Reset 之前的状态很容易，只需要把指针移动回去：`git reset --soft 947a868`。
-
-### 重置指针，暂存区
-
-![](tools-git-reset-mixed)
-
-1. 提交历史如下，执行 `git reset --mixed 04022cf` 后，Git 内部会进行后续操作。
-
-```sh
-947a868 (HEAD -> main) commit 3
-04022cf commit 2
-8de34b2 commit 1
-```
-
-2. 更新 main 指针，指向 commit 2。
+2. Update the main pointer to commit B.
 
 ```diff
-- .git/refs/heads/main
-+ .git/refs/heads/main
+# .git/refs/heads/main
+- 947a868 (commit C)
++ 04022cf (commit B)
 ```
 
-```sh
-$ cat .git/refs/heads/main # value
-04022cf
-```
-
-3. 更新 Index，内容为 commit 2 的文件列表（把 tree 展平得到的列表）。
+3. Update the Index file to match the snapshot of the commit B.
 
 ```diff
-- .git/index
-+ .git/index
+# .git/index
+- staging area snapshot of the commit C
++ staging area snapshot of the commit B
 ```
 
-4. 操作完成后，历史记录如下。
+4. Done.
 
-```sh
-04022cf (HEAD -> feat) commit 2
-8de34b2 commit 1
+```
+A <- B (main*)
 ```
 
-> 由于 `reset --mixed` 仅仅移动了指针，并修改了 Index，因此还原 Reset 之前的状态很容易，只需要把指针移动回去，并把 Index 改回去：`git reset --mixed 947a868`。
+### Updating HEAD, Index, Working Tree
 
-### 重置指针，暂存区，工作区
+1. Run `git reset --soft B`.
 
-![](tools-git-reset-hard)
-
-1. 提交历史如下，执行 `git reset --hard 04022cf` 后，Git 内部会进行后续操作。
-
-```sh
-947a868 (HEAD -> main) commit 3
-04022cf commit 2
-8de34b2 commit 1
+```
+A <- B <- C (main*)
 ```
 
-2. 更新 main 指针，指向 commit 2。
+2. Update the main pointer to commit B.
 
 ```diff
-- .git/refs/heads/main
-+ .git/refs/heads/main
+# .git/refs/heads/main
+- 947a868 (commit C)
++ 04022cf (commit B)
 ```
 
-```sh
-$ cat .git/refs/heads/main # value
-04022cf
-```
-
-2. 更新 Index，内容为 commit 2 的文件列表（把 tree 展平得到的列表）。
+3. Update the Index file to match the snapshot of the commit B.
 
 ```diff
-- .git/index
-+ .git/index
+# .git/index
+- staging area snapshot of the commit C
++ staging area snapshot of the commit B
 ```
 
-4. 更新 Working Tree，内容与 Index 相同。
-5. 操作完成后，历史记录如下。
+4. Update the Working Tree to match the Index.
 
-```sh
-04022cf (HEAD -> feat) commit 2
-8de34b2 commit 1
+```diff
+# working tree
+- working tree snapshot of the commit C
++ working tree snapshot of the commit B
 ```
 
-> 由于 `reset --hard` 不仅修改了指针和 Index，还修改了 Working Tree，因此还原 Reset 之前的状态比较困难，使用 `git reset --hard 947a868` 仅会还原指针和 Index。如果 Working Tree 的修改已经暂存，那么暂存的文件可以去垃圾对象里翻找，如果 Working Tree 的修改没有暂存，那么 Git 将会丢失这部分内容，但 IDE 的缓存文件里有可能可以找到。
+5. Done.
+
+```
+A <- B (main*)
+```
 
 ## Stash
 
@@ -1056,6 +987,8 @@ $ git log --oneline
 $ git reflog # view operation history
 ```
 
+## Hooks (TODO)
+
 ## Examples
 
 ### Adding a Local Repository to GitHub
@@ -1087,3 +1020,29 @@ $ git reflog # find the commit
 $ git switch --detach 644e3c4 # switch to that commit
 $ git switch -c feat # create and switch to a new branch
 ```
+
+### Undo Reset Soft
+
+```sh
+# A <- B <- C (main*)
+$ git reset --soft B
+$ git reset --soft C # undo
+```
+
+### Undo Reset Mixed
+
+```sh
+# A <- B <- C (main*)
+$ git reset B
+$ git reset C # undo
+```
+
+### Undo Reset Hard
+
+```sh
+# A <- B <- C (main*)
+$ git reset --hard B
+$ git reset --hard C # undo
+```
+
+> Unstaged changes will be lost.

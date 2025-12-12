@@ -10,7 +10,7 @@ toc: true
 
 1. Run `git init`.
 
-```tree
+```
 fruits
   ├── apple.txt
   └── banana.txt
@@ -28,22 +28,22 @@ fruits
 ## Add
 
 ```sh
-$ git add hello.txt # add hello.txt
-$ git add fruits # add all files under the fruits directory
-$ git add . # add all files
-$ git add *.js # add all .js files
+$ git add hello.txt # stage hello.txt
+$ git add fruits # stage all files under the fruits directory
+$ git add . # stage all files
+$ git add *.js # stage all js files
 ```
 
 ### Staging a File
 
 1. Run `git add hello.txt`.
 
-```tree
+```
 project
   └── hello.txt (content is "hello")
 ```
 
-2. Git will create a blob object `objects/ce01362`.
+2. Git will create a **blob object** `.git/objects/ce01362`.
    - blob file name: ce01362 (hash of "hello")
    - blob file content: "hello"
 
@@ -73,12 +73,12 @@ $ git cat-file -p ce01362 # value
 ## Commit
 
 ```sh
-$ git commit             # 提交 Index 中的内容到 Repository，并使用 Vim 输入 Commit Message。
-$ git commit -m 'update' # 提交 Index 中的内容到 Repository，并使用 "update" 作为 Commit Message。
-$ git commit --amend     # 等价于 git reset --soft HEAD~1 & git commit。
+$ git commit # commit and using Vim to enter the Commit Message.
+$ git commit -m 'update' # commit and using "update" as the Commit Message.
+$ git commit --amend # equivalent to 'git reset --soft HEAD~1 & git commit'.
 ```
 
-### Committing a File
+### Recording Changes to the Repository
 
 1. Run `git commit -m 'update'`.
 
@@ -157,20 +157,13 @@ $ cat .git/HEAD # show the current branch
 
 ### Creating a New Branch
 
-```
-Prior: A <- B <- C (main*)
-After: A <- B <- C (main*, feat)
-```
-
 1. Run `git branch feat`.
 
 ```
-846aac5 (HEAD -> main) commit 3
-d58f2f5 commit 2
-43bed3d commit 1
+A <- B <- C (main*)
 ```
 
-2. Git will create the file `refs/heads/feat`, whose content points to the current commit.
+2. Git will create the file `.git/refs/heads/feat`, whose content points to the current commit.
 
 ```diff
 + .git/refs/heads/feat
@@ -178,33 +171,24 @@ d58f2f5 commit 2
 
 ```sh
 $ cat refs/heads/feat # value
-#> 846aac5
+#> 846aac5 (commit C)
 ```
 
 3. Done.
 
 ```
-846aac5 (HEAD -> main, feat) commit 3
-d58f2f5 commit 2
-43bed3d commit 1
+A <- B <- C (main*, feat)
 ```
 
 ### Deleting a Branch
 
-```
-Prior: A <- B <- C (main*, feat)
-After: A <- B <- C (main*)
-```
-
 1. Run `git branch -d feat`.
 
 ```
-846aac5 (HEAD -> main, feat) commit 3
-d58f2f5 commit 2
-43bed3d commit 1
+A <- B <- C (main*, feat)
 ```
 
-2. Git will delete the file `refs/heads/feat`.
+2. Git will delete the file `.git/refs/heads/feat`.
 
 ```diff
 - .git/refs/heads/feat
@@ -213,12 +197,10 @@ d58f2f5 commit 2
 3. Done.
 
 ```
-846aac5 (HEAD -> main) commit 3
-d58f2f5 commit 2
-43bed3d commit 1
+A <- B <- C (main*)
 ```
 
-> Deleting a branch does not delete the **blob** object.
+> Deleting a branch does not delete related blob objects.
 
 ## Switch
 
@@ -231,90 +213,80 @@ $ git switch - # return to the previous branch.
 
 ### Switching to a Branch
 
-```
-Prior: A <- B <- C (main*, feat)
-After: A <- B <- C (main, feat*)
-```
-
 1. Run `git switch feat`.
 
 ```
-846aac5 (HEAD -> main, feat) commit 3
-d58f2f5 commit 2
-43bed3d commit 1
+A <- B <- C (main*, feat)
 ```
 
-2. Update the **HEAD** file to point to the feat branch.
+2. Update the HEAD file to point to the feat branch.
 
 ```diff
-- .git/HEAD
-+ .git/HEAD
+# .git/HEAD
+- ref: refs/heads/main
++ ref: refs/heads/feat
 ```
 
-```sh
-$ cat .git/HEAD # value
-#> ref: refs/heads/feat
-```
-
-3. Update the **Index** file to match the snapshot of the HEAD.
+3. Update the Index file to match the snapshot of the HEAD.
 
 ```diff
-- .git/index
-+ .git/index
+# .git/index
+- staging area snapshot of the main branch
++ staging area snapshot of the feat branch
 ```
 
-4. Update the **Working Tree** to match the Index.
+4. Update the Working Tree to match the Index.
+
+```diff
+# working directory
+- working tree snapshot of the main branch
++ working tree snapshot of the feat branch
+```
+
 5. Done.
 
 ```
-846aac5 (HEAD -> feat, main) commit 3
-d58f2f5 commit 2
-43bed3d commit 1
+A <- B <- C (main, feat*)
 ```
 
 > If your working directory or staging area has uncommitted changes that conflict with the branch you’re switching to, Git won't let you switch branches.
 
 ### Switching to a Commit
 
-```color
-Prior: A <- B <- C (main*)
-After: A <- B (*) <- C (main)
+1. Run `git switch --detach B`.
+
+```
+A <- B <- C (main*)
 ```
 
-1. Run `git switch --detach d58f2f5`.
-
-```sh
-846aac5 (HEAD -> main) commit 3
-d58f2f5 commit 2
-43bed3d commit 1
-```
-
-2. Update the **HEAD** file to point to the commit d58f2f5.
+2. Update the HEAD file to point to the commit B.
 
 ```diff
-- .git/HEAD
-+ .git/HEAD
+# .git/HEAD
+- ref: refs/heads/main
++ d58f2f5 (commit B)
 ```
 
-```sh
-$ cat .git/HEAD # value
-#> d58f2f5
-```
-
-3. Update the **Index** file match the snapshot of the HEAD.
+3. Update the Index file match the snapshot of the HEAD.
 
 ```diff
-- .git/index
-+ .git/index
+# .git/index
+- staging area snapshot of the main branch
++ staging area snapshot of the commit B
 ```
 
-4. Update the **Working Tree** to match the Index.
+4. Update the Working Tree to match the Index.
+
+```diff
+# working directory
+- working tree snapshot of the main branch
++ working tree snapshot of the commit B
+```
+
 5. Done.
 
 ```
-846aac5 (main) commit 3
-d58f2f5 (HEAD) commit 2
-43bed3d commit 1
+A <- B (*) <- C (main)
 ```
 
 ## Merge
@@ -552,35 +524,25 @@ e7f88c9 commit 1
 
 ### Cloning a Remote Repository
 
-```
-Remote: A <- B <- C (main*)
-Local Prior:
-Local After:  A <- B <- C (main*, origin/main*)
-```
-
 1. Run `git clone <url>`.
 
 ```
-# remote log
-98890cc (HEAD -> main) commit 3
-5650cb4 commit 2
-8c7a5ee commit 1
+Remote: A <- B <- C (main*)
+Local:
 ```
 
 2. Download the `.git` directory and rebuild the working tree.
 
 ```diff
-+ hello.txt # Working Tree
-+ .git # Repository
++ hello.txt (working tree)
++ .git (repository)
 ```
 
 3. Done.
 
 ```
-# local log
-98890cc (HEAD -> main, origin/main, origin/HEAD) commit 3
-5650cb4 commit 2
-8c7a5ee commit 1
+Remote: A <- B <- C (main*)
+Local:  A <- B <- C (main*, origin/main*)
 ```
 
 > **origin/HEAD** points to the default branch of the remote repository.
@@ -616,11 +578,6 @@ Local:  A <- B (main*, origin/main*)
 Remote: A <- B <- C (main*)
 Local:  A <- B (main*) <- C (origin/main*)
 ```
-
-### FETCH_HEAD
-
-Fetch 操作时会更新 FETCH_HEAD，指向了所 Fetch 的远程分支，
-在指向 Pull 操作时，用来确定所 Merge 的目标。
 
 ## Pull
 
@@ -664,40 +621,66 @@ $ git push -d origin feat # Delete the remote 'origin/feat' branch.
 
 ### Pushing Local Changes
 
-```
-Remote Prior: A <- B (feat)
-Remote After: A <- B <- C (feat)
-Local Prior: A <- B (origin/feat) <- C (feat*)
-Local After: A <- B <- C (feat*, origin/feat)
-```
-
 1. Run `git push`.
 
 ```
-# local log
-5637202 (HEAD -> feat) commit 3
-5650cb4 (origin/feat) commit 2
-8c7a5ee commit 1
+Remote: A <- B (feat)
+Local:  A <- B (origin/feat) <- C (feat*)
 ```
 
-2. Upload objects.
-3. Update the origin/feat branch pointer to point to the latest commit.
-4. Done.
+2. Upload objects and refs.
+3. Update the local origin/feat branch pointer to point to the latest commit.
+
+```diff
+# .git/refs/remotes/origin/feat (local)
+- 5650cb4 (commit B)
++ 5637202 (commit C)
+```
+
+4. Update the remote feat branch pointer to point to the latest commit.
+
+```diff
+# .git/refs/heads/feat (remote)
+- 5650cb4 (commit B)
++ 5637202 (commit C)
+```
+
+5. Done.
 
 ```
-# loacl log
-5637202 (HEAD -> feat, origin/feat) commit 3
-5650cb4 commit 2
-8c7a5ee commit 1
+Remote: A <- B <- C (feat)
+Local:  A <- B <- C (feat*, origin/feat)
 ```
 
 > `git push` limits the content size to 1 MB, and you can configure it using `git config http.postBuffer`.
 
-### Deleting Remote Branches
+### Deleting a Remote Branch
 
 1. Run `git push -d origin feat`.
-2. delete the remote file `.git/refs/heads/feat`.
-3. delete the local file `.git/refs/remotes/origin/feat`.
+
+```
+Remote: A <- B <- C (feat)
+Local:  A <- B <- C (origin/feat)
+```
+
+2. Git will delete the remote file `.git/refs/heads/feat`.
+
+```diff
+- .git/refs/heads/feat
+```
+
+3. Git will delete the local file `.git/refs/remotes/origin/feat`.
+
+```diff
+- .git/refs/remotes/origin/feat
+```
+
+4. Done.
+
+```
+Remote: A <- B <- C
+Local:  A <- B <- C
+```
 
 ## Revert
 
@@ -826,7 +809,7 @@ A <- B <- C (main*)
 4. Update the Working Tree to match the Index.
 
 ```diff
-# working tree
+# working directory
 - working tree snapshot of the commit C
 + working tree snapshot of the commit B
 ```

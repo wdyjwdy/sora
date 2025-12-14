@@ -20,8 +20,8 @@
 
 html {
     font-size: 20px;
-    color: light-dark(oklch(0.37 0 0), oklch(0.8 0 0));
-    background-color: light-dark(oklch(1 0 0), oklch(0.2 0 0));
+    color: light-dark(oklch(0.37 0 0), oklch(1 0 0));
+    background-color: light-dark(oklch(1 0 0), oklch(0 0 0));
     font-family: "En", STSong;
 }
 
@@ -66,14 +66,14 @@ li {
 table {
     font-size: 1em;
     margin: 20px 0;
-    border: 1px solid var(--gray-hard);
+    border: 1px solid light-dark(oklch(0.9 0 0), oklch(0.3 0 0));
     border-radius: 10px;
     border-spacing: 0px;
     overflow: hidden;
     min-width: max-content;
 
     thead {
-        background-color: var(--gray-soft);
+        background-color: light-dark(oklch(0.96 0 0), oklch(0.2 0 0));
     }
 
     td,
@@ -91,9 +91,9 @@ em {
 blockquote {
     margin: 20px 0;
     padding: 2px 8px;
-    border-left: 6px solid var(--gray-hard);
+    border-left: 6px solid light-dark(oklch(0.4 0 0), oklch(0.9 0 0));
     border-radius: 6px;
-    background-color: var(--gray-soft);
+    background-color: light-dark(oklch(0.96 0 0), oklch(0.3 0 0));
 
     ol,
     ul {
@@ -104,7 +104,7 @@ blockquote {
 code:not([class]) {
     padding: 2px 6px;
     border-radius: 4px;
-    background-color: var(--gray-soft);
+    background-color: light-dark(oklch(0.96 0 0), oklch(0.3 0 0));
     font-family: inherit;
     color: indianred;
 }

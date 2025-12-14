@@ -1000,7 +1000,57 @@ $ git log --oneline
 $ git reflog # view operation history
 ```
 
-## Hooks (TODO)
+## Hooks
+
+```color
+@[seagreen]{Client-Side Hooks}
+  | pre-commit         # Run after the commit command is executed.
+  | prepare-commit-msg # Run after the default message is created.
+  | commit-msg         # Run after the commit message is completed.
+  | post-commit        # Run after the entire commit process is completed.
+
+@[seagreen]{Server-Side Hooks}
+  | pre-receive        # Run after a push is received.
+  | update             # Run after a push is received. (once for each branch)
+  | post-receive       # Run after the entire push process is completed.
+```
+
+> Note that client-side hooks are not copied when you clone a repository.
+
+### Formatting Commit-Message
+
+Modify the `.git/hooks/commit-msg` file.
+
+```ts
+#!/usr/bin/env bun
+
+async function main() {
+  const messagePath = process.argv[2];
+  const messageText = await Bun.file(messagePath).text();
+
+  if (/\d/.test(messageText)) {
+    console.error("Must not contain numbers");
+    process.exit(1);
+  }
+}
+
+main();
+```
+
+### Setting Default Commit-Message
+
+Modify the `.git/hooks/prepare-commit-msg` file.
+
+```ts
+#!/usr/bin/env bun
+
+async function main() {
+  const messagePath = process.argv[2];
+  await Bun.file(messagePath).write("update");
+}
+
+main();
+```
 
 ## Examples
 

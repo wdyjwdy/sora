@@ -1117,28 +1117,37 @@ $ git reset # Unstage all files
 $ git reset HEAD^ # Undo last commit
 ```
 
-### Undo Reset Soft
+### Fold Changes
 
 ```sh
-# A <- B <- C (main*)
-$ git reset --soft B
-$ git reset --soft C # undo
+$ git commit --amend # equivalent to `git reset --soft HEAD^ && git commit`
 ```
 
-### Undo Reset Mixed
+### Fold Commits
 
-```sh
-# A <- B <- C (main*)
-$ git reset B
-$ git reset C # undo
+1. Run `git rebase -i HEAD~3`.
+
+```
+X <- A1 <- A2 <- A3 (main*)
 ```
 
-### Undo Reset Hard
+2. Interactive Edit.
 
-```sh
-# A <- B <- C (main*)
-$ git reset --hard B
-$ git reset --hard C # undo
+```diff
+- pick 7e09a43 # commit A1
+- pick 66d83ad # commit A2
+- pick 07a8d3c # commit A3
+
++ pick 7e09a43 # commit A1
++ squash 66d83ad # commit A2
++ squash 07a8d3c # commit A3
+
+# p, pick <commit> = use commit
+# s, squash <commit> = use commit, but meld into previous commit
 ```
 
-> Unstaged changes will be lost.
+3. Done.
+
+```
+X <- A (main*)
+```

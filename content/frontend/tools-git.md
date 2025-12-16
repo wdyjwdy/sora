@@ -1084,6 +1084,39 @@ $ git switch --detach 644e3c4 # switch to that commit
 $ git switch -c feat # create and switch to a new branch
 ```
 
+### Undo Edit
+
+1. Restore
+
+```sh
+$ git restore hello.txt # Unedit a file
+$ git restore . # Unedit all files
+```
+
+### Undo Add
+
+1. Restore
+
+```sh
+$ git restore --staged hello.txt # Unstage a file
+$ git restore --staged . # Unstage all files
+```
+
+2. Reset
+
+```sh
+$ git reset hello.txt # Unstage a file
+$ git reset # Unstage all files
+```
+
+### Undo Commit
+
+1. Reset
+
+```sh
+$ git reset HEAD^ # Undo last commit
+```
+
 ### Undo Reset Soft
 
 ```sh

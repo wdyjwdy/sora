@@ -22,7 +22,7 @@ html {
     font-size: 20px;
     color: light-dark(oklch(0.37 0 0), oklch(1 0 0));
     background-color: light-dark(oklch(1 0 0), oklch(0 0 0));
-    font-family: "En", STSong;
+    font-family: "En", "Hiragino Sans GB";
 }
 
 body {

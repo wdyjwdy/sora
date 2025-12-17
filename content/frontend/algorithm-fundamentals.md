@@ -1,7 +1,7 @@
 ---
 title: Fundamentals
-categoty: Algorithm
+category: Algorithm
 toc: true
 ---
 
-**Algorithms**: a procedure for solving a problem.
+**Algorithms**: a finite, deterministic, and effective problem-solving method.

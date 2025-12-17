@@ -28,10 +28,8 @@ fruits
 ## Add
 
 ```sh
-$ git add hello.txt # stage hello.txt
-$ git add fruits # stage all files under the fruits directory
+$ git add hello.txt # stage a file
 $ git add . # stage all files
-$ git add *.js # stage all js files
 ```
 
 ### Staging a File
@@ -75,7 +73,7 @@ $ git cat-file -p ce01362 # value
 ```sh
 $ git commit # commit and using Vim to enter the Commit Message.
 $ git commit -m 'update' # commit and using "update" as the Commit Message.
-$ git commit --amend # equivalent to 'git reset --soft HEAD~1 & git commit'.
+$ git commit --amend # equivalent to 'git reset --soft HEAD~1 && git commit'.
 ```
 
 ### Recording Changes to the Repository

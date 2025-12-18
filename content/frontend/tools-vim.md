@@ -6,23 +6,23 @@ toc: true
 
 ## File
 
-| Command   | Action                            |
-| --------- | --------------------------------- |
-| vim a.txt | Open file, default to normal mode |
+| Command   | Action    |
+| --------- | --------- |
+| vim a.txt | Open file |
 
 ## Modes
 
-| Command | Action                              |
-| ------- | ----------------------------------- |
-| i       | Insert mode                         |
-| :       | Command mode                        |
-| esc     | Exit other modes, enter normal mode |
+| Command | Action       |
+| ------- | ------------ |
+| i       | Insert mode  |
+| :       | Command mode |
+| esc     | Normal mode  |
 
 ## Editing
 
-| Command | Action                        |
-| ------- | ----------------------------- |
-| dd      | Normal mode, cut current line |
-| p       | Normal mode, paste            |
-| wq      | Command mode, save and exit   |
-| q       | Command mode, exit            |
+| Command | Action         |
+| ------- | -------------- |
+| dd      | Cut            |
+| p       | Paste          |
+| :wq     | Write and Quit |
+| :q      | Quit           |

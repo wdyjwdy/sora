@@ -18,7 +18,7 @@ toc: true
 | :       | Command mode |
 | esc     | Normal mode  |
 
-## Editing
+## Text
 
 | Command | Action         |
 | ------- | -------------- |

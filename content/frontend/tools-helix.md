@@ -26,12 +26,12 @@ toc: true
 
 ## File
 
-| Command | Action        |
-| ------- | ------------- |
-| :w      | Save          |
-| :q      | Quit          |
-| :q!     | Force quit    |
-| :wq     | Save and quit |
+| Command | Action         |
+| ------- | -------------- |
+| :w      | Save           |
+| :q      | Quit           |
+| :q!     | Force Quit     |
+| :wq     | Write and Quit |
 
 ## Multiple Cursors
 

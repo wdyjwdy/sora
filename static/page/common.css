@@ -118,6 +118,7 @@ pre {
 
     code {
         font-family: "Courier New", "STSong";
+        tab-size: 4;
     }
 }
 

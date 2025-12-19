@@ -4,219 +4,295 @@ category: Algorithm
 toc: true
 ---
 
+## Bag
+
+A bag is a collection where removing items is not supported. The order is immaterial.
+
+|         | ArrayBag | LinkedBag |
+| ------- | -------- | --------- |
+| add     | $O(1)$   | $O(1)$    |
+| size    | $O(1)$   | $O(1)$    |
+| isEmpty | $O(1)$   | $O(1)$    |
+
+### ArrayBag
+
+```ts
+class ArrayBag<Item> {
+  private items: Item[] = [];
+  private n: number = 0;
+
+  add(item: Item) {
+    this.items[this.n] = item;
+    this.n += 1;
+  }
+
+  isEmpty() {
+    return this.n === 0;
+  }
+
+  size() {
+    return this.n;
+  }
+}
+```
+
+### LinkedBag
+
+```ts
+class LinkedNode<Item> {
+  constructor(
+    public item: Item,
+    public next: LinkedNode<Item> | null,
+  ) {}
+}
+
+class LinkedBag<Item> {
+  private head: LinkedNode<Item> | null = null;
+  private n: number = 0;
+
+  add(item: Item) {
+    const newHead = new LinkedNode(item, this.head);
+    this.head = newHead;
+    this.n += 1;
+  }
+
+  isEmpty() {
+    return this.n === 0;
+  }
+
+  size() {
+    return this.n;
+  }
+}
+```
+
 ## Stack
+
+A stack is a collection that is based on the last-in-first-out (LIFO) policy.
 
 |         | ArrayStack | LinkedStack |
 | ------- | ---------- | ----------- |
 | push    | $O(1)$     | $O(1)$      |
 | pop     | $O(1)$     | $O(1)$      |
-| peek    | $O(1)$     | $O(1)$      |
 | size    | $O(1)$     | $O(1)$      |
 | isEmpty | $O(1)$     | $O(1)$      |
 
 ### ArrayStack
 
-```js
-class ArrayStack {
-  constructor() {
-    this.list = [];
-  }
+```ts
+class ArrayStack<Item> {
+  private items: Item[] = [];
+  private n: number = 0;
 
-  push(val) {
-    this.list.push(val);
+  push(item: Item) {
+    this.items[this.n] = item;
+    this.n += 1;
   }
 
   pop() {
-    return this.list.pop();
-  }
-
-  peek() {
-    return this.list.at(-1);
-  }
-
-  size() {
-    return this.list.length;
+    if (this.n === 0) return;
+    this.n -= 1;
+    return this.items[this.n];
   }
 
   isEmpty() {
-    return this.list.length === 0;
+    return this.n === 0;
+  }
+
+  size() {
+    return this.n;
   }
 }
 ```
 
 ### LinkedStack
 
-```js
-class LinkedStack {
-  constructor() {
-    this.list = new SinglyLinkedList();
-  }
+```ts
+class LinkedNode<Item> {
+  constructor(
+    public item: Item,
+    public next: LinkedNode<Item> | null,
+  ) {}
+}
 
-  push(val) {
-    this.list.unshift(val);
+class LinkedStack<Item> {
+  private head: LinkedNode<Item> | null = null;
+  private n: number = 0;
+
+  push(item: Item) {
+    const newHead = new LinkedNode(item, this.head);
+    this.head = newHead;
+    this.n += 1;
   }
 
   pop() {
-    if (this.list.size) {
-      let val = this.list.head.val;
-      this.list.shift();
-      return val;
-    } else {
-      return undefined;
-    }
-  }
-
-  peek() {
-    if (this.list.size) {
-      return this.list.head.val;
-    } else {
-      return undefined;
-    }
-  }
-
-  size() {
-    return this.list.size;
+    if (this.head === null) return;
+    const popItem = this.head.item;
+    this.head = this.head.next;
+    this.n -= 1;
+    return popItem;
   }
 
   isEmpty() {
-    return this.list.size === 0;
+    return this.n === 0;
+  }
+
+  size() {
+    return this.n;
   }
 }
 ```
 
 ## Queue
 
+A queue is a collection that is based on the first-in-first-out (FIFO) policy.
+
 |         | ArrayQueue | LinkedQueue |
 | ------- | ---------- | ----------- |
 | enqueue | $O(1)$     | $O(1)$      |
 | dequeue | $O(n)$     | $O(1)$      |
-| front   | $O(1)$     | $O(1)$      |
 | size    | $O(1)$     | $O(1)$      |
 | isEmpty | $O(1)$     | $O(1)$      |
 
 ### ArrayQueue
 
-```js
-class ArrayQueue {
-  constructor() {
-    this.list = [];
-  }
+```ts
+class ArrayQueue<Item> {
+  private items: Item[] = [];
+  private n: number = 0;
 
-  enqueue(val) {
-    this.list.push(val);
+  enqueue(item: Item) {
+    this.items[this.n] = item;
+    this.n += 1;
   }
 
   dequeue() {
-    return this.list.shift();
-  }
-
-  front() {
-    return this.list[0];
-  }
-
-  size() {
-    return this.list.length;
+    if (this.n === 0) return;
+    const dequeueItem = this.items[0];
+    this.n -= 1;
+    for (let i = 0; i < this.n; i++) {
+      this.items[i] = this.items[i + 1]!;
+    }
+    return dequeueItem;
   }
 
   isEmpty() {
-    return this.list.length === 0;
+    return this.n === 0;
+  }
+
+  size() {
+    return this.n;
   }
 }
 ```
 
 ### LinkedQueue
 
-```js
-class LinkedQueue {
-  constructor() {
-    this.list = new SinglyLinkedList();
-  }
+```ts
+class LinkedNode<Item> {
+  constructor(
+    public item: Item,
+    public next: LinkedNode<Item> | null,
+  ) {}
+}
 
-  enqueue(val) {
-    this.list.push(val);
+class LinkedQueue<Item> {
+  private head: LinkedNode<Item> | null = null;
+  private tail: LinkedNode<Item> | null = null;
+  private n: number = 0;
+
+  enqueue(item: Item) {
+    const newTail = new LinkedNode(item, null);
+    if (this.tail === null) {
+      this.head = newTail;
+      this.tail = newTail;
+    } else {
+      this.tail.next = newTail;
+      this.tail = newTail;
+    }
+    this.n += 1;
   }
 
   dequeue() {
-    if (this.list.size) {
-      let val = this.list.head.val;
-      this.list.shift();
-      return val;
+    if (this.head === null) return;
+    const dequeueItem = this.head.item;
+    if (this.head === this.tail) {
+      this.head = null;
+      this.tail = null;
     } else {
-      return undefined;
+      this.head = this.head.next;
     }
-  }
-
-  front() {
-    if (this.list.size) {
-      return this.list.head.val;
-    } else {
-      return undefined;
-    }
-  }
-
-  size() {
-    return this.list.size;
+    this.n -= 1;
+    return dequeueItem;
   }
 
   isEmpty() {
-    return this.list.size === 0;
+    return this.n === 0;
+  }
+
+  size() {
+    return this.n;
   }
 }
 ```
 
 ## LinkedList
 
-|         | SinglyLinkedList | DoublyLinkedList |
-| ------- | ---------------- | ---------------- |
-| unshift | $O(1)$           | $O(1)$           |
-| push    | $O(1)$           | $O(1)$           |
-| shift   | $O(1)$           | $O(1)$           |
-| pop     | $O(n)$           | $O(1)$           |
+|             | SinglyLinkedList | DoublyLinkedList |
+| ----------- | ---------------- | ---------------- |
+| insertFirst | $O(1)$           | $O(1)$           |
+| insertLast  | $O(1)$           | $O(1)$           |
+| removeFirst | $O(1)$           | $O(1)$           |
+| removeLast  | $O(n)$           | $O(1)$           |
 
 ### SinglyLinkedList
 
-```js
-class ListNode {
-  constructor(val, next) {
-    this.val = val;
-    this.next = next;
-  }
+```ts
+class LinkedNode<Item> {
+  constructor(
+    public item: Item,
+    public next: LinkedNode<Item> | null,
+  ) {}
 }
 
-class SinglyLinkedList {
-  constructor() {
-    this.head = null;
-    this.tail = null;
-    this.size = 0;
-  }
+class SinglyLinkedList<Item> {
+  private head: LinkedNode<Item> | null = null;
+  private tail: LinkedNode<Item> | null = null;
 
-  unshift(val) {
-    let node = new ListNode(val, this.head);
-    if (this.size) {
-      this.head = node;
+  insertFirst(item: Item): void {
+    const newHead = new LinkedNode(item, this.head);
+    if (this.head === null) {
+      this.tail = newHead;
+      this.head = newHead;
     } else {
-      this.head = node;
-      this.tail = node;
+      this.head = newHead;
     }
-    this.size++;
   }
 
-  push(val) {
-    let node = new ListNode(val, null);
-    if (this.size) {
-      this.tail.next = node;
-      this.tail = node;
+  insertLast(item: Item): void {
+    const newLast = new LinkedNode(item, null);
+    if (this.tail === null) {
+      this.head = newLast;
+      this.tail = newLast;
     } else {
-      this.head = node;
-      this.tail = node;
+      this.tail.next = newLast;
+      this.tail = newLast;
     }
-    this.size++;
   }
 
-  shift() {
-    if (this.size) {
+  removeFirst(): void {
+    if (this.head === null) return;
+    if (this.head === this.tail) {
+      this.head = null;
+      this.tail = null;
+    } else {
       this.head = this.head.next;
-      this.size--;
+    }
+  }
+
+  *[Symbol.iterator]() {
+    for (let i = this.head; i !== null; i = i.next) {
+      yield i.item;
     }
   }
 }

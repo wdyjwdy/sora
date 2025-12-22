@@ -4,6 +4,8 @@ category: Algorithm
 toc: true
 ---
 
+> - [算法通关手册](https://algo.itcharge.cn)
+
 ## 双指针
 
 ### 对撞指针
@@ -95,3 +97,31 @@ while (b <= n) {
   else b++;
 }
 ```
+
+## 链表
+
+### 单链表
+
+- 基础题：
+  [去重](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/description/)，
+  [反转](https://leetcode.cn/problems/reverse-linked-list/description/)，
+  [删除](https://leetcode.cn/problems/remove-linked-list-elements/description/)
+
+- 复合题：
+  [82](https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/description/),
+  [92](https://leetcode.cn/problems/reverse-linked-list-ii/description/),
+  [328](https://leetcode.cn/problems/odd-even-linked-list/description/)
+
+### 双指针
+
+- 基础题：
+  [判环](https://leetcode.cn/problems/linked-list-cycle/description/)，
+  [交点](https://leetcode.cn/problems/intersection-of-two-linked-lists/description/)，
+  [尾删](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/)，
+  [中点](https://leetcode.cn/problems/middle-of-the-linked-list/description/)，
+  [合并](https://leetcode.cn/problems/merge-two-sorted-lists/description/)，
+  [旋转](https://leetcode.cn/problems/rotate-list/description/)
+
+- 复合题：
+  [2](https://leetcode.cn/problems/add-two-numbers/description/),
+  [445](https://leetcode.cn/problems/add-two-numbers-ii/description/),

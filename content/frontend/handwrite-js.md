@@ -9,96 +9,84 @@ toc: true
 ### map
 
 ```js
-function map(callback, thisArg = undefined) {
-  const array = this;
-  const n = array.length;
-  const result = [];
-
-  for (let i = 0; i < n; i++) {
-    if (!Object.hasOwn(array, i)) continue; // skip hole
-
-    result[i] = callback.call(thisArg, array[i], i, array);
-  }
-
-  return result;
-}
+Array.prototype.map = function (callbackFn, thisArg = undefined) {
+	const a = this;
+	const n = a.length; // length is fixed
+	const r = Array(n);
+	for (let i = 0; i < n; i++) {
+		if (!Object.hasOwn(a, i)) continue; // skip empty slots
+		r[i] = callbackFn.call(thisArg, a[i], i, a);
+	}
+	return r;
+};
 ```
 
 ### reduce
 
 ```js
-function reduce(callback, initialValue) {
-  const array = this;
-  const n = array.length;
-
-  if (n === 0 && !initialValue) throw new Error();
-
-  let [prev, i] = initialValue ? [initialValue, 0] : [array[0], 1];
-
-  for (; i < n; i++) {
-    if (!Object.hasOwn(array, i)) continue; // skip hole
-
-    prev = callback.call(undefined, prev, array[i], i, array);
-  }
-
-  return prev;
-}
+Array.prototype.reduce = function (callbackFn, initialValue) {
+	const a = this;
+	const n = a.length; // length is fixed
+	let p = initialValue === undefined ? a[0] : initialValue;
+	let i = initialValue === undefined ? 1 : 0;
+	for (; i < n; i++) {
+		if (!Object.hasOwn(a, i)) continue; // skip empty slots
+		p = callbackFn.call(undefined, p, a[i], i, a);
+	}
+	return p;
+};
 ```
 
-### push
+### filter
 
 ```js
-function push(...items) {
-  const array = this;
-  const n = array.length;
-  const k = items.length;
-
-  for (let i = 0; i < k; i++) {
-    array[n + i] = items[i];
-  }
-
-  return array.length;
-}
-```
-
-### pop
-
-```js
-function pop() {
-  const array = this;
-  const n = array.length;
-
-  if (n === 0) return undefined;
-
-  const value = array[n - 1];
-  delete array[n - 1];
-  array.length = n - 1;
-
-  return value;
-}
+Array.prototype.filter = function (callbackFn, thisArg = undefined) {
+	const a = this;
+	const n = a.length; // length is fixed
+	const r = [];
+	for (let i = 0; i < n; i++) {
+		if (!Object.hasOwn(a, i)) continue; // skip empty slots
+		if (callbackFn.call(thisArg, a[i], i, a)) {
+			r.push(a[i]);
+		}
+	}
+	return r;
+};
 ```
 
 ### flat
 
 ```js
-function flat(depth = 1) {
-  const array = this;
-  const n = array.length;
-  let result = [];
+Array.prototype.flat = function (depth = 1) {
+	const a = this;
+	const n = a.length; // length is fixed
+	const r = [];
+	for (let i = 0; i < n; i++) {
+		if (!Object.hasOwn(a, i)) continue; // skip empty slots
+		if (Array.isArray(a[i]) && depth > 0) {
+			r.push(...a[i].flat(depth - 1));
+		} else {
+			r.push(a[i]);
+		}
+	}
+	return r;
+};
+```
 
-  for (let i = 0; i < n; i++) {
-    if (!Object.hasOwn(array, i)) continue; // skip hole
+### some
 
-    const value = array[i];
-    if (Array.isArray(value) && depth > 0) {
-      result.push(...flat.call(value, depth - 1));
-    } else {
-      result.push(value);
-    }
-  }
-
-  return result;
-}
+```js
+Array.prototype.some = function (callbackFn, thisArg = undefined) {
+	const a = this;
+	const n = a.length; // length is fixed
+	for (let i = 0; i < n; i++) {
+		if (!Object.hasOwn(a, i)) continue; // skip empty slots
+		if (callbackFn.call(thisArg, a[i], i, a)) {
+			return true;
+		}
+	}
+	return false;
+};
 ```
 
 ## Function

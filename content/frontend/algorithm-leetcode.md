@@ -4,7 +4,7 @@ category: Algorithm
 toc: true
 ---
 
-> - [算法通关手册](https://algo.itcharge.cn)
+> 参考资料：[算法通关手册](https://algo.itcharge.cn)
 
 ## 双指针
 
@@ -100,11 +100,11 @@ while (b <= n) {
 
 ## 链表
 
-### 单链表
+### 遍历
 
 - 基础题：
-  [去重](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/description/)，
-  [反转](https://leetcode.cn/problems/reverse-linked-list/description/)，
+  [去重](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/description/),
+  [反转](https://leetcode.cn/problems/reverse-linked-list/description/),
   [删除](https://leetcode.cn/problems/remove-linked-list-elements/description/)
 
 - 复合题：
@@ -115,13 +115,22 @@ while (b <= n) {
 ### 双指针
 
 - 基础题：
-  [判环](https://leetcode.cn/problems/linked-list-cycle/description/)，
-  [交点](https://leetcode.cn/problems/intersection-of-two-linked-lists/description/)，
-  [尾删](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/)，
-  [中点](https://leetcode.cn/problems/middle-of-the-linked-list/description/)，
-  [合并](https://leetcode.cn/problems/merge-two-sorted-lists/description/)，
+  [判环](https://leetcode.cn/problems/linked-list-cycle/description/),
+  [交点](https://leetcode.cn/problems/intersection-of-two-linked-lists/description/),
+  [尾删](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/),
+  [中点](https://leetcode.cn/problems/middle-of-the-linked-list/description/),
+  [合并](https://leetcode.cn/problems/merge-two-sorted-lists/description/),
   [旋转](https://leetcode.cn/problems/rotate-list/description/)
 
 - 复合题：
   [2](https://leetcode.cn/problems/add-two-numbers/description/),
   [445](https://leetcode.cn/problems/add-two-numbers-ii/description/),
+
+## 栈
+
+- 习题：
+  [最小栈](https://leetcode.cn/problems/min-stack/description/),
+  [有效括号](https://leetcode.cn/problems/valid-parentheses/description/),
+  [中缀表达式](https://leetcode.cn/problems/basic-calculator-ii/description/),
+  [后缀表达式](https://leetcode.cn/problems/evaluate-reverse-polish-notation/description/),
+  [字符串解码](https://leetcode.cn/problems/decode-string/description/),

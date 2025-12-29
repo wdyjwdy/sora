@@ -4,6 +4,31 @@ category: Library
 toc: true
 ---
 
+## any vs unknown
+
+```ts
+// Any
+function fn(x: any) {
+  x(); // ✅
+  x.a(); // ✅
+}
+
+// Unknown
+function fn(x: unknown) {
+  x(); // ❌
+  x.a(); // ❌
+}
+
+// Never
+function fn(x: number) {
+  if (typeof x !== "number") {
+    console.log(x); // x: never (empty set)
+  }
+}
+```
+
+## implements vs extends
+
 ## Types
 
 ```ts

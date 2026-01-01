@@ -6,6 +6,7 @@ import config from "./config.ts";
 await log();
 
 watch(config.contentPath, { recursive: true }, async (_, filename) => {
+  if (!/(html|md)$/.test(filename!)) return;
   await buildContentFile(join(config.contentPath, filename!));
 });
 

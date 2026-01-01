@@ -40,11 +40,11 @@ The clauses are logically processed in the following order:
 
 ### FROM
 
-Specify the name of the table you want to query.
+Specify a table you want to query.
 
 ```sql
 SELECT *
-FROM students; -- query from the students table
+FROM students; -- specify a table
 ```
 
 ### WHERE
@@ -54,7 +54,7 @@ Specify a predicate to filter the rows.
 ```sql
 SELECT *
 FROM students
-WHERE id = 1; -- filter rows where the ID equals 1
+WHERE id = 1; -- filter rows
 ```
 
 ### GROUP BY
@@ -64,7 +64,7 @@ Produces a group for each distinct combination.
 ```sql
 SELECT city
 FROM employees
-GROUP BY city; -- grouped by city (which cities are the employees from?)
+GROUP BY city; -- grouped by city
 ```
 
 Elements that do not participate in the GROUP BY clause are allowed only as inputs to an [aggregate function](#aggregate-function).
@@ -77,15 +77,13 @@ GROUP BY city;
 
 ### HAVING
 
-Specify a predicate to filter the groups.
-
-Because the HAVING clause is processed after the rows have been grouped, you can refer to aggregate functions in the HAVING filter predicate.
+Specify a predicate to filter the groups. Because the HAVING clause is processed after the rows have been grouped, you can refer to [aggregate function](#aggregate-function) in the HAVING filter predicate.
 
 ```sql
 SELECT city
 FROM employees
 GROUP BY city
-HAVING AVG(salary) > 20000; -- filter groups where the average salary is greater than 20000.
+HAVING AVG(salary) > 20000; -- filter groups
 ```
 
 ### SELECT
@@ -122,7 +120,7 @@ FROM employees;
 
 ### ORDER BY
 
-sort the rows
+sort the rows.
 
 ```sql
 SELECT name, age
@@ -191,9 +189,11 @@ SELECT city, AVG(age) FROM employees GROUP BY city HAVING AVG(age) > 30;
 SELECT city, AVG(age) FROM employees GROUP BY city ORDER BY AVG(age);
 ```
 
-> Aggregate function cannot be used in the WHERE clause. Because the WHERE clause determines which rows will be included in the aggregate calculation. Use subquery instead.
+An aggregate function ignores NULLs.
 
-> Aggregate functions ignore NULLs.
->
-> - COUNT(city) returns the number of non-NULL rows.
-> - COUNT(\*) returns the number of rows.
+```sql
+SELECT COUNT(city) FROM employees; -- number of non-NULL rows
+SELECT COUNT(*) FROM employees; -- number of rows
+```
+
+> Aggregate function cannot be used in the WHERE clause. Because the WHERE clause determines which rows will be included in the aggregate calculation. Use subquery instead.

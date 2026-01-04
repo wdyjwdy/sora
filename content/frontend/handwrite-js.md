@@ -169,46 +169,48 @@ function keys() {
 
 ### typeof
 
-- Primitive
-  - If val is undefined, return "undefined".
-  - **If val is null, return "object".**
-  - If val is a String, return "string".
-  - If val is a Symbol, return "symbol".
-  - If val is a Boolean, return "boolean".
-  - If val is a Number, return "number".
-  - If val is a BigInt, return "bigint".
-- Object
-  - **If val has a \[\[Call\]\] internal method, return "function".**
-  - Else return "object".
+```color
+@[seagreen]{Primitive}
+  | Undefined => "undefined"
+  | @[indianred]{Null      => "object"}
+  | String    => "string"
+  | Symbol    => "symbol"
+  | Boolean   => "boolean"
+  | Number    => "number"
+  | BigInt    => "bigint"
+@[seagreen]{Object}
+  | @[indianred]{Function  => "function"}
+  | Others    => "object"
+```
 
 ### instanceof
 
-1. 遍历 `instance` 的原型链
-2. 检查 `constructor` 的原型是否在其中
+1. 遍历 `o` 的原型链。
+2. 检查 `fn.prototype` 是否在其中。
 
-```ts
-function Instanceof(instance: Object, constructor: Function) {
-  let prototype = Object.getPrototypeOf(instance);
-  while (prototype !== null) {
-    if (prototype === constructor.prototype) {
-      return true;
-    }
-    prototype = Object.getPrototypeOf(prototype);
-  }
-  return false;
+```js
+function Instanceof(o, fn) {
+	let proto = Object.getPrototypeOf(o)
+	while (proto) {
+		if (proto === fn.prototype) {
+			return true
+		}
+		proto = Object.getPrototypeOf(proto)
+	}
+	return false
 }
 ```
 
 ### new
 
-1. 创建一个原型为 `constructor` 原型的对象。
-2. 调用 `constructor`，将其 `this` 指向新对象。
+1. 创建对象 `r`，其原型为 `fn.prototype`。
+2. 调用函数 `fn`，其 this 指向 `r`。
 
 ```js
-function New(constructor: Function, ...args: unknown[]) {
-  const instance = Object.create(constructor.prototype);
-  const result = constructor.call(instance, ...args);
-  return result ?? instance;
+function New(fn, ...argArray) {
+	const r = Object.create(fn.prototype)
+	fn.call(r, ...argArray)
+	return r
 }
 ```
 

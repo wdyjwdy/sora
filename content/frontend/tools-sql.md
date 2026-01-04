@@ -6,6 +6,8 @@ toc: true
 
 ## Constraints
 
+Define constraints on columns.
+
 ### Primary Key
 
 - Each row must be unique.
@@ -20,14 +22,26 @@ toc: true
 
 ### Foreign Key
 
-- Each row must points to candidate key attributes (Primary Key or Unique).
+- Each row must belong to another column (Primary Key or Unique).
 - Allows NULL.
+
+> **Why must a Foreign Key reference a Primary Key or UNIQUE constraint?**
+>
+> - Avoid Ambiguity: the referenced row must be uniquely identifiable.
+> - Efficient Lookups: the referenced column always have an index to allow efficient lookups on whether a referencing row has a match.
 
 ### Check
 
 - Each row must satisfy the predicate (TRUE or UNKNOWN).
+- Allows NULL.
 
-## Filters
+### Not Null
+
+- Disallows NULL.
+
+> In PostgreSQL, NOT NULL is more efficient than CHECK(id IS NOT NULL).
+
+## Queries
 
 The clauses are logically processed in the following order:
 
@@ -88,44 +102,40 @@ HAVING AVG(salary) > 20000; -- filter groups
 
 ### SELECT
 
-Specify the attributes you want to return in the result table of the query.
+Specify the columns you want to return in the result table of the query.
 
 ```sql
-SELECT name -- return the name attribute
+SELECT name -- return the name column
 FROM employees;
-```
 
-You can assign your own name to the target attribute by using the AS clause.
-
-```sql
-SELECT name AS employee_name -- rename the name attribute
-FROM employees;
-```
-
-You can use an asterisk(\*) to select all attributes.
-
-```sql
-SELECT * -- return all attributes
+SELECT * -- return all columns
 FROM employees;
 ```
 
 > It is recommended to explicitly list the columns instead of using asterisk(\*). For example, when the column order changes, different results will be returned.
 
-You can use DISTINCT to remove duplicate rows.
+You can use AS clause to rename the column name.
 
 ```sql
-SELECT DISTINCT city -- remove duplicate cities
+SELECT name AS employee_name
+FROM employees;
+```
+
+You can use DISTINCT clause to remove duplicate rows.
+
+```sql
+SELECT DISTINCT city
 FROM employees;
 ```
 
 ### ORDER BY
 
-sort the rows.
+Sort the rows in certain order.
 
 ```sql
 SELECT name, age
 FROM employees
-ORDER BY age; -- sorted by age
+ORDER BY age; -- sorted by age (ASC order is the default)
 ```
 
 You can use DESC to sort in descending order.
@@ -171,22 +181,24 @@ LIMIT 5
 OFFSET 5; -- skips the first 5 rows (return lines 5 to 10)
 ```
 
+> The rows skipped by an OFFSET clause still have to be computed inside the server, therefore a large OFFSET might be inefficient.
+
 ## Aggregate Function
 
 An aggregate function computes a single result from multiple input rows. Such as COUNT, SUM, AVG, MIN, or MAX.
 
-1. In the SELECT clause. (return single result)
-
-```sql
-SELECT AVG(age) FROM employees;
-```
-
-2. In the GROUP BY clause. (return single result for each group)
+1. In the GROUP BY clause. (return single result for each group)
 
 ```sql
 SELECT city, AVG(age) FROM employees GROUP BY city;
 SELECT city, AVG(age) FROM employees GROUP BY city HAVING AVG(age) > 30;
 SELECT city, AVG(age) FROM employees GROUP BY city ORDER BY AVG(age);
+```
+
+2. In the SELECT clause. (return single result for one group)
+
+```sql
+SELECT AVG(age) FROM employees;
 ```
 
 An aggregate function ignores NULLs.

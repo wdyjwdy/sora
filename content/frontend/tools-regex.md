@@ -38,20 +38,20 @@ toc: true
 
 ### Expression
 
-| Symbol | Means                    | Examples                         |
-| :----: | ------------------------ | -------------------------------- |
-|   \|   | any subexpression        | `gray\|grey` gray or grey        |
-|   ()   | limit scope of \|        | `gr(a\|e)y` gray or grey         |
-|        | group subexpression      | `1(st)?` 1 or 1st                |
-|        | group and capture        | `([a-z]) ([0-9])` \$1, \$2       |
-|  \num  | backreference            | `([a-z]+) \1` _the the_, _at at_ |
-|  (?:)  | group but do not capture | `([a-z]) (?:[0-9])` $1           |
+| Symbol | Means                    | Examples                                      |
+| :----: | ------------------------ | --------------------------------------------- |
+|   \|   | any subexpression        | `gray\|grey` gray or grey                     |
+|   ()   | limit scope of \|        | `gr(a\|e)y` gray or grey                      |
+|        | group subexpression      | `1(st)?` 1 or 1st                             |
+|        | group and capture        | `([a-z]) ([0-9])` \$1, \$2                    |
+|  \num  | backreference            | `(\d) \1` \1 refers to the text matched by \d |
+|  (?:)  | group but do not capture | `([a-z]) (?:[0-9])` $1                        |
 
 ### Quantifiers
 
 |   Symbol   | Means           | Examples                      |
 | :--------: | --------------- | ----------------------------- |
-|     ?      | optional        | equal to {0,1}                |
+|     ?      | optional        | equal to `{0,1}`              |
 |     \*     | any number      | equal to `{0,}`               |
 |     +      | one or more     | equal to `{1,}`               |
 | {min, max} | specified range | `July{2}` Julyy               |

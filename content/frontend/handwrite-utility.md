@@ -10,20 +10,16 @@ toc: true
 
 ```js
 function debounce(fn, wait) {
-  let id;
-  return function (...args) {
-    if (id) {
-      clearTimeout(id);
-      id = setTimeout(() => {
-        id = null;
-      }, wait);
-    } else {
-      fn.call(this, ...args);
-      id = setTimeout(() => {
-        id = null;
-      }, wait);
-    }
-  };
+	let id
+	return function (...args) {
+		if (id) {
+			clearTimeout(id)
+			id = setTimeout(() => { id = null }, wait)
+		} else {
+			fn.call(this, ...args)
+			id = setTimeout(() => { id = null }, wait)
+		}
+	}
 }
 ```
 
@@ -33,15 +29,13 @@ function debounce(fn, wait) {
 
 ```js
 function throttle(fn, wait) {
-  let id;
-  return function (...args) {
-    if (!id) {
-      fn.call(this, ...args);
-      id = setTimeout(() => {
-        id = null;
-      }, wait);
-    }
-  };
+	let id
+	return function (...args) {
+		if (!id) {
+			fn.call(this, ...args)
+			id = setTimeout(() => { id = null }, wait)
+		}
+	}
 }
 ```
 
@@ -49,16 +43,17 @@ function throttle(fn, wait) {
 
 ```js
 function memoize(fn) {
-  const cache = new Map();
-  return function (...args) {
-    const key = JSON.stringify(args);
-    if (cache.has(key)) {
-      return cache.get(key);
-    }
-    const value = fn.call(this, ...args);
-    cache.set(key, value);
-    return value;
-  };
+	const cache = new Map()
+	return function(...args) {
+		const key = JSON.stringify(args)
+		if (cache.has(key)) {
+			return cache.get(key)
+		} else {
+			const result = fn.call(this, ...args)
+			cache.set(key, result)
+			return result
+		}
+	}
 }
 ```
 
@@ -66,66 +61,54 @@ function memoize(fn) {
 
 ```js
 function curry(fn) {
-  return function curried(...args) {
-    if (args.length === fn.length) {
-      console.log(this);
-      return fn.call(this, ...args);
-    }
-    return function (...rest) {
-      return curried.call(this, ...args, ...rest);
-    };
-  };
+	return function curried(...args) {
+		if (args.length >= fn.length) {
+			return fn.call(this, ...args)
+		}
+		return function (...rest) {
+			return curried.call(this, ...args, ...rest)
+		}
+	}
 }
 ```
 
 ## Clone Shallow
 
-> 仅考虑 Array 和 Object 的拷贝。
-
-```ts
-function cloneShallow<T>(val: T): T {
-  if (Array.isArray(val)) {
-    return val.slice() as T;
-  }
-  const prototype = Object.getPrototypeOf(val);
-  const newObject = Object.create(prototype);
-  return Object.assign(newObject, val);
-}
-```
+- 仅考虑 Array 和 Object 的拷贝。
 
 ```js
-function cloneShallow(target) {
-  const clone = Array.isArray(target) ? [] : {};
-  for (let [key, val] of Object.entries(target)) {
-    clone[key] = val;
-  }
-  return clone;
+function cloneShallow(o) {
+	const r = Array.isArray(o) ? [] : {}
+	for (let [k, v] of Object.entries(o)) {
+		r[k] = v
+	}
+	return r
 }
 ```
 
 ## Clone Deep
 
-> 仅考虑 Array 和 Object 的拷贝。
+- 仅考虑 Array 和 Object 的拷贝。
 
 ```js
-function cloneDeep(target) {
-  const clone = Array.isArray(target) ? [] : {};
-  for (let [key, val] of Object.entries(target)) {
-    if (val instanceof Object) {
-      clone[key] = cloneDeep(val);
-    } else {
-      clone[key] = val;
-    }
-  }
-  return clone;
+function cloneDeep(o) {
+	const r = Array.isArray(o) ? [] : {}
+	for (let [k, v] of Object.entries(o)) {
+		if (o instanceof Object) {
+			r[k] = cloneDeep(v)
+		} else {
+			r[k] = v
+		}
+	}
+	return r
 }
 ```
 
 ## isPrimitive
 
-```ts
-function isPrimitive(val: unknown): boolean {
-  return val === null || (typeof val !== "function" && typeof val !== "object");
+```js
+function isPrimitive(v) {
+	return v === null || (typeof v !== 'function' && typeof v !== 'object')
 }
 ```
 

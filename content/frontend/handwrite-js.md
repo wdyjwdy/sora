@@ -138,30 +138,27 @@ function create(proto) {
 ### assign
 
 ```js
-function assign(target, ...sources) {
-  for (const source of sources) {
-    for (const key in source) {
-      if (Object.hasOwn(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-  return target;
+Object.assign = function (target, ...sources) {
+	for (let source of sources) {
+		for (let [k, v] of Object.entries(source)) {
+			target[k] = v
+		}
+	}
+	return target
 }
 ```
 
-### keys
-
-- 返回一个数组，包含[自身可枚举](./js/object.md/#object-property)属性的键
+### entries
 
 ```js
-function keys() {
-  const arr = [];
-  for (const key in this) {
-    if (!Object.hasOwn(this, key)) continue;
-    arr.push(key);
-  }
-  return arr;
+Object.entries = function (o) {
+	const r = []
+	for (let k in o) {
+		if (Object.hasOwn(o, k)) {
+			r.push([k, o[k]])
+		}
+	}
+	return r
 }
 ```
 

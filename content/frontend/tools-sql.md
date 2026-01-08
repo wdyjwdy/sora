@@ -4,23 +4,25 @@ category: Tools
 toc: true
 ---
 
-## Constraints
+## Data Definition
+
+### Constraints
 
 Define constraints on columns.
 
-### Primary Key
+#### Primary Key
 
 - Each row must be unique.
 - Disallows NULL.
 - Each table can have only one primary key.
 
-### Unique
+#### Unique
 
 - Each row must be unique.
 - Allows NULL.
 - Each table can have multiple unique keys.
 
-### Foreign Key
+#### Foreign Key
 
 - Each row must belong to another column (Primary Key or Unique).
 - Allows NULL.
@@ -30,18 +32,20 @@ Define constraints on columns.
 > - Avoid Ambiguity: the referenced row must be uniquely identifiable.
 > - Efficient Lookups: the referenced column always have an index to allow efficient lookups on whether a referencing row has a match.
 
-### Check
+#### Check
 
 - Each row must satisfy the predicate (TRUE or UNKNOWN).
 - Allows NULL.
 
-### Not Null
+#### Not Null
 
 - Disallows NULL.
 
 > In PostgreSQL, NOT NULL is more efficient than CHECK(id IS NOT NULL).
 
-## Queries
+## Data Manipulation
+
+### Queries
 
 The clauses are logically processed in the following order:
 
@@ -52,44 +56,50 @@ The clauses are logically processed in the following order:
 5. SELECT
 6. ORDER BY (OFFSET -> LIMIT)
 
-### FROM
+> The database engine doesn't have to follow logical query processing, as long as the final result would be the same.
+
+> **All-at-once Operations**: all expressions that appear in the same logical query processing phase are evaluated logically at the same point in time.
+
+#### FROM
 
 Specify a table you want to query.
 
 ```sql
 SELECT *
-FROM students; -- specify a table
+FROM employees;
 ```
 
-### WHERE
+#### WHERE
 
 Specify a predicate to filter the rows.
 
 ```sql
 SELECT *
-FROM students
-WHERE id = 1; -- filter rows
+FROM employees
+WHERE id = 1;
 ```
 
-### GROUP BY
+#### GROUP BY
 
 Produces a group for each distinct combination.
 
 ```sql
 SELECT city
 FROM employees
-GROUP BY city; -- grouped by city
+GROUP BY city;
 ```
+
+> All phases subsequent to the GROUP BY phase operate on groups. Each group is represented by a single row.
 
 Elements that do not participate in the GROUP BY clause are allowed only as inputs to an [aggregate function](#aggregate-function).
 
 ```sql
-SELECT city, COUNT(*), AVG(salary)
+SELECT city, AVG(salary)
 FROM employees
 GROUP BY city;
 ```
 
-### HAVING
+#### HAVING
 
 Specify a predicate to filter the groups. Because the HAVING clause is processed after the rows have been grouped, you can refer to [aggregate function](#aggregate-function) in the HAVING filter predicate.
 
@@ -100,24 +110,26 @@ GROUP BY city
 HAVING AVG(salary) > 20000; -- filter groups
 ```
 
-### SELECT
+#### SELECT
 
 Specify the columns you want to return in the result table of the query.
 
 ```sql
-SELECT name -- return the name column
-FROM employees;
-
-SELECT * -- return all columns
+SELECT name
 FROM employees;
 ```
 
-> It is recommended to explicitly list the columns instead of using asterisk(\*). For example, when the column order changes, different results will be returned.
-
-You can use AS clause to rename the column name.
+You can use asterisk to return all columns.
 
 ```sql
-SELECT name AS employee_name
+SELECT *
+FROM employees;
+```
+
+You can use AS clause to define a column alias.
+
+```sql
+SELECT join_date AS date
 FROM employees;
 ```
 
@@ -128,30 +140,30 @@ SELECT DISTINCT city
 FROM employees;
 ```
 
-### ORDER BY
+#### ORDER BY
 
 Sort the rows in certain order.
 
 ```sql
-SELECT name, age
+SELECT *
 FROM employees
-ORDER BY age; -- sorted by age (ASC order is the default)
+ORDER BY age;
 ```
 
 You can use DESC to sort in descending order.
 
 ```sql
-SELECT name, age
+SELECT *
 FROM employees
-ORDER BY age DESC; -- descending order
+ORDER BY age DESC;
 ```
 
 You can refer to column aliases created in the SELECT phase.
 
 ```sql
-SELECT name, join_date AS date
+SELECT join_date AS date
 FROM employees
-ORDER BY date; -- refer to the alias date
+ORDER BY date;
 ```
 
 You can specify elements that do not appear in the SELECT clause.
@@ -159,17 +171,17 @@ You can specify elements that do not appear in the SELECT clause.
 ```sql
 SELECT name
 FROM employees
-ORDER BY age; -- sorted by age
+ORDER BY age;
 ```
 
-### LIMIT OFFSET
+#### LIMIT OFFSET
 
 With the LIMIT clause you indicate how many rows to filter.
 
 ```sql
 SELECT id, name
 FROM employees
-LIMIT 5; -- filters the next 5 rows (return lines 1 to 5)
+LIMIT 5; -- return lines 1 to 5
 ```
 
 With the OFFSET clause you indicate how many rows to skip.
@@ -177,35 +189,71 @@ With the OFFSET clause you indicate how many rows to skip.
 ```sql
 SELECT id, name
 FROM employees
-LIMIT 5
-OFFSET 5; -- skips the first 5 rows (return lines 5 to 10)
+LIMIT 5 OFFSET 5; -- return lines 5 to 10
 ```
 
 > The rows skipped by an OFFSET clause still have to be computed inside the server, therefore a large OFFSET might be inefficient.
 
-## Aggregate Function
+## Functions
 
-An aggregate function computes a single result from multiple input rows. Such as COUNT, SUM, AVG, MIN, or MAX.
+### Conditional Expressions
 
-1. In the GROUP BY clause. (return single result for each group)
+Such as CASE, GREATEST, LEAST.
+
+### Aggregate Function
+
+An aggregate function computes a single result from multiple input rows.
+Such as COUNT, SUM, AVG, MIN, or MAX.
+
+1. Use GROUP BY to define groups.
+2. Collapse groups.
+
+> Aggregate functions can only be used after the ORDER BY clause.
+
+### Window Function
+
+An window function computes a multiple result from multiple input rows.
+Such as ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD.
+You can also use COUNT, SUM, AVG, MIN, or MAX.
+
+1. Use PARTITION BY to define groups.
+2. Don't collapse groups.
+
+## Predicates
+
+### LIKE
+
+1. Use % to match any sequence of characters.
+2. Use _ to match any single character.
 
 ```sql
-SELECT city, AVG(age) FROM employees GROUP BY city;
-SELECT city, AVG(age) FROM employees GROUP BY city HAVING AVG(age) > 30;
-SELECT city, AVG(age) FROM employees GROUP BY city ORDER BY AVG(age);
+SELECT 'hi' LIKE 'h%'; -- use wildcard
+SELECT 'hi' ~ '\w'; -- use regex
 ```
 
-2. In the SELECT clause. (return single result for one group)
+## JOIN
 
-```sql
-SELECT AVG(age) FROM employees;
-```
+> Table operators are logically evaluated in written order.
 
-An aggregate function ignores NULLs.
+### CROSS JOIN
 
-```sql
-SELECT COUNT(city) FROM employees; -- number of non-NULL rows
-SELECT COUNT(*) FROM employees; -- number of rows
-```
+1. Cartesian Product
 
-> Aggregate function cannot be used in the WHERE clause. Because the WHERE clause determines which rows will be included in the aggregate calculation. Use subquery instead.
+### INNER JOIN
+
+1. Cartesian Product
+2. ON Filter
+
+### OUTER JOIN
+
+1. Cartesian Product
+2. ON Filter
+3. Add Outer Rows
+
+In an outer join, you mark a table as a preserved table by using the keywords LEFT, RIGHT, FULL.
+
+## Appendix
+
+- SQL: structured query language.
+- RDBMS: relational database management system.
+- Predicate: a logical expression that evaluate to TRUE, FALSE, or UNKNOWN.
